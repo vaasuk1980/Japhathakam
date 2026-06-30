@@ -1,0 +1,30 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--background-color);
+}
+
+.main-content {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+}
+
+.page-content {
+  flex: 1;
+
+  margin-top: var(--header-height);
+
+  padding: var(--page-padding);
+
+  background: var(--background-color);
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  box-sizing: border-box;
+}

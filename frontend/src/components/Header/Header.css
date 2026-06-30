@@ -1,0 +1,67 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: var(--sidebar-width);
+  right: 0;
+
+  width: calc(100% - var(--sidebar-width));
+  height: var(--header-height);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 var(--container-padding);
+
+  background: var(--surface-color);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+
+  box-sizing: border-box;
+
+  z-index: var(--z-header);
+}
+
+/* ==========================================
+   Header Left
+========================================== */
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+/* ==========================================
+   Header Right
+========================================== */
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+/* ==========================================
+   Application Title
+========================================== */
+
+.app-title {
+  margin: 0;
+
+  font-family: var(--font-family);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-bold);
+
+  color: var(--text-primary);
+}
+
+/* ==========================================
+   User Name
+========================================== */
+
+.user-name {
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-medium);
+
+  color: var(--text-secondary);
+}
