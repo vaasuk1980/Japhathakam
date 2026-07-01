@@ -10,6 +10,7 @@ import Panchangam from "./pages/Panchangam/Panchangam";
 import Muhurtham from "./pages/Muhurtham/Muhurtham";
 import Reports from "./pages/Reports/Reports";
 import Settings from "./pages/Settings/Settings";
+import ComponentShowcase from "./pages/ComponentShowcase/ComponentShowcase";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/panchangam" element={<Panchangam />} />
           <Route path="/muhurtham" element={<Muhurtham />} />
           <Route path="/reports" element={<Reports />} />
+          <Route path="/component-showcase" element={<ComponentShowcase />} />
           <Route path="/settings" element={<Settings />} />
         </Route>
       </Routes>

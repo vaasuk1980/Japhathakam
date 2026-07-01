@@ -1,0 +1,94 @@
+/* ==========================================================
+   CARD COMPONENT
+   ========================================================== */
+
+.card {
+    display: flex;
+    flex-direction: column;
+
+    width: auto;
+
+    background: var(--surface-color);
+
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+
+    transition:
+        box-shadow var(--transition-fast),
+        transform var(--transition-fast);
+}
+
+.card-full {
+    width: 100%;
+}
+
+/* ==========================================================
+   CARD TITLE
+   ========================================================== */
+
+.card-title {
+    margin: 0 0 var(--spacing-md);
+
+    font-family: var(--font-family);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-semibold);
+    line-height: var(--line-height-md);
+
+    color: var(--text-primary);
+}
+
+/* ==========================================================
+   CARD BODY
+   ========================================================== */
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+/* ==========================================================
+   PADDING
+   ========================================================== */
+
+.card-padding-small {
+    padding: var(--spacing-md);
+}
+
+.card-padding-medium {
+    padding: var(--spacing-lg);
+}
+
+.card-padding-large {
+    padding: var(--spacing-xl);
+}
+
+/* ==========================================================
+   SHADOWS
+   ========================================================== */
+
+.card-shadow-none {
+    box-shadow: none;
+}
+
+.card-shadow-small {
+    box-shadow: var(--shadow-sm);
+}
+
+.card-shadow-medium {
+    box-shadow: var(--shadow-md);
+}
+
+.card-shadow-large {
+    box-shadow: var(--shadow-lg);
+}
+
+/* ==========================================================
+   HOVER
+   ========================================================== */
+
+.card-shadow-small:hover,
+.card-shadow-medium:hover,
+.card-shadow-large:hover {
+    transform: translateY(-2px);
+}

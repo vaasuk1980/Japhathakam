@@ -1,9 +1,9 @@
 /* ==========================================================
-   JAPHATHAKAM DESIGN SYSTEM v1.0
+   JAPHATHAKAM DESIGN SYSTEM v1.1
    ----------------------------------------------------------
    Author  : Japhathakam Team
    Purpose : Global Design Tokens
-   Version : 1.0
+   Version : 1.1
    ========================================================== */
 
 :root {
@@ -58,6 +58,12 @@
   --text-muted: #9ca3af;
   --text-white: #ffffff;
 
+  /* Semantic Text */
+
+  --text-on-primary: #ffffff;
+  --text-on-secondary: #ffffff;
+  --text-on-danger: #ffffff;
+
   /* Borders */
 
   --border-color: #e5e7eb;
@@ -66,6 +72,11 @@
 
   --primary-color: #2563eb;
   --primary-hover: #1d4ed8;
+
+  /* Secondary */
+
+  --secondary-color: #6b7280;
+  --secondary-hover: #4b5563;
 
   /* Status */
 
@@ -76,6 +87,7 @@
   --warning-bg: #fef3c7;
 
   --danger-color: #dc2626;
+  --danger-hover: #b91c1c;
   --danger-bg: #fee2e2;
 
 
@@ -118,11 +130,21 @@
      BORDER RADIUS
      ======================================================== */
 
+  /* Primitive */
+
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
   --radius-pill: 999px;
+
+  /* Semantic */
+
+  --border-radius-sm: var(--radius-sm);
+  --border-radius-md: var(--radius-md);
+  --border-radius-lg: var(--radius-lg);
+  --border-radius-xl: var(--radius-xl);
+  --border-radius-pill: var(--radius-pill);
 
 
   /* ========================================================

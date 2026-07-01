@@ -1,0 +1,93 @@
+/* ==========================================================
+   INPUT COMPONENT
+   ========================================================== */
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.input-full {
+    width: 100%;
+}
+
+/* ==========================================================
+   LABEL
+   ========================================================== */
+
+.input-label {
+    font-family: var(--font-family);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+}
+
+.required {
+    color: var(--danger-color);
+    margin-left: 2px;
+}
+
+/* ==========================================================
+   INPUT FIELD
+   ========================================================== */
+
+.input-field {
+    width: 100%;
+
+    padding: 0.75rem 1rem;
+
+    font-family: var(--font-family);
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-md);
+
+    color: var(--text-primary);
+    background: var(--surface-color);
+
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+
+    transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        background-color var(--transition-fast);
+}
+
+.input-field::placeholder {
+    color: var(--text-muted);
+}
+
+.input-field:hover:not(:disabled) {
+    border-color: var(--primary-color);
+}
+
+.input-field:focus-visible {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.input-field:disabled {
+    background: var(--background-color);
+    color: var(--text-muted);
+    cursor: not-allowed;
+}
+
+/* ==========================================================
+   ERROR STATE
+   ========================================================== */
+
+.input-error {
+    border-color: var(--danger-color);
+}
+
+.input-error:focus-visible {
+    border-color: var(--danger-color);
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+
+.input-error-text {
+    font-size: var(--font-size-xs);
+    color: var(--danger-color);
+    margin-top: 2px;
+}
