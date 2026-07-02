@@ -1,73 +1,150 @@
-import { forwardRef } from "react";
+import { forwardRef, useId } from "react";
+
+import FormError from "../FormError";
+
 import "./TextArea.css";
 
 const TextArea = forwardRef(function TextArea(
-  {
-    id,
-    name,
-    label,
-    placeholder = "",
-    value,
-    defaultValue,
-    onChange,
-    rows = 4,
-    disabled = false,
-    required = false,
-    error = "",
-    fullWidth = false,
-    autoComplete = "off",
-    ...props
-  },
-  ref
+    {
+        id,
+        label,
+        name,
+
+        value,
+        defaultValue,
+
+        placeholder = "",
+
+        rows = 4,
+
+        required = false,
+        disabled = false,
+        readOnly = false,
+
+        autoFocus = false,
+        autoComplete,
+
+        maxLength,
+        minLength,
+
+        helperText = "",
+        error = "",
+        success = "",
+
+        className = "",
+        style,
+
+        onChange,
+        onBlur,
+        onFocus,
+
+        ...props
+    },
+    ref
 ) {
-  const wrapperClass = [
-    "textarea-group",
-    fullWidth ? "textarea-full" : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
+    const generatedId = useId();
 
-  const textareaClass = [
-    "textarea-field",
-    error ? "textarea-error" : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
+    const textAreaId = id || name || generatedId;
 
-  return (
-    <div className={wrapperClass}>
-      {label && (
-        <label htmlFor={id} className="textarea-label">
-          {label}
-          {required && (
-            <span className="required">*</span>
-          )}
-        </label>
-      )}
+    const helperId = helperText
+        ? `${textAreaId}-helper`
+        : undefined;
 
-      <textarea
-        ref={ref}
-        id={id}
-        name={name}
-        className={textareaClass}
-        placeholder={placeholder}
-        value={value}
-        defaultValue={defaultValue}
-        onChange={onChange}
-        rows={rows}
-        disabled={disabled}
-        required={required}
-        autoComplete={autoComplete}
-        {...props}
-      />
+    const errorId = error
+        ? `${textAreaId}-error`
+        : undefined;
 
-      {error && (
-        <small className="textarea-error-text">
-          {error}
-        </small>
-      )}
-    </div>
-  );
+    const describedBy =
+        [helperId, errorId]
+            .filter(Boolean)
+            .join(" ") || undefined;
+
+    const isControlled = value !== undefined;
+
+    const rootClassName = [
+        "jp-textarea",
+        error && "jp-textarea--error",
+        disabled && "jp-textarea--disabled",
+        readOnly && "jp-textarea--readonly",
+        className
+    ]
+        .filter(Boolean)
+        .join(" ");
+
+    return (
+        <div
+            className={rootClassName}
+            style={style}
+        >
+            {label && (
+                <label
+                    htmlFor={textAreaId}
+                    className="jp-textarea__label"
+                >
+                    {label}
+
+                    {required && (
+                        <span className="jp-textarea__required">
+                            *
+                        </span>
+                    )}
+                </label>
+            )}
+
+            <div className="jp-textarea__wrapper">
+                <textarea
+                    ref={ref}
+                    id={textAreaId}
+                    name={name}
+                    rows={rows}
+                    placeholder={placeholder}
+                    required={required}
+                    disabled={disabled}
+                    readOnly={readOnly}
+                    autoFocus={autoFocus}
+                    autoComplete={autoComplete}
+                    maxLength={maxLength}
+                    minLength={minLength}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    onFocus={onFocus}
+                    aria-invalid={!!error}
+                    aria-required={required}
+                    aria-describedby={describedBy}
+                    className="jp-textarea__field"
+                    {...(isControlled
+                        ? { value }
+                        : { defaultValue })}
+                    {...props}
+                />
+            </div>
+
+            {!error && helperText && (
+                <small
+                    id={helperId}
+                    className="jp-textarea__helper"
+                >
+                    {helperText}
+                </small>
+            )}
+
+            {!error && success && (
+                <small className="jp-textarea__success">
+                    {success}
+                </small>
+            )}
+
+            {error && (
+                <div id={errorId}>
+                    <FormError>
+                        {error}
+                    </FormError>
+                </div>
+            )}
+        </div>
+    );
 });
+
+TextArea.displayName = "TextArea";
 
 export default TextArea;

@@ -1,14 +1,32 @@
+import { forwardRef } from "react";
 import "./Form.css";
 
-function Form({ children, className = "", ...props }) {
-  return (
-    <form
-      className={`app-form ${className}`}
-      {...props}
-    >
-      {children}
-    </form>
-  );
-}
+const Form = forwardRef(function Form(
+    {
+        children,
+        className = "",
+        ...props
+    },
+    ref
+) {
+    const formClassName = [
+        "jp-form",
+        className
+    ]
+        .filter(Boolean)
+        .join(" ");
+
+    return (
+        <form
+            ref={ref}
+            className={formClassName}
+            {...props}
+        >
+            {children}
+        </form>
+    );
+});
+
+Form.displayName = "Form";
 
 export default Form;

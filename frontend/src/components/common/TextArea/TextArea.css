@@ -1,96 +1,144 @@
 /* ==========================================================
-   TEXTAREA COMPONENT
-   ========================================================== */
+   TextArea Component
+   Enterprise Foundation v1.0
+========================================================== */
 
-.textarea-group {
+.jp-textarea {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-xs);
-}
 
-.textarea-full {
+    gap: 8px;
+
     width: 100%;
+    min-width: 0;
 }
 
 /* ==========================================================
-   LABEL
-   ========================================================== */
+   States
+========================================================== */
 
-.textarea-label {
-    font-family: var(--font-family);
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-semibold);
-    color: var(--text-primary);
+.jp-textarea--disabled {
+    opacity: 0.7;
 }
 
-.required {
-    color: var(--danger-color);
-    margin-left: 2px;
+.jp-textarea--readonly .jp-textarea__wrapper {
+    background-color: #f9fafb;
 }
 
-/* ==========================================================
-   TEXTAREA FIELD
-   ========================================================== */
-
-.textarea-field {
-    width: 100%;
-
-    padding: 0.75rem 1rem;
-
-    font-family: var(--font-family);
-    font-size: var(--font-size-md);
-    line-height: var(--line-height-md);
-
-    color: var(--text-primary);
-    background: var(--surface-color);
-
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-md);
-
-    resize: vertical;
-    min-height: 120px;
-
-    transition:
-        border-color var(--transition-fast),
-        box-shadow var(--transition-fast),
-        background-color var(--transition-fast);
+.jp-textarea--error .jp-textarea__wrapper {
+    border-color: #dc2626;
 }
 
-.textarea-field::placeholder {
-    color: var(--text-muted);
-}
+.jp-textarea--error .jp-textarea__wrapper:focus-within {
+    border-color: #dc2626;
 
-.textarea-field:hover:not(:disabled) {
-    border-color: var(--primary-color);
-}
-
-.textarea-field:focus-visible {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-}
-
-.textarea-field:disabled {
-    background: var(--background-color);
-    color: var(--text-muted);
-    cursor: not-allowed;
-}
-
-/* ==========================================================
-   ERROR STATE
-   ========================================================== */
-
-.textarea-error {
-    border-color: var(--danger-color);
-}
-
-.textarea-error:focus-visible {
-    border-color: var(--danger-color);
     box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
 }
 
-.textarea-error-text {
-    font-size: var(--font-size-xs);
-    color: var(--danger-color);
-    margin-top: 2px;
+/* ==========================================================
+   Label
+========================================================== */
+
+.jp-textarea__label {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 4px;
+
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.4;
+
+    color: #111827;
+}
+
+.jp-textarea__required {
+    color: #dc2626;
+}
+
+/* ==========================================================
+   Wrapper
+========================================================== */
+
+.jp-textarea__wrapper {
+    display: flex;
+
+    width: 100%;
+
+    background: #ffffff;
+
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.jp-textarea__wrapper:focus-within {
+    border-color: #2563eb;
+
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* ==========================================================
+   Field
+========================================================== */
+
+.jp-textarea__field {
+    width: 100%;
+    min-width: 0;
+
+    min-height: 120px;
+
+    padding: 10px 12px;
+
+    border: none;
+    outline: none;
+
+    resize: vertical;
+
+    background: transparent;
+
+    color: #111827;
+
+    font-size: 1rem;
+    line-height: 1.5;
+
+    font-family: inherit;
+}
+
+.jp-textarea__field::placeholder {
+    color: #9ca3af;
+}
+
+.jp-textarea__field:disabled {
+    cursor: not-allowed;
+}
+
+.jp-textarea__field[readonly] {
+    cursor: default;
+}
+
+/* ==========================================================
+   Helper Text
+========================================================== */
+
+.jp-textarea__helper {
+    margin: 0;
+
+    font-size: 0.85rem;
+    line-height: 1.4;
+
+    color: #6b7280;
+}
+
+.jp-textarea__success {
+    margin: 0;
+
+    font-size: 0.85rem;
+    line-height: 1.4;
+
+    color: #16a34a;
 }

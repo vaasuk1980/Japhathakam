@@ -1,12 +1,15 @@
 /* ==========================================================
    Form Section
-   Generic section container for grouping related form fields.
+   Enterprise Foundation v1.0
 ========================================================== */
 
 .jp-form-section {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+
+    gap: var(--spacing-xl);
+
+    width: 100%;
 }
 
 .jp-form-section__title {
@@ -15,10 +18,15 @@
     font-size: 1.25rem;
     font-weight: 600;
     line-height: 1.4;
+
+    color: var(--text-primary);
 }
 
 .jp-form-section__content {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+
+    gap: var(--spacing-lg);
+
+    width: 100%;
 }

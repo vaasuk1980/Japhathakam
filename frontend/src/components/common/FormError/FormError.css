@@ -1,15 +1,16 @@
 /* ==========================================================
-   FormError Component
+   Form Error
+   Enterprise Foundation v1.0
 ========================================================== */
 
-.form-error {
-    margin-top: var(--spacing-xs);
-
-    color: var(--danger-color);
-
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-normal);
-    line-height: var(--line-height-sm);
-
+.jp-form-error {
     display: block;
+
+    margin: 0;
+
+    color: #dc2626;
+
+    font-size: 0.85rem;
+    font-weight: 400;
+    line-height: 1.4;
 }
