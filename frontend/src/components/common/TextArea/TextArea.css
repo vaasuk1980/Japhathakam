@@ -1,14 +1,14 @@
 /* ==========================================================
-   SELECT COMPONENT
+   TEXTAREA COMPONENT
    ========================================================== */
 
-.select-group {
+.textarea-group {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-xs);
 }
 
-.select-full {
+.textarea-full {
     width: 100%;
 }
 
@@ -16,7 +16,7 @@
    LABEL
    ========================================================== */
 
-.select-label {
+.textarea-label {
     font-family: var(--font-family);
     font-size: var(--font-size-sm);
     font-weight: var(--font-semibold);
@@ -29,10 +29,10 @@
 }
 
 /* ==========================================================
-   SELECT FIELD
+   TEXTAREA FIELD
    ========================================================== */
 
-.select-field {
+.textarea-field {
     width: 100%;
 
     padding: 0.75rem 1rem;
@@ -47,40 +47,30 @@
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius-md);
 
-    cursor: pointer;
+    resize: vertical;
+    min-height: 120px;
 
     transition:
         border-color var(--transition-fast),
         box-shadow var(--transition-fast),
         background-color var(--transition-fast);
-
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-
-    background-image:
-        linear-gradient(45deg, transparent 50%, var(--text-secondary) 50%),
-        linear-gradient(135deg, var(--text-secondary) 50%, transparent 50%);
-    background-position:
-        calc(100% - 18px) calc(50% - 3px),
-        calc(100% - 12px) calc(50% - 3px);
-    background-size: 6px 6px;
-    background-repeat: no-repeat;
-
-    padding-right: 2.5rem;
 }
 
-.select-field:hover:not(:disabled) {
+.textarea-field::placeholder {
+    color: var(--text-muted);
+}
+
+.textarea-field:hover:not(:disabled) {
     border-color: var(--primary-color);
 }
 
-.select-field:focus-visible {
+.textarea-field:focus-visible {
     outline: none;
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
-.select-field:disabled {
+.textarea-field:disabled {
     background: var(--background-color);
     color: var(--text-muted);
     cursor: not-allowed;
@@ -90,11 +80,17 @@
    ERROR STATE
    ========================================================== */
 
-.select-error {
+.textarea-error {
     border-color: var(--danger-color);
 }
 
-.select-error:focus-visible {
+.textarea-error:focus-visible {
     border-color: var(--danger-color);
     box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+
+.textarea-error-text {
+    font-size: var(--font-size-xs);
+    color: var(--danger-color);
+    margin-top: 2px;
 }

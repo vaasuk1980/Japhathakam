@@ -11,6 +11,7 @@ import Muhurtham from "./pages/Muhurtham/Muhurtham";
 import Reports from "./pages/Reports/Reports";
 import Settings from "./pages/Settings/Settings";
 import ComponentShowcase from "./pages/ComponentShowcase/ComponentShowcase";
+import FormPlayground from "./pages/FormPlayground/FormPlayground";
 
 function App() {
   return (
@@ -25,6 +26,8 @@ function App() {
           <Route path="/muhurtham" element={<Muhurtham />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/component-showcase" element={<ComponentShowcase />} />
+           {/* Temporary development page */}
+    <Route path="/playground" element={<FormPlayground />} />
           <Route path="/settings" element={<Settings />} />
         </Route>
       </Routes>

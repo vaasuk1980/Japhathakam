@@ -1,4 +1,7 @@
 import { forwardRef } from "react";
+
+import FormError from "../FormError";
+
 import "./Select.css";
 
 const Select = forwardRef(function Select(
@@ -37,9 +40,17 @@ const Select = forwardRef(function Select(
   return (
     <div className={wrapperClass}>
       {label && (
-        <label htmlFor={id} className="select-label">
+        <label
+          htmlFor={id}
+          className="select-label"
+        >
           {label}
-          {required && <span className="required">*</span>}
+
+          {required && (
+            <span className="required">
+              *
+            </span>
+          )}
         </label>
       )}
 
@@ -71,11 +82,7 @@ const Select = forwardRef(function Select(
         ))}
       </select>
 
-      {error && (
-        <small className="select-error-text">
-          {error}
-        </small>
-      )}
+      <FormError message={error} />
     </div>
   );
 });

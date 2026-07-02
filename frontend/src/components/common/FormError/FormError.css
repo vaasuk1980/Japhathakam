@@ -1,0 +1,15 @@
+/* ==========================================================
+   FormError Component
+========================================================== */
+
+.form-error {
+    margin-top: var(--spacing-xs);
+
+    color: var(--danger-color);
+
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-normal);
+    line-height: var(--line-height-sm);
+
+    display: block;
+}

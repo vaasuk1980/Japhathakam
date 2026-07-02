@@ -3,7 +3,8 @@ import "./ComponentShowcase.css";
 import Button from "../../components/common/Button";
 import Card from "../../components/common/Card";
 import Input from "../../components/common/Input";
-import Select from "../../components/common/Select/Select";
+import Select from "../../components/common/Select";
+import TextArea from "../../components/common/TextArea";
 
 const rasiOptions = [
   { value: "mesha", label: "మేషం" },
@@ -48,6 +49,14 @@ function ComponentShowcase() {
           label="Rasi"
           placeholder="Select Rasi"
           options={rasiOptions}
+        />
+      </Card>
+
+      <Card title="Text Area">
+        <TextArea
+          id="remarks"
+          label="Remarks"
+          placeholder="Enter remarks..."
         />
       </Card>
     </div>
