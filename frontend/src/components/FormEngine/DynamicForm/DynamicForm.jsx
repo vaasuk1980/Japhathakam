@@ -7,7 +7,10 @@ import buildInitialFormState from "../../../utils/forms/buildInitialFormState";
 
 import SectionRenderer from "../SectionRenderer";
 
-function DynamicForm({ schema }) {
+function DynamicForm({
+    schema,
+    onSubmit,
+}) {
 
     const initialState = useMemo(
         () => buildInitialFormState(schema),
@@ -15,7 +18,9 @@ function DynamicForm({ schema }) {
     );
 
     return (
-        <FormStateProvider initialState={initialState}>
+        <FormStateProvider
+            initialState={initialState}
+        >
 
             <div className="jp-dynamic-form">
 

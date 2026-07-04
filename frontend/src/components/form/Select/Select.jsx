@@ -34,25 +34,36 @@ export default function Select({
         ...selectProps
     } = controlProps;
 
+    const hasError =
+        field.touched && Boolean(field.error);
+
+    const inputId = `jp-field-${name}`;
+    const helperId = `${inputId}-helper`;
+
     return (
         <FieldWrapper
             label={label}
             required={required}
+            hasError={hasError}
             helperText={helperText}
             error={field.error}
-            touched={field.touched}
+            inputId={inputId}
+            helperId={helperId}
         >
             <select
                 {...selectProps}
-                value={field.value ?? ""}
-                disabled={field.disabled}
-                onChange={field.onChange}
-                onBlur={field.onBlur}
+                id={inputId}
                 className={`jp-select__control ${
-                    field.error && field.touched
+                    hasError
                         ? "jp-select__control--error"
                         : ""
                 }`}
+                value={field.value ?? ""}
+                disabled={field.disabled}
+                aria-invalid={hasError}
+                aria-describedby={helperId}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
             >
                 <option value="">
                     -- Select --
