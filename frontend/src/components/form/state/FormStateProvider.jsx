@@ -22,8 +22,8 @@ function FormStateProvider({
     );
 
     const actions = useMemo(
-        () => createFormActions(dispatch),
-        [dispatch]
+        () => createFormActions(dispatch, initialState),
+        [dispatch, initialState]
     );
 
     const contextValue = useMemo(

@@ -255,7 +255,7 @@ export function formReducer(state, action) {
         ====================================================== */
 
         case FORM_ACTIONS.RESET_FORM:
-            return initialFormState;
+            return action.payload.initialState;
 
         default:
             return state;

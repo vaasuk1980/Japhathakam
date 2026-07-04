@@ -7,7 +7,7 @@
 
 import { FORM_ACTIONS } from "./formReducer";
 
-export function createFormActions(dispatch) {
+export function createFormActions(dispatch, initialState) {
     return {
         registerField(name, config = {}) {
             dispatch({
@@ -92,6 +92,9 @@ export function createFormActions(dispatch) {
         resetForm() {
             dispatch({
                 type: FORM_ACTIONS.RESET_FORM,
+                payload: {
+                    initialState,
+                },
             });
         },
     };
