@@ -45,7 +45,8 @@ export default function Select({
             <select
                 {...selectProps}
                 value={field.value ?? ""}
-                onChange={(e) => field.setValue(e.target.value)}
+                disabled={field.disabled}
+                onChange={field.onChange}
                 onBlur={field.onBlur}
                 className={`jp-select__control ${
                     field.error && field.touched

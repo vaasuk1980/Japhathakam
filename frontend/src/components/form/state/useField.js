@@ -47,6 +47,10 @@ function useField(name) {
                 actions.setValue(name, event.target.value);
             },
 
+            onBlur() {
+                actions.setTouched(name, true);
+            },
+
             setValue(value) {
                 actions.setValue(name, value);
             },
