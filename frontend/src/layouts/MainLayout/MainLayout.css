@@ -1,30 +1,36 @@
 .layout {
-  display: flex;
-  min-height: 100vh;
-  background: var(--background-color);
+    display: flex;
+    height: 100vh;
+    background: var(--background-color);
 }
 
 .main-content {
-  flex: 1;
-  margin-left: var(--sidebar-width);
+    flex: 1;
 
-  display: flex;
-  flex-direction: column;
+    margin-left: var(--sidebar-width);
 
-  min-width: 0;
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+    height: 100vh;
+
+    overflow: hidden;
 }
 
 .page-content {
-  flex: 1;
+    flex: 1;
 
-  margin-top: var(--header-height);
+    margin-top: var(--header-height);
 
-  padding: var(--page-padding);
+    padding: var(--page-padding);
 
-  background: var(--background-color);
+    background: var(--background-color);
 
-  overflow-y: auto;
-  overflow-x: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
 
-  box-sizing: border-box;
+    box-sizing: border-box;
+
+    min-height: 0;
 }

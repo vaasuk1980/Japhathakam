@@ -1,3 +1,11 @@
+/* ==========================================================
+   Enterprise Dynamic Form
+
+   Root component responsible for initializing
+   enterprise form state and providing it to
+   the form lifecycle.
+========================================================== */
+
 import "./DynamicForm.css";
 
 import { useMemo } from "react";
@@ -5,7 +13,7 @@ import { useMemo } from "react";
 import FormStateProvider from "../../form/state/FormStateProvider";
 import buildInitialFormState from "../../../utils/forms/buildInitialFormState";
 
-import SectionRenderer from "../SectionRenderer";
+import FormContent from "./FormContent";
 
 function DynamicForm({
     schema,
@@ -21,18 +29,10 @@ function DynamicForm({
         <FormStateProvider
             initialState={initialState}
         >
-
-            <div className="jp-dynamic-form">
-
-                {schema.sections.map((section) => (
-                    <SectionRenderer
-                        key={section.id}
-                        section={section}
-                    />
-                ))}
-
-            </div>
-
+            <FormContent
+                schema={schema}
+                onSubmit={onSubmit}
+            />
         </FormStateProvider>
     );
 }

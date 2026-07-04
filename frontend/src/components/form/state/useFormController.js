@@ -2,30 +2,64 @@
    Japhathakam Enterprise Form Engine
    useFormController
 -------------------------------------------------------------
-   Enterprise controller responsible for form lifecycle
-   operations.
+   Enterprise Form Lifecycle Controller
 
    Responsibilities
    ----------------
+   • Orchestrates form lifecycle
+   • Exposes centralized state
+   • Exposes centralized actions
+
+   Lifecycle
+   ---------
+   • Reset Form
+
+   Future
+   ------
    • Validate
    • Submit
-   • Reset
-   • Access current values
-
-   Does NOT manage:
-   • Rendering
-   • Context creation
-   • State mutations
+   • Mark All Touched
+   • Async Submit
 ========================================================== */
 
 import useForm from "./useForm";
 
 function useFormController() {
+
     const { state, actions } = useForm();
 
+    function reset() {
+        actions.resetForm();
+    }
+
     return {
+
+        /* ==========================================
+           Form State
+        ========================================== */
+
         state,
+
+        values: state.values,
+
+        errors: state.errors,
+
+        touched: state.touched,
+
+        dirty: state.dirty,
+
+        /* ==========================================
+           Form Actions
+        ========================================== */
+
         actions,
+
+        /* ==========================================
+           Form Lifecycle
+        ========================================== */
+
+        reset,
+
     };
 }
 
