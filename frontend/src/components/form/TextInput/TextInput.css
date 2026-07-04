@@ -1,0 +1,82 @@
+/* ==========================================================
+   Japhathakam Enterprise Form Framework
+   TextInput
+========================================================== */
+
+/* ==========================================================
+   Input Control
+========================================================== */
+
+.jp-text-input__control {
+    width: 100%;
+    min-height: 42px;
+
+    padding: 10px 12px;
+
+    border: 1px solid var(--jp-color-border);
+    border-radius: var(--jp-radius-md);
+
+    background: var(--jp-color-surface);
+
+    color: var(--jp-color-text-primary);
+
+    font-size: 14px;
+    font-family: inherit;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+/* ==========================================================
+   Placeholder
+========================================================== */
+
+.jp-text-input__control::placeholder {
+    color: var(--jp-color-text-muted);
+}
+
+/* ==========================================================
+   Focus
+========================================================== */
+
+.jp-text-input__control:focus {
+    outline: none;
+
+    border-color: var(--jp-color-primary);
+
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* ==========================================================
+   Disabled
+========================================================== */
+
+.jp-text-input__control:disabled {
+    cursor: not-allowed;
+
+    background: var(--jp-color-surface-disabled);
+
+    color: var(--jp-color-text-muted);
+}
+
+/* ==========================================================
+   Read Only
+========================================================== */
+
+.jp-text-input__control:read-only {
+    background: var(--jp-color-surface-secondary);
+}
+
+/* ==========================================================
+   Error
+========================================================== */
+
+.jp-field-wrapper--error .jp-text-input__control {
+    border-color: var(--jp-color-danger);
+}
+
+.jp-field-wrapper--error .jp-text-input__control:focus {
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}

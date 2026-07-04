@@ -1,0 +1,63 @@
+/* ==========================================================
+   Section Renderer
+   Enterprise Section Card
+========================================================== */
+
+.jp-form-section {
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+
+    padding: 24px;
+
+    margin-bottom: 32px;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.jp-form-section__header {
+    margin-bottom: 28px;
+
+    padding-bottom: 12px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.jp-form-section__title {
+    margin: 0;
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+    color: #1f2937;
+}
+
+/* ==========================================================
+   Two Column Grid
+========================================================== */
+
+.jp-form-section__body {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    column-gap: 48px;
+
+    row-gap: 20px;
+}
+
+/* ==========================================================
+   Mobile
+========================================================== */
+
+@media (max-width: 900px) {
+
+    .jp-form-section__body {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}

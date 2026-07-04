@@ -1,0 +1,55 @@
+/* ==========================================================
+   Japhathakam Enterprise Form Framework
+   Field Wrapper
+========================================================== */
+
+.jp-field-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+/* ==========================================================
+   Label
+========================================================== */
+
+.jp-field-wrapper__label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    color: var(--jp-color-text-primary);
+}
+
+.jp-field-wrapper__required {
+    color: var(--jp-color-danger);
+}
+
+/* ==========================================================
+   Control Container
+========================================================== */
+
+.jp-field-wrapper__control {
+    width: 100%;
+}
+
+/* ==========================================================
+   Helper
+========================================================== */
+
+.jp-field-wrapper__helper {
+    min-height: 18px;
+
+    font-size: 12px;
+    line-height: 1.4;
+
+    color: var(--jp-color-text-secondary);
+}
+
+.jp-field-wrapper__helper--error {
+    color: var(--jp-color-danger);
+}

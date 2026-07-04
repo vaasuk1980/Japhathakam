@@ -19,7 +19,7 @@ const menuItems = Object.freeze([
     id: 2,
     label: "Birth Details",
     icon: UserRound,
-    path: "/birth-details",
+    path: "/person-details",
   },
   {
     id: 3,

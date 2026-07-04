@@ -1,0 +1,21 @@
+/* ==========================================================
+   Dynamic Form
+========================================================== */
+
+.jp-dynamic-form {
+    max-width: 1280px;
+
+    margin: 0 auto;
+
+    padding: 32px;
+}
+
+.jp-dynamic-form > h2 {
+    margin: 0 0 32px;
+
+    font-size: 34px;
+
+    font-weight: 700;
+
+    color: #1f2937;
+}

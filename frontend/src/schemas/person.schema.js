@@ -25,15 +25,6 @@ const personSchema = {
                 },
 
                 {
-                    id: "middleName",
-                    label: "Middle Name",
-                    type: "text",
-                    placeholder: "Enter middle name",
-                    required: false,
-                    maxLength: 50,
-                },
-
-                {
                     id: "lastName",
                     label: "Last Name",
                     type: "text",
@@ -50,7 +41,7 @@ const personSchema = {
                     options: [
                         { value: "male", label: "Male" },
                         { value: "female", label: "Female" },
-                        { value: "other", label: "Other" },
+                        { value: "other", label: "Transgender" },
                     ],
                 },
 
@@ -59,6 +50,18 @@ const personSchema = {
                     label: "Date of Birth",
                     type: "date",
                     required: true,
+                },
+
+                {
+                    id: "age",
+                    label: "Age",
+                    type: "number",
+                    placeholder: "Enter age",
+                    helperText: "Age in completed years",
+                    required: false,
+                    min: 0,
+                    max: 150,
+                    step: 1,
                 },
 
                 {
