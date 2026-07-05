@@ -1,32 +1,90 @@
 /* ==========================================================
-   Japhathakam Enterprise Validation Engine
-   Validate Form
+   Japhathakam Enterprise Form Engine
+   Form Validation Utility
 -------------------------------------------------------------
-   Validates all fields in a schema and returns an
-   object containing field errors.
+   Validates the complete form using the schema.
 ========================================================== */
 
-import validateField from "./validateField";
-
 export default function validateForm(schema, values) {
+
     const errors = {};
 
-    if (!schema?.sections) {
-        return errors;
+    for (const section of schema.sections) {
+
+        for (const field of section.fields) {
+
+            const value = values[field.id];
+
+            /* ==================================================
+               Required Validation
+            ================================================== */
+
+            if (field.required) {
+
+                const isEmpty =
+                    value === undefined ||
+                    value === null ||
+                    value === "";
+
+                if (isEmpty) {
+                    errors[field.id] =
+                        `${field.label} is required.`;
+
+                    continue;
+                }
+            }
+
+            /* ==================================================
+               Maximum Length
+            ================================================== */
+
+            if (
+                field.maxLength &&
+                typeof value === "string" &&
+                value.length > field.maxLength
+            ) {
+                errors[field.id] =
+                    `${field.label} cannot exceed ${field.maxLength} characters.`;
+            }
+
+            /* ==================================================
+               Minimum Value
+            ================================================== */
+
+            if (
+                field.min !== undefined &&
+                value !== ""
+            ) {
+
+                if (Number(value) < field.min) {
+
+                    errors[field.id] =
+                        `${field.label} must be at least ${field.min}.`;
+                }
+            }
+
+            /* ==================================================
+               Maximum Value
+            ================================================== */
+
+            if (
+                field.max !== undefined &&
+                value !== ""
+            ) {
+
+                if (Number(value) > field.max) {
+
+                    errors[field.id] =
+                        `${field.label} cannot exceed ${field.max}.`;
+                }
+            }
+
+        }
+
     }
 
-    schema.sections.forEach((section) => {
-        section.fields.forEach((field) => {
-            const error = validateField(
-                field,
-                values[field.id]
-            );
-
-            if (error) {
-                errors[field.id] = error;
-            }
-        });
-    });
-
-    return errors;
+    return {
+        isValid: Object.keys(errors).length === 0,
+        errors,
+    };
 }

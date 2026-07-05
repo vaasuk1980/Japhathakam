@@ -2,6 +2,8 @@ import { useCallback } from "react";
 
 import useForm from "../../form/state/useForm";
 
+import validateForm from "../../../utils/forms/validateForm";
+
 import SectionRenderer from "../SectionRenderer";
 import SubmitButton from "../SubmitButton/SubmitButton";
 
@@ -12,6 +14,7 @@ function DynamicFormContent({
 
     const {
         state,
+        actions,
     } = useForm();
 
     const handleSubmit = useCallback(
@@ -19,10 +22,42 @@ function DynamicFormContent({
 
             event.preventDefault();
 
-            console.log("========== FORM STATE ==========");
-            console.log(state);
+            const result = validateForm(
+                schema,
+                state.values
+            );
 
-            console.log("========== FORM VALUES ==========");
+            /* ==========================================
+               Clear Previous Errors
+            ========================================== */
+
+            Object.keys(state.errors).forEach((fieldName) => {
+                actions.clearError(fieldName);
+            });
+
+            /* ==========================================
+               Validation Failed
+            ========================================== */
+
+            if (!result.isValid) {
+
+                Object.entries(result.errors).forEach(
+                    ([fieldName, error]) => {
+                        actions.setError(fieldName, error);
+                    }
+                );
+
+                console.log("Validation Failed");
+                console.log(result.errors);
+
+                return;
+            }
+
+            /* ==========================================
+               Validation Passed
+            ========================================== */
+
+            console.log("Validation Passed");
             console.log(state.values);
 
             if (typeof onSubmit === "function") {
@@ -30,7 +65,12 @@ function DynamicFormContent({
             }
 
         },
-        [state, onSubmit]
+        [
+            schema,
+            state,
+            actions,
+            onSubmit,
+        ]
     );
 
     return (
