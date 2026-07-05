@@ -1,0 +1,6 @@
+button[type="submit"] {
+    margin-top: 24px;
+    padding: 10px 24px;
+    font-size: 15px;
+    cursor: pointer;
+}
