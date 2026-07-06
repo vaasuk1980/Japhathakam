@@ -31,6 +31,7 @@ export default function Select({
     const {
         label: fieldLabel,
         helperText: controlHelperText,
+        required: controlRequired,
         ...selectProps
     } = controlProps;
 

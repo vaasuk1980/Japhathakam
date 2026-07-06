@@ -43,7 +43,12 @@ function DynamicFormContent({
 
                 Object.entries(result.errors).forEach(
                     ([fieldName, error]) => {
+
                         actions.setError(fieldName, error);
+
+                        // Mark field as touched so UI displays the error
+                        actions.setTouched(fieldName, true);
+
                     }
                 );
 
@@ -74,7 +79,7 @@ function DynamicFormContent({
     );
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
 
             {schema.sections.map((section) => (
                 <SectionRenderer
