@@ -1,9 +1,9 @@
 /* ==========================================================
-   JAPHATHAKAM DESIGN SYSTEM v1.1
+   JAPHATHAKAM DESIGN SYSTEM v1.2
    ----------------------------------------------------------
    Author  : Japhathakam Team
    Purpose : Global Design Tokens
-   Version : 1.1
+   Version : 1.2
    ========================================================== */
 
 :root {
@@ -35,60 +35,118 @@
 
 
   /* ========================================================
-     COLORS
+     ENTERPRISE COLOR TOKENS (CANONICAL)
      ======================================================== */
 
   /* Backgrounds */
 
-  --background-color: #f5f7fa;
-  --surface-color: #ffffff;
+  --jp-color-background: #f5f7fa;
+  --jp-color-surface: #ffffff;
 
   /* Sidebar */
 
-  --sidebar-bg: #1f2937;
-  --sidebar-text: #ffffff;
-  --sidebar-hover: #374151;
-  --sidebar-active: #2563eb;
-  --sidebar-border: #374151;
+  --jp-color-sidebar-bg: #1f2937;
+  --jp-color-sidebar-text: #ffffff;
+  --jp-color-sidebar-hover: #374151;
+  --jp-color-sidebar-active: #2563eb;
+  --jp-color-sidebar-border: #374151;
 
   /* Text */
 
-  --text-primary: #1f2937;
-  --text-secondary: #6b7280;
-  --text-muted: #9ca3af;
-  --text-white: #ffffff;
+  --jp-color-text-primary: #1f2937;
+  --jp-color-text-secondary: #6b7280;
+  --jp-color-text-muted: #9ca3af;
+  --jp-color-text-white: #ffffff;
 
   /* Semantic Text */
 
-  --text-on-primary: #ffffff;
-  --text-on-secondary: #ffffff;
-  --text-on-danger: #ffffff;
+  --jp-color-text-on-primary: #ffffff;
+  --jp-color-text-on-secondary: #ffffff;
+  --jp-color-text-on-danger: #ffffff;
 
   /* Borders */
 
-  --border-color: #e5e7eb;
+  --jp-color-border: #e5e7eb;
 
   /* Brand */
 
-  --primary-color: #2563eb;
-  --primary-hover: #1d4ed8;
+  --jp-color-primary: #2563eb;
+  --jp-color-primary-hover: #1d4ed8;
 
   /* Secondary */
 
-  --secondary-color: #6b7280;
-  --secondary-hover: #4b5563;
+  --jp-color-secondary: #6b7280;
+  --jp-color-secondary-hover: #4b5563;
 
   /* Status */
 
-  --success-color: #16a34a;
-  --success-bg: #dcfce7;
+  --jp-color-success: #16a34a;
+  --jp-color-success-bg: #dcfce7;
 
-  --warning-color: #f59e0b;
-  --warning-bg: #fef3c7;
+  --jp-color-warning: #f59e0b;
+  --jp-color-warning-bg: #fef3c7;
 
-  --danger-color: #dc2626;
-  --danger-hover: #b91c1c;
-  --danger-bg: #fee2e2;
+  --jp-color-danger: #dc2626;
+  --jp-color-danger-hover: #b91c1c;
+  --jp-color-danger-bg: #fee2e2;
+
+
+  /* ========================================================
+     BACKWARD COMPATIBILITY TOKENS
+     (Legacy aliases - Do not remove until migration completes)
+     ======================================================== */
+
+  /* Backgrounds */
+
+  --background-color: var(--jp-color-background);
+  --surface-color: var(--jp-color-surface);
+
+  /* Sidebar */
+
+  --sidebar-bg: var(--jp-color-sidebar-bg);
+  --sidebar-text: var(--jp-color-sidebar-text);
+  --sidebar-hover: var(--jp-color-sidebar-hover);
+  --sidebar-active: var(--jp-color-sidebar-active);
+  --sidebar-border: var(--jp-color-sidebar-border);
+
+  /* Text */
+
+  --text-primary: var(--jp-color-text-primary);
+  --text-secondary: var(--jp-color-text-secondary);
+  --text-muted: var(--jp-color-text-muted);
+  --text-white: var(--jp-color-text-white);
+
+  /* Semantic Text */
+
+  --text-on-primary: var(--jp-color-text-on-primary);
+  --text-on-secondary: var(--jp-color-text-on-secondary);
+  --text-on-danger: var(--jp-color-text-on-danger);
+
+  /* Borders */
+
+  --border-color: var(--jp-color-border);
+
+  /* Brand */
+
+  --primary-color: var(--jp-color-primary);
+  --primary-hover: var(--jp-color-primary-hover);
+
+  /* Secondary */
+
+  --secondary-color: var(--jp-color-secondary);
+  --secondary-hover: var(--jp-color-secondary-hover);
+
+  /* Status */
+
+  --success-color: var(--jp-color-success);
+  --success-bg: var(--jp-color-success-bg);
+
+  --warning-color: var(--jp-color-warning);
+  --warning-bg: var(--jp-color-warning-bg);
+
+  --danger-color: var(--jp-color-danger);
+  --danger-hover: var(--jp-color-danger-hover);
+  --danger-bg: var(--jp-color-danger-bg);
 
 
   /* ========================================================
