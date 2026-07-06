@@ -20,7 +20,7 @@
     font-size: var(--font-size-xxl);
     font-weight: var(--font-bold);
 
-    color: var(--text-primary);
+    color: var(--jp-color-text-primary);
 }
 
 .showcase-row {

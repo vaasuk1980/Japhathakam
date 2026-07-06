@@ -1,12 +1,12 @@
 /* ==========================================================
    Input Component
-   Enterprise Foundation v1.0
+   Enterprise Foundation v1.1
 ========================================================== */
 
 .jp-input {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--spacing-sm);
 
     width: 100%;
     min-width: 0;
@@ -21,15 +21,15 @@
 }
 
 .jp-input--readonly .jp-input__wrapper {
-    background-color: #f9fafb;
+    background-color: var(--jp-color-background);
 }
 
 .jp-input--error .jp-input__wrapper {
-    border-color: #dc2626;
+    border-color: var(--jp-color-danger);
 }
 
 .jp-input--error .jp-input__wrapper:focus-within {
-    border-color: #dc2626;
+    border-color: var(--jp-color-danger);
     box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
 }
 
@@ -40,17 +40,17 @@
 .jp-input__label {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: var(--spacing-xs);
 
     font-size: 0.95rem;
-    font-weight: 500;
+    font-weight: var(--font-medium);
     line-height: 1.4;
 
-    color: #111827;
+    color: var(--jp-color-text-primary);
 }
 
 .jp-input__required {
-    color: #dc2626;
+    color: var(--jp-color-danger);
 }
 
 /* ==========================================================
@@ -63,19 +63,19 @@
 
     width: 100%;
 
-    background-color: #ffffff;
+    background-color: var(--jp-color-surface);
 
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
+    border: 1px solid var(--jp-color-border);
+    border-radius: var(--border-radius-sm);
 
     transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease,
-        background-color 0.2s ease;
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        background-color var(--transition-fast);
 }
 
 .jp-input__wrapper:focus-within {
-    border-color: #2563eb;
+    border-color: var(--jp-color-primary);
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
@@ -96,14 +96,14 @@
 
     background: transparent;
 
-    color: #111827;
+    color: var(--jp-color-text-primary);
 
     font-size: 1rem;
     line-height: 1.5;
 }
 
 .jp-input__field::placeholder {
-    color: #9ca3af;
+    color: var(--jp-color-text-muted);
 }
 
 .jp-input__field:disabled {
@@ -126,7 +126,7 @@
 
     padding: 0 12px;
 
-    color: #6b7280;
+    color: var(--jp-color-text-secondary);
 
     white-space: nowrap;
 
@@ -147,7 +147,7 @@
 
     padding: 0 12px;
 
-    color: #6b7280;
+    color: var(--jp-color-text-secondary);
 
     cursor: pointer;
 
@@ -164,7 +164,7 @@
     font-size: 0.85rem;
     line-height: 1.4;
 
-    color: #6b7280;
+    color: var(--jp-color-text-secondary);
 }
 
 .jp-input__success {
@@ -173,5 +173,5 @@
     font-size: 0.85rem;
     line-height: 1.4;
 
-    color: #16a34a;
+    color: var(--jp-color-success);
 }

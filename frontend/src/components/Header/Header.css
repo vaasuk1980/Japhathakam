@@ -13,8 +13,8 @@
 
   padding: 0 var(--container-padding);
 
-  background: var(--surface-color);
-  border-bottom: 1px solid var(--border-color);
+  background: var(--jp-color-surface);
+  border-bottom: 1px solid var(--jp-color-border);
   box-shadow: var(--shadow-sm);
 
   box-sizing: border-box;
@@ -51,7 +51,7 @@
   font-size: var(--font-size-xl);
   font-weight: var(--font-bold);
 
-  color: var(--text-primary);
+  color: var(--jp-color-text-primary);
 }
 
 /* ==========================================
@@ -63,5 +63,5 @@
   font-size: var(--font-size-md);
   font-weight: var(--font-medium);
 
-  color: var(--text-secondary);
+  color: var(--jp-color-text-secondary);
 }

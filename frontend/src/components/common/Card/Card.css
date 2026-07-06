@@ -8,9 +8,9 @@
 
     width: auto;
 
-    background: var(--surface-color);
+    background: var(--jp-color-surface);
 
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--jp-color-border);
     border-radius: var(--border-radius-lg);
 
     transition:
@@ -34,7 +34,7 @@
     font-weight: var(--font-semibold);
     line-height: var(--line-height-md);
 
-    color: var(--text-primary);
+    color: var(--jp-color-text-primary);
 }
 
 /* ==========================================================

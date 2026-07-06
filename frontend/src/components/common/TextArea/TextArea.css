@@ -1,13 +1,13 @@
 /* ==========================================================
    TextArea Component
-   Enterprise Foundation v1.0
+   Enterprise Foundation v1.1
 ========================================================== */
 
 .jp-textarea {
     display: flex;
     flex-direction: column;
 
-    gap: 8px;
+    gap: var(--spacing-sm);
 
     width: 100%;
     min-width: 0;
@@ -22,15 +22,15 @@
 }
 
 .jp-textarea--readonly .jp-textarea__wrapper {
-    background-color: #f9fafb;
+    background-color: var(--jp-color-background);
 }
 
 .jp-textarea--error .jp-textarea__wrapper {
-    border-color: #dc2626;
+    border-color: var(--jp-color-danger);
 }
 
 .jp-textarea--error .jp-textarea__wrapper:focus-within {
-    border-color: #dc2626;
+    border-color: var(--jp-color-danger);
 
     box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
 }
@@ -43,17 +43,17 @@
     display: inline-flex;
     align-items: center;
 
-    gap: 4px;
+    gap: var(--spacing-xs);
 
     font-size: 0.95rem;
-    font-weight: 500;
+    font-weight: var(--font-medium);
     line-height: 1.4;
 
-    color: #111827;
+    color: var(--jp-color-text-primary);
 }
 
 .jp-textarea__required {
-    color: #dc2626;
+    color: var(--jp-color-danger);
 }
 
 /* ==========================================================
@@ -65,19 +65,19 @@
 
     width: 100%;
 
-    background: #ffffff;
+    background: var(--jp-color-surface);
 
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
+    border: 1px solid var(--jp-color-border);
+    border-radius: var(--border-radius-sm);
 
     transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease,
-        background-color 0.2s ease;
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        background-color var(--transition-fast);
 }
 
 .jp-textarea__wrapper:focus-within {
-    border-color: #2563eb;
+    border-color: var(--jp-color-primary);
 
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
@@ -101,7 +101,7 @@
 
     background: transparent;
 
-    color: #111827;
+    color: var(--jp-color-text-primary);
 
     font-size: 1rem;
     line-height: 1.5;
@@ -110,7 +110,7 @@
 }
 
 .jp-textarea__field::placeholder {
-    color: #9ca3af;
+    color: var(--jp-color-text-muted);
 }
 
 .jp-textarea__field:disabled {
@@ -131,7 +131,7 @@
     font-size: 0.85rem;
     line-height: 1.4;
 
-    color: #6b7280;
+    color: var(--jp-color-text-secondary);
 }
 
 .jp-textarea__success {
@@ -140,5 +140,5 @@
     font-size: 0.85rem;
     line-height: 1.4;
 
-    color: #16a34a;
+    color: var(--jp-color-success);
 }

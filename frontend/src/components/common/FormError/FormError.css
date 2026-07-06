@@ -1,6 +1,6 @@
 /* ==========================================================
    Form Error
-   Enterprise Foundation v1.0
+   Enterprise Foundation v1.1
 ========================================================== */
 
 .jp-form-error {
@@ -8,7 +8,7 @@
 
     margin: 0;
 
-    color: #dc2626;
+    color: var(--jp-color-danger);
 
     font-size: 0.85rem;
     font-weight: 400;

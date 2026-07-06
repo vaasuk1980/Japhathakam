@@ -1,6 +1,6 @@
 /* ==========================================================
    Form Section
-   Enterprise Foundation v1.0
+   Enterprise Foundation v1.1
 ========================================================== */
 
 .jp-form-section {
@@ -19,7 +19,7 @@
     font-weight: 600;
     line-height: 1.4;
 
-    color: var(--text-primary);
+    color: var(--jp-color-text-primary);
 }
 
 .jp-form-section__content {

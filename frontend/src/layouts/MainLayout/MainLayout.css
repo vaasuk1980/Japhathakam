@@ -1,7 +1,8 @@
 .layout {
     display: flex;
     height: 100vh;
-    background: var(--background-color);
+
+    background: var(--jp-color-background);
 }
 
 .main-content {
@@ -25,7 +26,7 @@
 
     padding: var(--page-padding);
 
-    background: var(--background-color);
+    background: var(--jp-color-background);
 
     overflow-y: auto;
     overflow-x: hidden;
