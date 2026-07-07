@@ -4,6 +4,9 @@
 -------------------------------------------------------------
    Creates the enterprise form state expected by
    Form Selectors and Form Reducer.
+
+   Sprint 5.20
+   - Initializes validation metadata for every field.
 ========================================================== */
 
 export default function buildInitialFormState(schema) {
@@ -33,7 +36,10 @@ export default function buildInitialFormState(schema) {
             initialState.disabled[id] = field.disabled ?? false;
             initialState.readonly[id] = field.readOnly ?? false;
             initialState.loading[id] = false;
-            initialState.metadata[id] = {};
+
+            initialState.metadata[id] = {
+                validation: field.validation ?? [],
+            };
         });
     });
 

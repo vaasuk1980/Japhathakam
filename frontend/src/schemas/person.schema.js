@@ -20,8 +20,16 @@ const personSchema = {
                     label: "First Name",
                     type: "text",
                     placeholder: "Enter first name",
+
                     required: true,
                     maxLength: 50,
+
+                    validation: [
+                        {
+                            type: "required",
+                            message: "First Name is required.",
+                        },
+                    ],
                 },
 
                 {
@@ -29,6 +37,7 @@ const personSchema = {
                     label: "Last Name",
                     type: "text",
                     placeholder: "Enter last name",
+
                     required: true,
                     maxLength: 50,
                 },
@@ -37,7 +46,9 @@ const personSchema = {
                     id: "gender",
                     label: "Gender",
                     type: "select",
+
                     required: true,
+
                     options: [
                         { value: "male", label: "Male" },
                         { value: "female", label: "Female" },
@@ -49,6 +60,7 @@ const personSchema = {
                     id: "dateOfBirth",
                     label: "Date of Birth",
                     type: "date",
+
                     required: true,
                 },
 
@@ -58,7 +70,9 @@ const personSchema = {
                     type: "number",
                     placeholder: "Enter age",
                     helperText: "Age in completed years",
+
                     required: false,
+
                     min: 0,
                     max: 150,
                     step: 1,
@@ -68,6 +82,7 @@ const personSchema = {
                     id: "timeOfBirth",
                     label: "Time of Birth",
                     type: "time",
+
                     required: true,
                 },
 
@@ -76,6 +91,7 @@ const personSchema = {
                     label: "Place of Birth",
                     type: "text",
                     placeholder: "Enter place of birth",
+
                     required: true,
                 },
             ],
