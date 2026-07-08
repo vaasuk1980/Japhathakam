@@ -3,6 +3,13 @@
    useField Hook
 -------------------------------------------------------------
    Provides field-specific state and actions.
+
+   Responsibilities
+   ----------------
+   • Field state access
+   • Field lifecycle
+   • Dirty tracking
+   • Error lifecycle
 ========================================================== */
 
 import { useMemo } from "react";
@@ -21,35 +28,81 @@ import {
 import useForm from "./useForm";
 
 function useField(name) {
+
     const { state, actions } = useForm();
+
+    const value = getFieldValue(state, name);
+    const error = getFieldError(state, name);
+    const touched = isFieldTouched(state, name);
+    const dirty = isFieldDirty(state, name);
+    const disabled = isFieldDisabled(state, name);
+    const readOnly = isFieldReadOnly(state, name);
+    const loading = isFieldLoading(state, name);
+    const metadata = getFieldMetadata(state, name);
 
     const field = useMemo(
         () => ({
+
             name,
 
-            value: getFieldValue(state, name),
+            value,
 
-            error: getFieldError(state, name),
+            error,
 
-            touched: isFieldTouched(state, name),
+            touched,
 
-            dirty: isFieldDirty(state, name),
+            dirty,
 
-            disabled: isFieldDisabled(state, name),
+            disabled,
 
-            readOnly: isFieldReadOnly(state, name),
+            readOnly,
 
-            loading: isFieldLoading(state, name),
+            loading,
 
-            metadata: getFieldMetadata(state, name),
+            metadata,
+
+            /* ==========================================
+               Lifecycle
+            ========================================== */
 
             onChange(event) {
-                actions.setValue(name, event.target.value);
+
+                const newValue = event.target.value;
+
+                actions.setValue(
+                    name,
+                    newValue
+                );
+
+                if (!dirty) {
+                    actions.setDirty(name, true);
+                }
+
+                /*
+                ------------------------------------------
+                Enterprise Validation Lifecycle
+
+                If the field currently has an error and the
+                user modifies the value, clear the existing
+                error immediately.
+
+                Validation will run again on Submit.
+                ------------------------------------------
+                */
+
+                if (error) {
+                    actions.clearError(name);
+                }
+
             },
 
             onBlur() {
                 actions.setTouched(name, true);
             },
+
+            /* ==========================================
+               Actions
+            ========================================== */
 
             setValue(value) {
                 actions.setValue(name, value);
@@ -90,8 +143,20 @@ function useField(name) {
             reset() {
                 actions.resetField(name);
             },
+
         }),
-        [name, state, actions]
+        [
+            name,
+            value,
+            error,
+            touched,
+            dirty,
+            disabled,
+            readOnly,
+            loading,
+            metadata,
+            actions,
+        ]
     );
 
     return field;

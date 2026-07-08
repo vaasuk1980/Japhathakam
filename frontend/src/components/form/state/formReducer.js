@@ -119,17 +119,14 @@ export function formReducer(state, action) {
                 },
             };
 
-        case FORM_ACTIONS.CLEAR_ERROR: {
-
-            const errors = { ...state.errors };
-
-            delete errors[action.payload.name];
-
+        case FORM_ACTIONS.CLEAR_ERROR:
             return {
                 ...state,
-                errors,
+                errors: {
+                    ...state.errors,
+                    [action.payload.name]: "",
+                },
             };
-        }
 
         /* ======================================================
            Touched
