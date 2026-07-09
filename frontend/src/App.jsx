@@ -12,27 +12,36 @@ import Reports from "./pages/Reports/Reports";
 import Settings from "./pages/Settings/Settings";
 import ComponentShowcase from "./pages/ComponentShowcase/ComponentShowcase";
 import FormPlayground from "./pages/FormPlayground/FormPlayground";
+import TestSwissEphemeris from "./pages/TestSwissEphemeris";
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/person-details" element={<PersonDetails />} />
-          <Route path="/new-horoscope" element={<NewHoroscope />} />
-          <Route path="/horoscope-library" element={<HoroscopeLibrary />} />
-          <Route path="/panchangam" element={<Panchangam />} />
-          <Route path="/muhurtham" element={<Muhurtham />} />
-          <Route path="/reports" element={<Reports />} />
-          <Route path="/component-showcase" element={<ComponentShowcase />} />
-           {/* Temporary development page */}
-    <Route path="/playground" element={<FormPlayground />} />
-          <Route path="/settings" element={<Settings />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  );
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route element={<MainLayout />}>
+
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/person-details" element={<PersonDetails />} />
+                    <Route path="/new-horoscope" element={<NewHoroscope />} />
+                    <Route path="/horoscope-library" element={<HoroscopeLibrary />} />
+                    <Route path="/panchangam" element={<Panchangam />} />
+                    <Route path="/muhurtham" element={<Muhurtham />} />
+                    <Route path="/reports" element={<Reports />} />
+                    <Route path="/component-showcase" element={<ComponentShowcase />} />
+                    <Route path="/playground" element={<FormPlayground />} />
+
+                    {/* Temporary Swiss Ephemeris Test */}
+                    <Route
+                        path="/test-swiss-ephemeris"
+                        element={<TestSwissEphemeris />}
+                    />
+
+                    <Route path="/settings" element={<Settings />} />
+
+                </Route>
+            </Routes>
+        </BrowserRouter>
+    );
 }
 
 export default App;

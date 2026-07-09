@@ -1,0 +1,28 @@
+{
+  "name": "japhathakam-backend",
+  "version": "1.0.0",
+  "description": "Japhathakam Astrology Engine Backend",
+  "private": true,
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "keywords": [
+    "japhathakam",
+    "astrology",
+    "swiss-ephemeris"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@swisseph/node": "^1.2.2",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  },
+  "allowScripts": {
+    "@swisseph/node@1.2.2": true
+  }
+}
