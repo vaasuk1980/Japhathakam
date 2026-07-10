@@ -1,9 +1,8 @@
 import express from "express";
 import cors from "cors";
 
-import swisseph from "@swisseph/node";
-
-import SwissEphemerisProvider from "./astrology/services/SwissEphemerisProvider.js";
+import BirthContext from "./astrology/models/BirthContext.js";
+import PlanetPositionEngine from "./astrology/engines/PlanetPositionEngine.js";
 
 const app = express();
 
@@ -12,31 +11,43 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
 
-    const julianDay =
-        SwissEphemerisProvider.calculateJulianDay(
-            1980,
-            6,
-            15,
-            12.5
+    const birthContext =
+        new BirthContext({
+
+            year: 1980,
+            month: 6,
+            day: 15,
+
+            // 12:30 PM
+            hour: 12.5
+
+        });
+
+    const planetPositions =
+        PlanetPositionEngine.calculate(
+            birthContext
         );
 
-    const sun =
-        SwissEphemerisProvider.calculatePosition(
-            julianDay,
-            swisseph.Planet.Sun
-        );
+    console.log(
+        JSON.stringify(
+            planetPositions,
+            null,
+            4
+        )
+    );
 
-    res.json({
-        julianDay,
-        sun
-    });
+    res.json(
+        planetPositions
+    );
 
 });
 
 const PORT = 3000;
 
 app.listen(PORT, () => {
+
     console.log(
         `Japhathakam Backend started on port ${PORT}`
     );
+
 });
