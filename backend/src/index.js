@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 
+import swisseph from "@swisseph/node";
+
 import SwissEphemerisProvider from "./astrology/services/SwissEphemerisProvider.js";
 
 const app = express();
@@ -10,16 +12,23 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
 
-    const jd = SwissEphemerisProvider.calculateJulianDay(
-        1980,
-        6,
-        15,
-        12.5
-    );
+    const julianDay =
+        SwissEphemerisProvider.calculateJulianDay(
+            1980,
+            6,
+            15,
+            12.5
+        );
+
+    const sun =
+        SwissEphemerisProvider.calculatePosition(
+            julianDay,
+            swisseph.Planet.Sun
+        );
 
     res.json({
-        success: true,
-        julianDay: jd
+        julianDay,
+        sun
     });
 
 });

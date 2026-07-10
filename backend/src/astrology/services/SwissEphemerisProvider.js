@@ -1,7 +1,4 @@
-import {
-    julianDay,
-    calculatePosition
-} from "@swisseph/node";
+import swisseph from "@swisseph/node";
 
 class SwissEphemerisProvider {
 
@@ -11,7 +8,7 @@ class SwissEphemerisProvider {
         day,
         hour
     ) {
-        return julianDay(
+        return swisseph.julianDay(
             year,
             month,
             day,
@@ -19,12 +16,12 @@ class SwissEphemerisProvider {
         );
     }
 
-    calculatePlanet(
+    calculatePosition(
         julianDayNumber,
         celestialBody,
         flags
     ) {
-        return calculatePosition(
+        return swisseph.calculatePosition(
             julianDayNumber,
             celestialBody,
             flags
