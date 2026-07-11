@@ -17,7 +17,9 @@ class PositionMapper {
 
             longitudeSpeed: swissPosition.longitudeSpeed,
             latitudeSpeed: swissPosition.latitudeSpeed,
-            distanceSpeed: swissPosition.distanceSpeed
+            distanceSpeed: swissPosition.distanceSpeed,
+
+            nakshatra: swissPosition.nakshatra
 
         });
 
