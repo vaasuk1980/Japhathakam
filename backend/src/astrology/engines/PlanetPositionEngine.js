@@ -5,6 +5,8 @@ import SupportedGrahas from "../constants/SupportedGrahas.js";
 import PositionMapper from "../mappers/PositionMapper.js";
 import PositionValidator from "../validators/PositionValidator.js";
 
+import SiderealConversion from "../calculations/SiderealConversion.js";
+
 class PlanetPositionEngine {
 
     calculate(
@@ -19,11 +21,16 @@ class PlanetPositionEngine {
                 birthContext.hour
             );
 
+        const ayanamsa =
+            SwissEphemerisProvider.getAyanamsa(
+                julianDay
+            );
+
         const planetPositions = [];
 
         for (const graha of SupportedGrahas) {
 
-            // Skip only grahas that do not have a Swiss Ephemeris mapping.
+            // Skip grahas without Swiss Ephemeris mapping.
             if (
                 graha.swissPlanet === null ||
                 graha.swissPlanet === undefined
@@ -37,10 +44,19 @@ class PlanetPositionEngine {
                     graha.swissPlanet
                 );
 
+            const siderealLongitude =
+                SiderealConversion.convert(
+                    swissPosition.longitude,
+                    ayanamsa
+                );
+
             const planetPosition =
                 PositionMapper.map(
                     graha.code,
-                    swissPosition
+                    {
+                        ...swissPosition,
+                        longitude: siderealLongitude
+                    }
                 );
 
             PositionValidator.validate(
