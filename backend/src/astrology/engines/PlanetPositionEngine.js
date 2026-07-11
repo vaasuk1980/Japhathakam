@@ -28,13 +28,12 @@ class PlanetPositionEngine {
 
         const planetPositions = [];
 
+        let rahuPosition = null;
+
         for (const graha of SupportedGrahas) {
 
-            // Skip grahas without Swiss Ephemeris mapping.
-            if (
-                graha.swissPlanet === null ||
-                graha.swissPlanet === undefined
-            ) {
+            // Ketu is derived from Rahu.
+            if (graha.code === "KETU") {
                 continue;
             }
 
@@ -65,6 +64,36 @@ class PlanetPositionEngine {
 
             planetPositions.push(
                 planetPosition
+            );
+
+            if (graha.code === "RAHU") {
+                rahuPosition = planetPosition;
+            }
+
+        }
+
+        if (rahuPosition) {
+
+            const ketuPosition =
+                PositionMapper.map(
+                    "KETU",
+                    {
+                        ...rahuPosition,
+                        longitude:
+                            (rahuPosition.longitude + 180) % 360,
+                        longitudeSpeed:
+                            rahuPosition.longitudeSpeed,
+                        latitude: 0,
+                        latitudeSpeed: 0
+                    }
+                );
+
+            PositionValidator.validate(
+                ketuPosition
+            );
+
+            planetPositions.push(
+                ketuPosition
             );
 
         }
