@@ -8,7 +8,8 @@ class PlanetPosition {
         longitudeSpeed,
         latitudeSpeed,
         distanceSpeed,
-        nakshatra = null
+        nakshatra = null,
+        pada = null
     }) {
 
         this.planet = planet;
@@ -22,6 +23,7 @@ class PlanetPosition {
         this.distanceSpeed = distanceSpeed;
 
         this.nakshatra = nakshatra;
+        this.pada = pada;
 
     }
 

@@ -7,8 +7,10 @@ import PositionValidator from "../validators/PositionValidator.js";
 
 import SiderealConversion from "../calculations/SiderealConversion.js";
 import NakshatraCalculation from "../calculations/NakshatraCalculation.js";
+import PadaCalculation from "../calculations/PadaCalculation.js";
 
 const nakshatraCalculation = new NakshatraCalculation();
+const padaCalculation = new PadaCalculation();
 
 class PlanetPositionEngine {
 
@@ -57,13 +59,20 @@ class PlanetPositionEngine {
                     siderealLongitude
                 );
 
+            const pada =
+                padaCalculation.calculate(
+                    siderealLongitude,
+                    nakshatra
+                );
+
             const planetPosition =
                 PositionMapper.map(
                     graha.code,
                     {
                         ...swissPosition,
                         longitude: siderealLongitude,
-                        nakshatra
+                        nakshatra,
+                        pada
                     }
                 );
 
@@ -91,6 +100,12 @@ class PlanetPositionEngine {
                     ketuLongitude
                 );
 
+            const ketuPada =
+                padaCalculation.calculate(
+                    ketuLongitude,
+                    ketuNakshatra
+                );
+
             const ketuPosition =
                 PositionMapper.map(
                     "KETU",
@@ -101,7 +116,8 @@ class PlanetPositionEngine {
                             rahuPosition.longitudeSpeed,
                         latitude: 0,
                         latitudeSpeed: 0,
-                        nakshatra: ketuNakshatra
+                        nakshatra: ketuNakshatra,
+                        pada: ketuPada
                     }
                 );
 

@@ -4,16 +4,27 @@ import cors from "cors";
 import BirthContext from "./astrology/models/BirthContext.js";
 import PlanetPositionEngine from "./astrology/engines/PlanetPositionEngine.js";
 
+
+
 import NakshatraCalculation from "./astrology/calculations/NakshatraCalculation.js";
+import PadaCalculation from "./astrology/calculations/PadaCalculation.js";
 
-const calculation = new NakshatraCalculation();
+const nakshatraCalculation = new NakshatraCalculation();
+const padaCalculation = new PadaCalculation();
 
-console.log(calculation.calculate(0));
-console.log(calculation.calculate(15));
-console.log(calculation.calculate(40));
-console.log(calculation.calculate(180));
-console.log(calculation.calculate(359.999999));
-console.log(calculation.calculate(360));
+const longitude = 46;
+
+const nakshatra =
+    nakshatraCalculation.calculate(longitude);
+
+const pada =
+    padaCalculation.calculate(
+        longitude,
+        nakshatra
+    );
+
+console.log(nakshatra);
+console.log(pada);
 
 
 
