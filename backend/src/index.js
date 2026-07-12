@@ -1,77 +1,115 @@
 import express from "express";
 import cors from "cors";
 
-import BirthContext from "./astrology/models/BirthContext.js";
+import BirthDetails from "./astrology/models/input/BirthDetails.js";
+
+import BirthContextEngine from "./astrology/engines/BirthContextEngine.js";
+import JanmaLagnaEngine from "./astrology/engines/JanmaLagnaEngine.js";
 import PlanetPositionEngine from "./astrology/engines/PlanetPositionEngine.js";
 
+console.log("\n==============================");
+console.log(" BIRTH CONTEXT ENGINE SMOKE TEST ");
+console.log("==============================");
 
+const birthDetails = new BirthDetails({
 
-import NakshatraCalculation from "./astrology/calculations/NakshatraCalculation.js";
-import PadaCalculation from "./astrology/calculations/PadaCalculation.js";
+    year: 1980,
+    month: 6,
+    day: 15,
 
-const nakshatraCalculation = new NakshatraCalculation();
-const padaCalculation = new PadaCalculation();
+    localHour: 12.5,
 
-const longitude = 46;
+    // Hyderabad (temporary values)
+    latitude: 17.3850,
+    longitude: 78.4867,
+    timezone: 5.5
 
-const nakshatra =
-    nakshatraCalculation.calculate(longitude);
+});
 
-const pada =
-    padaCalculation.calculate(
-        longitude,
-        nakshatra
+const birthContext =
+    BirthContextEngine.create(
+        birthDetails
     );
 
-console.log(nakshatra);
-console.log(pada);
+const enrichedBirthContext =
+    JanmaLagnaEngine.calculate(
+        birthContext
+    );
 
+console.log(
+    enrichedBirthContext
+);
 
+console.log("==============================\n");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-app.get("/api/planet-positions", (req, res) => {
+app.get(
+    "/api/planet-positions",
+    (
+        req,
+        res
+    ) => {
 
-    const birthContext =
-        new BirthContext({
+        try {
 
-            year: 1980,
-            month: 6,
-            day: 15,
+            const birthDetails =
+                new BirthDetails({
 
-            // 12:30 PM
-            hour: 12.5
+                    year: 1980,
+                    month: 6,
+                    day: 15,
 
-        });
+                    localHour: 12.5,
 
-    const planetPositions =
-        PlanetPositionEngine.calculate(
-            birthContext
-        );
+                    // Hyderabad (temporary values)
+                    latitude: 17.3850,
+                    longitude: 78.4867,
+                    timezone: 5.5
 
-    console.log(
-        JSON.stringify(
-            planetPositions,
-            null,
-            4
-        )
-    );
+                });
 
-    res.json(
-        planetPositions
-    );
+            const birthContext =
+                BirthContextEngine.create(
+                    birthDetails
+                );
 
-});
+            const planetPositions =
+                PlanetPositionEngine.calculate(
+                    birthContext
+                );
+
+            res.json(
+                planetPositions
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+            res.status(500).json({
+
+                message: error.message
+
+            });
+
+        }
+
+    }
+);
 
 const PORT = 3000;
 
-app.listen(PORT, () => {
+app.listen(
+    PORT,
+    () => {
 
-    console.log(
-        `Japhathakam Backend started on port ${PORT}`
-    );
+        console.log(
+            `Japhathakam Backend started on port ${PORT}`
+        );
 
-});
+    }
+);

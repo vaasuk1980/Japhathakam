@@ -20,7 +20,8 @@ class PositionMapper {
             distanceSpeed: swissPosition.distanceSpeed,
 
             nakshatra: swissPosition.nakshatra,
-            pada: swissPosition.pada
+            pada: swissPosition.pada,
+            lagna: swissPosition.lagna
 
         });
 

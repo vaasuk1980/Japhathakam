@@ -1,6 +1,11 @@
-import swisseph, { SiderealMode } from "@swisseph/node";
+import swisseph, {
+    SiderealMode,
+    HouseSystem
+} from "@swisseph/node";
 
 import AstronomyConfig from "../../config/AstronomyConfig.js";
+
+import HouseData from "../models/HouseData.js";
 
 class SwissEphemerisProvider {
 
@@ -33,12 +38,14 @@ class SwissEphemerisProvider {
         day,
         hour
     ) {
+
         return swisseph.julianDay(
             year,
             month,
             day,
             hour
         );
+
     }
 
     calculatePosition(
@@ -46,19 +53,60 @@ class SwissEphemerisProvider {
         celestialBody,
         flags
     ) {
+
         return swisseph.calculatePosition(
             julianDayNumber,
             celestialBody,
             flags
         );
+
     }
 
     getAyanamsa(
         julianDayNumber
     ) {
+
         return swisseph.getAyanamsa(
             julianDayNumber
         );
+
+    }
+
+    calculateHouses(
+        julianDayNumber,
+        latitude,
+        longitude,
+        houseSystem = HouseSystem.Placidus
+    ) {
+
+        const houses =
+            swisseph.calculateHouses(
+                julianDayNumber,
+                latitude,
+                longitude,
+                houseSystem
+            );
+
+        return new HouseData(
+
+            houses.cusps,
+
+            houses.ascendant,
+            houses.mc,
+            houses.armc,
+            houses.vertex,
+
+            houses.equatorialAscendant,
+            houses.coAscendant1,
+            houses.coAscendant2,
+            houses.polarAscendant,
+
+            houses.houseSystem,
+
+            AstronomyConfig.ayanamsa
+
+        );
+
     }
 
 }

@@ -8,7 +8,9 @@ import PositionValidator from "../validators/PositionValidator.js";
 import SiderealConversion from "../calculations/SiderealConversion.js";
 import NakshatraCalculation from "../calculations/NakshatraCalculation.js";
 import PadaCalculation from "../calculations/PadaCalculation.js";
+import LagnaCalculation from "../calculations/LagnaCalculation.js";
 
+const lagnaCalculation = new LagnaCalculation();
 const nakshatraCalculation = new NakshatraCalculation();
 const padaCalculation = new PadaCalculation();
 
@@ -54,6 +56,11 @@ class PlanetPositionEngine {
                     ayanamsa
                 );
 
+            const lagna =
+                lagnaCalculation.calculate(
+                    siderealLongitude
+                );
+
             const nakshatra =
                 nakshatraCalculation.calculate(
                     siderealLongitude
@@ -71,6 +78,7 @@ class PlanetPositionEngine {
                     {
                         ...swissPosition,
                         longitude: siderealLongitude,
+                        lagna,
                         nakshatra,
                         pada
                     }
@@ -95,6 +103,11 @@ class PlanetPositionEngine {
             const ketuLongitude =
                 (rahuPosition.longitude + 180) % 360;
 
+            const ketuLagna =
+                lagnaCalculation.calculate(
+                    ketuLongitude
+                );
+
             const ketuNakshatra =
                 nakshatraCalculation.calculate(
                     ketuLongitude
@@ -116,6 +129,7 @@ class PlanetPositionEngine {
                             rahuPosition.longitudeSpeed,
                         latitude: 0,
                         latitudeSpeed: 0,
+                        lagna: ketuLagna,
                         nakshatra: ketuNakshatra,
                         pada: ketuPada
                     }
