@@ -80,12 +80,13 @@ class SwissEphemerisProvider {
     ) {
 
         const houses =
-            swisseph.calculateHouses(
+            swisseph.calculateHousesEx(
                 julianDayNumber,
-                latitude,
-                longitude,
-                houseSystem
-            );
+            swisseph.CalculationFlag.Sidereal,
+            latitude,
+            longitude,
+            houseSystem
+        );
 
         return new HouseData(
 

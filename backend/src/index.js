@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import swisseph from "@swisseph/node";
 
 import BirthDetails from "./astrology/models/input/BirthDetails.js";
 
@@ -7,9 +8,7 @@ import BirthContextEngine from "./astrology/engines/BirthContextEngine.js";
 import JanmaLagnaEngine from "./astrology/engines/JanmaLagnaEngine.js";
 import PlanetPositionEngine from "./astrology/engines/PlanetPositionEngine.js";
 
-console.log("\n==============================");
-console.log(" BIRTH CONTEXT ENGINE SMOKE TEST ");
-console.log("==============================");
+import SwissEphemerisProvider from "./astrology/services/SwissEphemerisProvider.js";
 
 const birthDetails = new BirthDetails({
 
@@ -20,8 +19,8 @@ const birthDetails = new BirthDetails({
     localHour: 12.5,
 
     // Hyderabad (temporary values)
-    latitude: 17.3850,
-    longitude: 78.4867,
+    latitude: 17.383333333,
+    longitude: 78.466666667,
     timezone: 5.5
 
 });
@@ -35,12 +34,6 @@ const enrichedBirthContext =
     JanmaLagnaEngine.calculate(
         birthContext
     );
-
-console.log(
-    enrichedBirthContext
-);
-
-console.log("==============================\n");
 
 const app = express();
 

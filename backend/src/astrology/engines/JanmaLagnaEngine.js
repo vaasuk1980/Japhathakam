@@ -24,15 +24,7 @@ class JanmaLagnaEngine {
                 birthContext.longitude
             );
 
-        /*
-        console.log("\n==============================");
-        console.log(" HOUSE DATA ");
-        console.log("==============================");
-        console.log(houseData);
-        console.log("==============================\n");
-        */
-
-        const lagnaInfo =
+                const lagnaInfo =
             LagnaMapper.map(
                 houseData.ascendant
             );
