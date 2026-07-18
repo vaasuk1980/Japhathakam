@@ -1,5 +1,5 @@
 import SwissEphemerisProvider from "../services/SwissEphemerisProvider.js";
-
+import BirthContext from "../models/BirthContext.js";
 import SupportedGrahas from "../constants/SupportedGrahas.js";
 
 import PositionMapper from "../mappers/PositionMapper.js";
@@ -19,14 +19,15 @@ class PlanetPositionEngine {
     calculate(
         birthContext
     ) {
-
+        if (!(birthContext instanceof BirthContext)) {
+            throw new Error(
+        "BirthContext instance is required."
+    );
+}
         const julianDay =
-            SwissEphemerisProvider.calculateJulianDay(
-                birthContext.year,
-                birthContext.month,
-                birthContext.day,
-                birthContext.hour
-            );
+            birthContext.julianDay;
+
+        
 
         const ayanamsa =
             SwissEphemerisProvider.getAyanamsa(
