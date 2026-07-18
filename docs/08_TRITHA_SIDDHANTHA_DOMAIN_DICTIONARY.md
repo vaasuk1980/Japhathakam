@@ -455,6 +455,50 @@ Domain Layer
 - The current Gochara Lagna may be indicated as an interpretive reference but does not redefine the Karma Chakra or the Sthana arrangement.
 - Used together with the Janma Lagna Kundali for Gochara interpretation.
 
+
+### Japhathakam
+
+#### Definition
+
+> Reserved
+
+#### Classification
+
+Fundamental Vocabulary
+
+#### Owner Layer
+
+Domain Layer
+
+#### Notes
+
+> Reserved
+
+### Japhathakam
+
+#### Definition
+
+Japhathakam is the complete karmic outcome of a native as understood through the interpretation of the Janma Lagna Kundali according to the principles of Tritha Siddhantha.
+
+It represents the native's life characteristics, tendencies, opportunities, challenges, and karmic influences established at birth.
+
+Japhathakam does not change throughout the native's lifetime. Only the understanding and interpretation of the Japhathakam may be refined through analysis.
+
+#### Classification
+
+Fundamental Vocabulary
+
+#### Owner Layer
+
+Domain Layer
+
+#### Notes
+
+- Exists uniquely for every Birth Context.
+- Established at the moment of birth.
+- Understood through the interpretation of the Janma Lagna Kundali.
+- Serves as the foundation for all horoscope interpretation.
+- Independent of presentation, software implementation, and visual representation.
 ---
 
 # 4. Fundamental Principles

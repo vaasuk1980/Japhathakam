@@ -3,7 +3,7 @@ export * from './value-objects';
 export * from './aggregates';
 export * from './services';
 export * from './repositories';
-
+export * from './events';
 export * from './contracts';
 export * from './factories';
 export * from './policies';

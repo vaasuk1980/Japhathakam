@@ -130,6 +130,42 @@ A Lagna represents only its permanent business identity.
 The active Lagna for a particular analysis is determined by the associated Analysis Context. Time-dependent astronomical information does not belong to the Lagna Entity itself.
 
 This separation enables the same Lagna to participate simultaneously in multiple Kundalis (for example, Janma Lagna Kundali and Gochara Kundali) without conflicting state.
+
+### GrahaPlacement
+
+**Reasoning:**
+A GrahaPlacement represents the placement of a specific Graha within a specific Kundali for a particular Analysis Context. It encapsulates the time-dependent domain state associated with that Graha while preserving the permanent business identity of the Graha itself. Therefore, GrahaPlacement is classified as an Entity rather than a Value Object.
+
+**Identity:**
+
+* Immutable business identity within the owning Kundali.
+* Represents the placement of one Graha for one Analysis Context.
+* Exists only as part of a Kundali Aggregate.
+
+**Associated Information:**
+
+* Graha
+* Sthana
+* Longitude
+* Nakshatra
+* Pada
+* Additional analysis-specific attributes introduced in future iterations
+
+**Notes:**
+A GrahaPlacement does not represent a Graha itself. Instead, it represents the state of a Graha for a specific Analysis Context. This separation allows the same Graha to participate simultaneously in multiple Kundalis (for example, Janma Kundali and Gochara Kundali) without conflicting state.
+
+A GrahaPlacement belongs exclusively to its owning Kundali Aggregate and has no independent lifecycle outside that aggregate.
+
+**Architectural Constraint**
+
+A GrahaPlacement represents only the analysis-specific state of a Graha.
+
+The permanent identity of a Graha remains within the Graha Entity. Likewise, the permanent identities of Lagna and Sthana remain within their respective Entities.
+
+Astronomical information such as Longitude, Nakshatra, and Pada belongs to GrahaPlacement because it is specific to a particular Analysis Context and Kundali.
+
+This separation preserves the immutability of the Domain's permanent business concepts while allowing multiple Kundalis to coexist independently with different Graha placements.
+
 ---
 
 ## Value Objects
