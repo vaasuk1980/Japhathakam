@@ -10,4 +10,4 @@ export * from './policies';
 export * from './specifications';
 export * from './exceptions';
 export * from './validation';
-export * from './constants';
+export * from './contracts/constants';
