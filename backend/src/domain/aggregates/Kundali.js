@@ -1,17 +1,32 @@
 export default class Kundali {
-  constructor({
-    birthContext,
-    analysisContext,
-    janmaLagna,
-    gocharaLagna,
-    grahaPlacements = []
-  }) {
-    this.birthContext = birthContext;
-    this.analysisContext = analysisContext;
 
-    this.janmaLagna = janmaLagna;
-    this.gocharaLagna = gocharaLagna;
+    constructor({
 
-    this.grahaPlacements = [...grahaPlacements];
-  }
+        birthContext,
+
+        analysisContext,
+
+        janmaLagna,
+
+        gocharaLagna,
+
+        grahaPlacements = []
+
+    }) {
+
+        this.birthContext = birthContext;
+
+        this.analysisContext = analysisContext;
+
+        this.janmaLagna = janmaLagna;
+
+        this.gocharaLagna = gocharaLagna;
+
+        this.grahaPlacements =
+            Object.freeze([...grahaPlacements]);
+
+        Object.freeze(this);
+
+    }
+
 }

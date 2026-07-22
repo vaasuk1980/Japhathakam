@@ -1,22 +1,40 @@
-import IUseCase from '../contracts/IUseCase.js';
-import GenerateKundaliResponse from '../responses/GenerateKundaliResponse.js';
+import IUseCase from "../contracts/IUseCase.js";
+import GenerateKundaliResponse from "../responses/GenerateKundaliResponse.js";
 
 export default class GenerateKundaliUseCase extends IUseCase {
 
     constructor({
-        astronomyProvider,
-        japhathakamService,
+        kundaliBuilder,
+        kundaliAssembler,
         kundaliRepository
     }) {
+
         super();
 
-        this.astronomyProvider = astronomyProvider;
-        this.japhathakamService = japhathakamService;
+        this.kundaliBuilder = kundaliBuilder;
+        this.kundaliAssembler = kundaliAssembler;
         this.kundaliRepository = kundaliRepository;
+
     }
 
-    execute(request) {
-        throw new Error('Not implemented.');
+    async execute(request) {
+
+        const domainKundali =
+            this.kundaliBuilder.build(request);
+
+        const kundali =
+            this.kundaliAssembler.assemble(domainKundali);
+
+        if (this.kundaliRepository) {
+
+            await this.kundaliRepository.save(domainKundali);
+
+        }
+
+        return new GenerateKundaliResponse({
+            kundali
+        });
+
     }
 
 }

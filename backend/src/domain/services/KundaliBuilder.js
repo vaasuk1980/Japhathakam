@@ -1,27 +1,67 @@
-/**
- * Domain Service responsible for constructing
- * a complete Janma Lagna Kundali.
- *
- * Responsibilities:
- * - Coordinate Domain Engines
- * - Assemble the Kundali Aggregate
- *
- * It does NOT:
- * - Perform astronomical calculations
- * - Interpret the Kundali
- * - Calculate Dasacharam
- * - Produce Japhathakam
- */
-export default class KundaliBuilder {
+import BirthContextEngine from "../../astrology/engines/BirthContextEngine.js";
+import PlanetPositionEngine from "../../astrology/engines/PlanetPositionEngine.js";
+import JanmaLagnaEngine from "../../astrology/engines/JanmaLagnaEngine.js";
+import SthanaEngine from "../../astrology/engines/SthanaEngine.js";
 
-    /**
-     * Constructs a complete Janma Lagna Kundali.
-     *
-     * @param {BirthContext} birthContext
-     * @returns {Kundali}
-     */
-    build(birthContext) {
-        throw new Error("Method 'build()' must be implemented.");
+import GrahaPlacement from "../entities/GrahaPlacement.js";
+import KundaliFactory from "../factories/KundaliFactory.js";
+
+class KundaliBuilder {
+
+    build(request) {
+
+        const birthContext =
+            BirthContextEngine.create(
+                request.birthDetails
+            );
+
+        const enrichedBirthContext =
+            JanmaLagnaEngine.calculate(
+                birthContext
+            );
+
+        const planetPositions =
+            PlanetPositionEngine.calculate(
+                enrichedBirthContext
+            );
+
+        const grahaPlacements =
+            planetPositions.map((planetPosition) => {
+
+                const sthana =
+                    SthanaEngine.calculate(
+                        planetPosition.lagna,
+                        enrichedBirthContext.janmaLagna
+                    );
+
+                return new GrahaPlacement({
+
+                    graha: planetPosition.planet,
+
+                    sthana,
+
+                    longitude: planetPosition.longitude,
+
+                    nakshatra: planetPosition.nakshatra,
+
+                    pada: planetPosition.pada
+
+                });
+
+            });
+
+        return KundaliFactory.create({
+
+            birthContext: enrichedBirthContext,
+
+            janmaLagna: enrichedBirthContext.janmaLagna,
+
+            grahaPlacements
+
+        });
+
     }
 
 }
+
+export default new KundaliBuilder();

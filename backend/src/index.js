@@ -1,98 +1,38 @@
 import express from "express";
 import cors from "cors";
-import swisseph from "@swisseph/node";
 
-import BirthDetails from "./astrology/models/input/BirthDetails.js";
-
-import BirthContextEngine from "./astrology/engines/BirthContextEngine.js";
-import JanmaLagnaEngine from "./astrology/engines/JanmaLagnaEngine.js";
-import PlanetPositionEngine from "./astrology/engines/PlanetPositionEngine.js";
-
-import SwissEphemerisProvider from "./astrology/services/SwissEphemerisProvider.js";
-
-const birthDetails = new BirthDetails({
-
-    year: 1980,
-    month: 6,
-    day: 15,
-
-    localHour: 12.5,
-
-    // Hyderabad (temporary values)
-    latitude: 17.383333333,
-    longitude: 78.466666667,
-    timezone: 5.5
-
-});
-
-const birthContext =
-    BirthContextEngine.create(
-        birthDetails
-    );
-
-const enrichedBirthContext =
-    JanmaLagnaEngine.calculate(
-        birthContext
-    );
+import bootstrap from "./config/bootstrap.js";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-app.get(
-    "/api/planet-positions",
-    (
-        req,
-        res
-    ) => {
+// Register application routes
+bootstrap(app);
 
-        try {
+/*
+|--------------------------------------------------------------------------
+| Error Handler
+|--------------------------------------------------------------------------
+|
+| Logs all application errors and returns a JSON response.
+|
+*/
 
-            const birthDetails =
-                new BirthDetails({
+app.use((error, req, res, next) => {
 
-                    year: 1980,
-                    month: 6,
-                    day: 15,
+    console.error("========================================");
+    console.error("UNHANDLED APPLICATION ERROR");
+    console.error("========================================");
+    console.error(error);
+    console.error("========================================");
 
-                    localHour: 12.5,
+    res.status(500).json({
+        message: error.message
+    });
 
-                    // Hyderabad (temporary values)
-                    latitude: 17.3850,
-                    longitude: 78.4867,
-                    timezone: 5.5
-
-                });
-
-            const birthContext =
-                BirthContextEngine.create(
-                    birthDetails
-                );
-
-            const planetPositions =
-                PlanetPositionEngine.calculate(
-                    birthContext
-                );
-
-            res.json(
-                planetPositions
-            );
-
-        } catch (error) {
-
-            console.error(error);
-
-            res.status(500).json({
-
-                message: error.message
-
-            });
-
-        }
-
-    }
-);
+});
 
 const PORT = 3000;
 

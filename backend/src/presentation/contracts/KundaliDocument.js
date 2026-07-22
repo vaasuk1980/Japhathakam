@@ -5,18 +5,35 @@
  * ------------------------------------------------------------
  * Contract    : KundaliDocument
  * Layer       : Presentation
+ *
  * Responsibility:
- *   Represents one complete immutable horoscope document.
+ *   Root presentation document returned to the UI.
  *
  * Notes:
- *   - Contains presentation contracts only.
+ *   - Immutable.
+ *   - Presentation only.
  *   - No business logic.
- *   - No astronomy.
- *   - No rendering.
- *   - No calculations.
  * ============================================================
  */
 
-class KundaliDocument {}
+class KundaliDocument {
 
-export default Object.freeze(KundaliDocument);
+    constructor({
+
+        janmaChart,
+
+        gocharaChart = null
+
+    }) {
+
+        this.janmaChart = janmaChart;
+
+        this.gocharaChart = gocharaChart;
+
+        Object.freeze(this);
+
+    }
+
+}
+
+export default KundaliDocument;

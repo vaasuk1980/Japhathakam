@@ -1,5 +1,9 @@
 import SthanaCalculation from "../calculations/SthanaCalculation.js";
 
+import LagnaRegistry from "../constants/LagnaRegistry.js";
+
+import Sthana from "../../domain/entities/Sthana.js";
+
 class SthanaEngine {
 
     constructor() {
@@ -26,10 +30,24 @@ class SthanaEngine {
             );
         }
 
-        return this.sthanaCalculation.calculate(
-            planetLagna.sequence,
-            janmaLagna.sequence
-        );
+        const sthanaNumber =
+            this.sthanaCalculation.calculate(
+                planetLagna.sequence,
+                janmaLagna.lagna.sequence
+            );
+
+        const lagna =
+            LagnaRegistry[
+                (janmaLagna.lagna.sequence + sthanaNumber - 2) % 12
+            ];
+
+        return new Sthana({
+
+            number: sthanaNumber,
+
+            lagna
+
+        });
 
     }
 

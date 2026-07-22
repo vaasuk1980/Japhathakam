@@ -1,13 +1,21 @@
-import IRequest from '../contracts/IRequest.js';
+import IRequest from "../contracts/IRequest.js";
 
-/**
- * Application Request
- * Used by Presentation to request Kundali generation.
- */
+import BirthDetailsRequestMapper
+    from "../mappers/BirthDetailsRequestMapper.js";
+
 export default class GenerateKundaliRequest extends IRequest {
-    constructor(birthContext) {
+
+    constructor({
+        birthDetails
+    }) {
+
         super();
 
-        this.birthContext = birthContext;
+        this.birthDetails =
+            BirthDetailsRequestMapper.map(
+                birthDetails
+            );
+
     }
+
 }
