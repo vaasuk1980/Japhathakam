@@ -1,0 +1,73 @@
+/**
+ * ============================================================
+ * JAPHATHAKAM
+ * Kundali Chart Styles
+ * ------------------------------------------------------------
+ * Layer : Presentation
+ *
+ * Responsibility:
+ *   Styles the traditional South Indian Kundali layout.
+ *
+ * Notes:
+ *   - Presentation only.
+ *   - No astrology logic.
+ *   - Shared by Janma and Gochara Kundali.
+ * ============================================================
+ */
+
+.kundali-chart {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+
+    width: min(700px, 100%);
+    aspect-ratio: 1 / 1;
+
+    margin: 24px auto;
+
+    border: 2px solid #444;
+    background-color: #ffffff;
+}
+
+.kundali-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    padding: 10px;
+
+    border: 1px solid #999;
+    box-sizing: border-box;
+
+    background-color: #ffffff;
+}
+
+.kundali-center {
+    background: transparent;
+    border: none;
+}
+
+.sthana-number {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.janma-lagna-marker {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+.graha-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+.graha-badge {
+    font-size: 14px;
+    line-height: 1.2;
+}
