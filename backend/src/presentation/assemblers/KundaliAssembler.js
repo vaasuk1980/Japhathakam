@@ -44,8 +44,10 @@ class KundaliAssembler {
 
                 sthana: i,
 
-                isJanmaLagna:
-                    kundali.janmaLagna?.signIndex + 1 === i,
+                // Grahas are placed via a Sthana that is already
+                // relative to the Lagna (see SthanaCalculation),
+                // so the Lagna's own house is always Sthana 1.
+                isJanmaLagna: i === 1,
 
                 grahas: []
 
@@ -113,6 +115,34 @@ class KundaliAssembler {
             );
 
         // -----------------------------------------
+        // Lagna
+        // -----------------------------------------
+
+        const lagna =
+            kundali.janmaLagna &&
+            new DisplayGraha({
+
+                id: "LAGNA",
+                code: "LAGNA",
+
+                name: "LAGNA",
+                displayName:
+                    GrahaDisplayMapper.getDisplayName("LAGNA"),
+
+                longitude: kundali.janmaLagna.longitude,
+
+                formattedLongitude:
+                    LongitudeFormatter.format(
+                        kundali.janmaLagna.longitude
+                    ),
+
+                nakshatra: kundali.janmaLagna.nakshatra,
+
+                pada: kundali.janmaLagna.pada?.number
+
+            });
+
+        // -----------------------------------------
         // Chart
         // -----------------------------------------
 
@@ -120,7 +150,9 @@ class KundaliAssembler {
 
             new KundaliChart({
 
-                cells: kundaliCells
+                cells: kundaliCells,
+
+                lagna: lagna || null
 
             });
 

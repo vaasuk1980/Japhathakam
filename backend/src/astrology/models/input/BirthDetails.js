@@ -8,6 +8,7 @@ class BirthDetails {
 
         localHour,
 
+        placeName,
         latitude,
         longitude,
         timezone
@@ -20,6 +21,7 @@ class BirthDetails {
 
         this.localHour = localHour;
 
+        this.placeName = placeName;
         this.latitude = latitude;
         this.longitude = longitude;
         this.timezone = timezone;

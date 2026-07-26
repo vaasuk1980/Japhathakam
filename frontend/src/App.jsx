@@ -13,6 +13,7 @@ import Settings from "./pages/Settings/Settings";
 import ComponentShowcase from "./pages/ComponentShowcase/ComponentShowcase";
 import FormPlayground from "./pages/FormPlayground/FormPlayground";
 import TestSwissEphemeris from "./pages/TestSwissEphemeris";
+import SitaraJatakam from "./pages/SitaraJatakam/SitaraJatakam";
 
 function App() {
     return (
@@ -27,6 +28,7 @@ function App() {
                     <Route path="/panchangam" element={<Panchangam />} />
                     <Route path="/muhurtham" element={<Muhurtham />} />
                     <Route path="/reports" element={<Reports />} />
+                    <Route path="/sitara-jatakam" element={<SitaraJatakam />} />
                     <Route path="/component-showcase" element={<ComponentShowcase />} />
                     <Route path="/playground" element={<FormPlayground />} />
 

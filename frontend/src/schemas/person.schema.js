@@ -62,6 +62,9 @@ const personSchema = {
                     type: "date",
 
                     required: true,
+
+                    min: "1800-01-01",
+                    max: new Date().toISOString().slice(0, 10),
                 },
 
                 {
@@ -89,10 +92,50 @@ const personSchema = {
                 {
                     id: "placeOfBirth",
                     label: "Place of Birth",
-                    type: "text",
+                    type: "place",
                     placeholder: "Enter place of birth",
+                    helperText: "Start typing to select a known city and autofill coordinates.",
 
                     required: true,
+                },
+                {
+                    id: "latitude",
+                    label: "Latitude",
+                    type: "number",
+                    placeholder: "Enter latitude",
+                    helperText: "Decimal degrees, e.g. 14.4426",
+
+                    required: true,
+                    min: -90,
+                    max: 90,
+                    step: 0.0001,
+                    readOnly: true,
+                },
+                {
+                    id: "longitude",
+                    label: "Longitude",
+                    type: "number",
+                    placeholder: "Enter longitude",
+                    helperText: "Decimal degrees, e.g. 79.9860",
+
+                    required: true,
+                    min: -180,
+                    max: 180,
+                    step: 0.0001,
+                    readOnly: true,
+                },
+                {
+                    id: "timezone",
+                    label: "Time Zone Offset",
+                    type: "number",
+                    placeholder: "Enter timezone offset",
+                    helperText: "UTC offset in hours, e.g. 5.5 for IST",
+
+                    required: true,
+                    min: -12,
+                    max: 14,
+                    step: 0.25,
+                    readOnly: true,
                 },
             ],
         },

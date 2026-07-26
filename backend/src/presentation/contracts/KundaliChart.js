@@ -15,7 +15,8 @@ class KundaliChart {
 
     constructor({
 
-        cells = []
+        cells = [],
+        lagna = null
 
     }) {
 
@@ -37,6 +38,8 @@ class KundaliChart {
 
         this.cells =
             Object.freeze([...cells]);
+
+        this.lagna = lagna;
 
         Object.freeze(this);
 

@@ -3,11 +3,11 @@
  * JAPHATHAKAM
  * Presentation Contract
  * ------------------------------------------------------------
- * Contract    : DisplaySthana
+ * Contract    : DisplayGraha
  * Layer       : Presentation
  *
  * Responsibility:
- *   Represents one Sthana exactly as it should appear in the UI.
+ *   Represents one Graha exactly as it should appear in the UI.
  *
  * Notes:
  *   - Presentation model only.
@@ -17,17 +17,33 @@
  * ============================================================
  */
 
-class DisplaySthana {
+class DisplayGraha {
 
     constructor({
-        sthanaNumber,
-        isJanmaLagna,
-        grahas
+
+        id,
+        code,
+        name,
+        displayName,
+
+        longitude,
+        formattedLongitude,
+
+        nakshatra,
+        pada
+
     }) {
 
-        this.sthanaNumber = sthanaNumber;
-        this.isJanmaLagna = isJanmaLagna;
-        this.grahas = grahas;
+        this.id = id;
+        this.code = code;
+        this.name = name;
+        this.displayName = displayName;
+
+        this.longitude = longitude;
+        this.formattedLongitude = formattedLongitude;
+
+        this.nakshatra = nakshatra;
+        this.pada = pada;
 
         Object.freeze(this);
 
@@ -35,4 +51,4 @@ class DisplaySthana {
 
 }
 
-export default DisplaySthana;
+export default DisplayGraha;

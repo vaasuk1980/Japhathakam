@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router } from 'express';
 
 export default function GenerateKundaliRoute({
     generateKundaliController
@@ -7,9 +7,10 @@ export default function GenerateKundaliRoute({
     const router = Router();
 
     router.post(
-        "/",
-        generateKundaliController.execute.bind(generateKundaliController)
+    '/',
+    generateKundaliController.execute.bind(generateKundaliController)
     );
 
     return router;
+
 }

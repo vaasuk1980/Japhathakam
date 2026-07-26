@@ -5,6 +5,12 @@ import JanmaLagna from "../models/JanmaLagna.js";
 
 import LagnaMapper from "../mappers/LagnaMapper.js";
 
+import NakshatraCalculation from "../calculations/NakshatraCalculation.js";
+import PadaCalculation from "../calculations/PadaCalculation.js";
+
+const nakshatraCalculation = new NakshatraCalculation();
+const padaCalculation = new PadaCalculation();
+
 class JanmaLagnaEngine {
 
     calculate(
@@ -29,6 +35,17 @@ class JanmaLagnaEngine {
                 houseData.ascendant
             );
 
+        const nakshatra =
+            nakshatraCalculation.calculate(
+                houseData.ascendant
+            );
+
+        const pada =
+            padaCalculation.calculate(
+                houseData.ascendant,
+                nakshatra
+            );
+
         const janmaLagna =
             new JanmaLagna(
 
@@ -38,7 +55,11 @@ class JanmaLagnaEngine {
 
                 lagnaInfo.signIndex,
 
-                lagnaInfo.degreesInLagna
+                lagnaInfo.degreesInLagna,
+
+                nakshatra,
+
+                pada
 
             );
 

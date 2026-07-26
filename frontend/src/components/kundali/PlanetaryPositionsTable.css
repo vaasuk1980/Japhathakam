@@ -1,0 +1,65 @@
+/* ==========================================================
+   Planetary Positions Table
+   ----------------------------------------------------------
+   Same table format as the Graha Sthiti table on the Sitara
+   Jatakam reference page, styled with the shared Japhathakam
+   design tokens.
+   ========================================================== */
+
+.pp-table-section {
+    margin: var(--spacing-lg) 0;
+}
+
+.pp-table-title {
+    margin: 0 0 var(--spacing-md);
+
+    font-family: var(--font-family);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-text-primary);
+}
+
+.pp-table-scroll {
+    overflow-x: auto;
+
+    background: var(--jp-color-surface);
+    border: 1px solid var(--jp-color-border);
+    border-radius: var(--radius-lg);
+}
+
+.pp-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    font-size: 14px;
+}
+
+.pp-table th {
+    padding: 10px 12px;
+
+    border-bottom: 2px solid var(--jp-color-primary);
+
+    font-family: var(--font-family);
+    font-size: 12px;
+    font-weight: var(--font-semibold);
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--jp-color-primary);
+}
+
+.pp-table td {
+    padding: 11px 12px;
+
+    border-bottom: 1px solid var(--jp-color-border);
+
+    color: var(--jp-color-text-primary);
+}
+
+.pp-table tr:last-child td {
+    border-bottom: none;
+}
+
+.pp-table tr:hover td {
+    background: var(--jp-color-background);
+}

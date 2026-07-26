@@ -4,6 +4,7 @@ import NumberInput from "../NumberInput";
 import DateInput from "../DateInput";
 import TimeInput from "../TimeInput";
 import Select from "../Select";
+import PlaceAutocomplete from "../PlaceAutocomplete/PlaceAutocomplete";
 
 const controlRegistry = {
     text: TextInput,
@@ -12,6 +13,7 @@ const controlRegistry = {
     date: DateInput,
     time: TimeInput,
     select: Select,
+    place: PlaceAutocomplete,
 };
 
 export default controlRegistry;

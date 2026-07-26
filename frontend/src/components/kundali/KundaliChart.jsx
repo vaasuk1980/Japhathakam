@@ -2,8 +2,17 @@ import "./KundaliChart.css";
 
 import KundaliCell from "./KundaliCell";
 
-function KundaliChart({ chart }) {
+// Which outer edge of the chart each fixed grid cell sits on —
+// used to place its sign/lord label outside the grid, along
+// the matching border, like the paper Kundali layout.
+const EDGE_BY_STHANA = {
+    12: "top", 1: "top", 2: "top", 3: "top",
+    9: "bottom", 8: "bottom", 7: "bottom", 6: "bottom",
+    11: "left", 10: "left",
+    4: "right", 5: "right"
+};
 
+function KundaliChart({ chart }) {
     if (!chart || !chart.cells) {
         return null;
     }
@@ -37,6 +46,7 @@ function KundaliChart({ chart }) {
                     <KundaliCell
                         key={sthanaNumber}
                         cell={cellMap.get(sthanaNumber)}
+                        edge={EDGE_BY_STHANA[sthanaNumber]}
                     />
                 );
 

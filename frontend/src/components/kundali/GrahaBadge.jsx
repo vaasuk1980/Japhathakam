@@ -5,9 +5,9 @@ function GrahaBadge({ graha }) {
     }
 
     return (
-        <div className="graha-badge">
+        <span className="graha-symbol" title={graha.name}>
             {graha.displayName}
-        </div>
+        </span>
     );
 
 }

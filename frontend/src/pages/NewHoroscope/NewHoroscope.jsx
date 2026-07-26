@@ -7,6 +7,8 @@ import GenerateKundaliService from "../../services/GenerateKundaliService";
 
 import KundaliWorkspace from "../../components/kundali/KundaliWorkspace";
 
+import KundaliRenderEngine from "../../kundali/engines/KundaliRenderEngine";
+
 function NewHoroscope() {
 
     const [requestState, setRequestState] = useState({
@@ -31,17 +33,38 @@ function NewHoroscope() {
             const response =
                 await GenerateKundaliService.generate(values);
 
-            console.log("Kundali Document");
-            console.log(response.kundali);
+            const kundaliDocument = response.kundali;
+
+            console.log("================================");
+            console.log("KUNDALI DOCUMENT");
+            console.log(kundaliDocument);
+
+            console.log("================================");
+            console.log("FIRST CELL");
+            console.log(kundaliDocument.janmaChart.cells[0]);
+
+            console.log("================================");
+            console.log("FIRST GRAHA");
+            console.log(kundaliDocument.janmaChart.cells[0].grahas[0]);
+
+            const renderLayout =
+                KundaliRenderEngine.render(kundaliDocument);
+
+            console.log("================================");
+            console.log("RENDER LAYOUT");
+            console.log(renderLayout);
 
             setRequestState({
                 status: "success",
-                document: response.kundali,
+                document: renderLayout,
                 error: null
             });
 
         }
         catch (error) {
+
+            console.error("Kundali Generation Error");
+            console.error(error);
 
             setRequestState({
                 status: "error",
@@ -83,7 +106,7 @@ function NewHoroscope() {
             {requestState.status === "success" && (
 
                 <KundaliWorkspace
-                    kundaliDocument={requestState.document}
+                    renderLayout={requestState.document}
                 />
 
             )}

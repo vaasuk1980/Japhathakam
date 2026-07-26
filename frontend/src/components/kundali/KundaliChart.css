@@ -23,7 +23,7 @@
     width: min(700px, 100%);
     aspect-ratio: 1 / 1;
 
-    margin: 24px auto;
+    margin: 40px 110px;
 
     border: 2px solid #444;
     background-color: #ffffff;
@@ -34,12 +34,15 @@
     flex-direction: column;
     align-items: flex-start;
 
+    position: relative;
+
     padding: 10px;
 
     border: 1px solid #999;
     box-sizing: border-box;
 
     background-color: #ffffff;
+    gap: 6px;
 }
 
 .kundali-center {
@@ -50,24 +53,127 @@
 .sthana-number {
     font-size: 14px;
     font-weight: 700;
-    margin-bottom: 6px;
+    margin-bottom: 2px;
+}
+
+/* Sign (+ lord) label, positioned outside the cell's own
+   border, along whichever outer edge the cell sits on. All four
+   variants use the SAME --rasi-label-gap for an identical ~3px
+   visual gap between the rendered glyphs and the border line.
+   For --left/--right: the rotate(180deg) used to orient the
+   vertical text flips which physical padding side faces the
+   border — the gap-facing side is padding-left for --left and
+   padding-right for --right (the reverse of what you'd expect
+   from the unrotated box), confirmed by direct glyph-bounds
+   measurement. Don't "fix" this back to the intuitive side. */
+.rasi-label {
+    position: absolute;
+
+    --rasi-label-gap: 6px;
+
+    font-size: 11px;
+    font-weight: 600;
+    color: #555;
+    white-space: nowrap;
+}
+
+.rasi-label__lord {
+    font-weight: 500;
+    color: #888;
+}
+
+.rasi-label--top {
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-bottom: var(--rasi-label-gap);
+}
+
+.rasi-label--bottom {
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-top: var(--rasi-label-gap);
+}
+
+.rasi-label--left {
+    right: 100%;
+    top: 50%;
+    padding-left: var(--rasi-label-gap);
+    writing-mode: vertical-rl;
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.rasi-label--right {
+    left: 100%;
+    top: 50%;
+    padding-right: var(--rasi-label-gap);
+    writing-mode: vertical-rl;
+    transform: translateY(-50%) rotate(180deg);
 }
 
 .janma-lagna-marker {
     font-size: 18px;
     font-weight: 700;
     line-height: 1;
-    margin-bottom: 10px;
 }
 
-.graha-list {
+.kundali-cell--lagna {
+    background-color: #fde2e2;
+}
+
+.region-container {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 8px;
     width: 100%;
 }
 
-.graha-badge {
+.region-view {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+}
+
+.graha-symbol {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.astronomical-places-panel {
+    margin: 16px 0 20px;
+    padding: 12px 14px;
+    border: 1px solid #d8d8d8;
+    border-radius: 8px;
+    background: #f7f7f7;
+}
+
+.astronomical-places-panel h3 {
+    margin: 0 0 8px;
     font-size: 14px;
-    line-height: 1.2;
+    font-weight: 700;
+    color: #333;
+}
+
+.astronomical-places-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.astronomical-place-item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    font-size: 13px;
+}
+
+.astronomical-place-item__name {
+    font-weight: 700;
+}
+
+.astronomical-place-item__meta {
+    color: #5b5b5b;
 }

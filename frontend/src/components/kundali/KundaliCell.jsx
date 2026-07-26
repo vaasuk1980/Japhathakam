@@ -1,34 +1,55 @@
-import GrahaBadge from "./GrahaBadge";
+import RegionView from "./RegionView";
 
-function KundaliCell({ cell }) {
+function KundaliCell({ cell, edge }) {
 
     if (!cell) {
         return <div className="kundali-cell" />;
     }
 
+    const cellClassName =
+        "kundali-cell" +
+        (cell.isJanmaLagna ? " kundali-cell--lagna" : "");
+
     return (
-        <div className="kundali-cell">
 
-            <div className="sthana-number">
-                {cell.sthana}
-            </div>
+        <div className={cellClassName}>
 
-            {cell.isJanmaLagna && (
-                <div className="janma-lagna-marker">
-                    //
+            {cell.rasi && (
+                <div className={`rasi-label rasi-label--${edge}`}>
+                    {cell.rasi}
+                    {cell.lord && (
+                        <span className="rasi-label__lord"> ({cell.lord})</span>
+                    )}
                 </div>
             )}
 
-            <div className="graha-list">
-                {cell.grahas.map((graha) => (
-                    <GrahaBadge
-                        key={graha.id}
-                        graha={graha}
+            <div className="sthana-number">
+                {cell.houseNumber ?? cell.sthana}
+            </div>
+
+            {cell.isJanmaLagna && (
+
+                <div className="janma-lagna-marker">
+                    //
+                </div>
+
+            )}
+
+            <div className="region-container">
+
+                {cell.regions.map((region, index) => (
+
+                    <RegionView
+                        key={index}
+                        region={region}
                     />
+
                 ))}
+
             </div>
 
         </div>
+
     );
 
 }

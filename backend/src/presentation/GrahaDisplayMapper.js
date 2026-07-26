@@ -20,6 +20,8 @@ class GrahaDisplayMapper {
 
     static #DISPLAY_NAMES = Object.freeze({
 
+        LAGNA: "ల",
+
         SUN: "ర",
         MOON: "చం",
         MARS: "కు",

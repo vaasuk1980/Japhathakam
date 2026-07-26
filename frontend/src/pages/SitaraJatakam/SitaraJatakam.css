@@ -1,0 +1,497 @@
+/* ==========================================================
+   SITARA JATAKAM — Reference Page
+   Styled entirely with the shared Japhathakam design tokens
+   (see src/styles/variables.css) — no page-specific palette.
+   ========================================================== */
+
+.sj-page {
+    display: flex;
+    flex-direction: column;
+
+    max-width: var(--content-max-width);
+}
+
+/* ---------- hero ---------- */
+
+.sj-hero {
+    padding-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+
+    border-bottom: 1px solid var(--jp-color-border);
+}
+
+.sj-hero-title {
+    margin-bottom: var(--spacing-xs);
+
+    color: var(--jp-color-text-primary);
+}
+
+.sj-hero-subtitle {
+    margin-bottom: var(--spacing-md);
+
+    color: var(--jp-color-text-secondary);
+}
+
+.sj-fact-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.sj-pill {
+    padding: 6px 14px;
+
+    background: var(--jp-color-surface);
+    border: 1px solid var(--jp-color-border);
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-sm);
+
+    font-family: var(--font-family);
+    font-size: var(--font-size-sm);
+    color: var(--jp-color-text-primary);
+}
+
+.sj-pill b {
+    color: var(--jp-color-primary);
+    font-weight: var(--font-semibold);
+}
+
+/* ---------- section shell ---------- */
+
+.sj-section {
+    margin-bottom: var(--spacing-lg);
+}
+
+.sj-lede {
+    max-width: 640px;
+    margin-bottom: var(--spacing-md);
+
+    color: var(--jp-color-text-secondary);
+}
+
+/* ---------- panchanga grid ---------- */
+
+.sj-panchanga-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1px;
+
+    background: var(--jp-color-border);
+    border: 1px solid var(--jp-color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.sj-panchanga-cell {
+    padding: var(--spacing-md);
+
+    background: var(--jp-color-surface);
+}
+
+.sj-cell-label {
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--jp-color-text-muted);
+}
+
+.sj-cell-value {
+    margin-top: 6px;
+
+    font-size: var(--font-size-md);
+    font-weight: var(--font-medium);
+    color: var(--jp-color-text-primary);
+}
+
+/* ---------- chart ---------- */
+
+.sj-chart-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 380px) 1fr;
+    gap: var(--spacing-lg);
+    align-items: start;
+}
+
+@media (max-width: 760px) {
+    .sj-chart-shell {
+        grid-template-columns: 1fr;
+    }
+}
+
+.sj-rasi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    aspect-ratio: 1 / 1;
+
+    background: var(--jp-color-surface);
+    border: 1.5px solid var(--jp-color-primary);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.sj-rasi-cell {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding: 6px;
+    position: relative;
+
+    border: 0.5px solid var(--jp-color-border);
+
+    transition: background var(--transition-fast);
+}
+
+.sj-rasi-cell:hover {
+    background: rgba(37, 99, 235, 0.05);
+}
+
+.sj-active-cell {
+    background: rgba(37, 99, 235, 0.08);
+}
+
+.sj-sign {
+    font-size: 12px;
+    color: var(--jp-color-text-secondary);
+}
+
+.sj-sign-en {
+    font-size: 9px;
+    opacity: 0.7;
+}
+
+.sj-lagna-tag {
+    position: absolute;
+    top: 4px;
+    right: 5px;
+
+    padding: 1px 3px;
+
+    border: 1px solid var(--jp-color-danger);
+    border-radius: 3px;
+
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--jp-color-danger);
+}
+
+.sj-planet-chips {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 3px;
+}
+
+.sj-chip {
+    padding: 2px 6px;
+
+    background: var(--jp-color-surface);
+    border: 1px solid var(--jp-color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+
+    font-family: var(--font-family);
+    font-size: 11px;
+    color: var(--jp-color-text-primary);
+
+    transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.sj-chip:hover {
+    border-color: var(--jp-color-primary);
+    color: var(--jp-color-primary);
+}
+
+.sj-chip-active,
+.sj-chip-active:hover {
+    background: var(--jp-color-primary);
+    border-color: var(--jp-color-primary);
+    color: var(--jp-color-text-on-primary);
+}
+
+.sj-center-box {
+    grid-column: 2 / 4;
+    grid-row: 2 / 4;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--jp-color-background);
+    border: 0.5px solid var(--jp-color-border);
+}
+
+.sj-center-title {
+    font-size: 15px;
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-primary);
+}
+
+.sj-center-sub {
+    margin-top: 4px;
+
+    font-size: 10px;
+    color: var(--jp-color-text-muted);
+}
+
+.sj-planet-detail {
+    min-height: 220px;
+    padding: 20px 22px;
+
+    background: var(--jp-color-surface);
+    border: 1px solid var(--jp-color-border);
+    border-radius: var(--radius-lg);
+}
+
+.sj-detail-title {
+    margin: 0 0 4px;
+
+    font-family: var(--font-family);
+    font-size: 20px;
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-primary);
+}
+
+.sj-detail-en {
+    font-size: 14px;
+    font-weight: var(--font-normal);
+    color: var(--jp-color-text-secondary);
+}
+
+.sj-detail-row {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 7px 0;
+
+    border-bottom: 1px dashed var(--jp-color-border);
+
+    font-size: 14px;
+}
+
+.sj-detail-row span:first-child {
+    color: var(--jp-color-text-secondary);
+}
+
+.sj-detail-placeholder {
+    font-size: 14px;
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--jp-color-text-muted);
+}
+
+/* ---------- table ---------- */
+
+.sj-table-scroll {
+    overflow-x: auto;
+}
+
+.sj-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    font-size: 14px;
+}
+
+.sj-table th {
+    padding: 10px 12px;
+
+    border-bottom: 2px solid var(--jp-color-primary);
+
+    font-family: var(--font-family);
+    font-size: 12px;
+    font-weight: var(--font-semibold);
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--jp-color-primary);
+}
+
+.sj-table td {
+    padding: 11px 12px;
+
+    border-bottom: 1px solid var(--jp-color-border);
+
+    color: var(--jp-color-text-primary);
+}
+
+.sj-table tr:hover td {
+    background: var(--jp-color-background);
+}
+
+.sj-row-lagna td {
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-danger);
+}
+
+/* ---------- dasha ---------- */
+
+.sj-dasha-now {
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-lg);
+
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.06), transparent);
+    border: 1px solid var(--jp-color-primary);
+    border-radius: var(--radius-lg);
+}
+
+.sj-dasha-tag {
+    font-size: 11px;
+    font-weight: var(--font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--jp-color-primary);
+}
+
+.sj-dasha-title {
+    margin: 8px 0 4px;
+
+    font-family: var(--font-family);
+    font-size: 24px;
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-text-primary);
+}
+
+.sj-dasha-range {
+    margin-bottom: var(--spacing-md);
+
+    font-size: 13px;
+    color: var(--jp-color-text-secondary);
+}
+
+.sj-progress {
+    height: 8px;
+
+    background: var(--jp-color-border);
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+}
+
+.sj-progress > div {
+    height: 100%;
+
+    background: var(--jp-color-primary);
+    border-radius: var(--radius-pill);
+}
+
+.sj-progress-labels {
+    display: flex;
+    justify-content: space-between;
+
+    margin-top: 8px;
+
+    font-size: 12px;
+    color: var(--jp-color-text-secondary);
+}
+
+.sj-timeline {
+    margin-left: 8px;
+    padding-left: 26px;
+
+    border-left: 2px solid var(--jp-color-border);
+}
+
+.sj-tl-item {
+    position: relative;
+    padding-bottom: 22px;
+}
+
+.sj-tl-item:last-child {
+    padding-bottom: 0;
+}
+
+.sj-tl-item::before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: -32px;
+
+    width: 11px;
+    height: 11px;
+
+    background: var(--jp-color-surface);
+    border: 2px solid var(--jp-color-border);
+    border-radius: 50%;
+}
+
+.sj-tl-current::before {
+    background: var(--jp-color-primary);
+    border-color: var(--jp-color-primary);
+}
+
+.sj-tl-name {
+    font-family: var(--font-family);
+    font-size: 15px;
+    color: var(--jp-color-text-primary);
+}
+
+.sj-tl-current .sj-tl-name {
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-primary);
+}
+
+.sj-tl-badge {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 7px;
+
+    background: var(--jp-color-primary);
+    border-radius: var(--radius-pill);
+
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    color: var(--jp-color-text-on-primary);
+}
+
+.sj-tl-range {
+    margin-top: 2px;
+
+    font-size: 12.5px;
+    color: var(--jp-color-text-secondary);
+}
+
+/* ---------- phalabhaga ---------- */
+
+.sj-phala-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.sj-phala-card {
+    padding: var(--spacing-md);
+
+    background: var(--jp-color-background);
+    border: 1px solid var(--jp-color-border);
+    border-radius: var(--radius-md);
+}
+
+.sj-phala-label {
+    margin-bottom: 8px;
+
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--jp-color-primary);
+}
+
+.sj-phala-value {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--jp-color-text-primary);
+}
+
+/* ---------- footnote ---------- */
+
+.sj-footnote {
+    max-width: 640px;
+    margin: var(--spacing-md) auto 0;
+    padding-top: var(--spacing-md);
+
+    border-top: 1px solid var(--jp-color-border);
+
+    text-align: center;
+    color: var(--jp-color-text-muted);
+}

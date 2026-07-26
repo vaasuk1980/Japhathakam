@@ -1,20 +1,24 @@
 import JanmaKundaliPanel from "./JanmaKundaliPanel";
 import GocharaKundaliPanel from "./GocharaKundaliPanel";
 
-function KundaliWorkspace({ kundaliDocument }) {
-  return (
-    <div className="kundali-workspace">
+function KundaliWorkspace({ renderLayout }) {
 
-      <JanmaKundaliPanel
-        chart={kundaliDocument?.janmaChart}
-      />
+    return (
 
-      <GocharaKundaliPanel
-        chart={kundaliDocument?.gocharaChart}
-      />
+        <div className="kundali-workspace">
 
-    </div>
-  );
+            <JanmaKundaliPanel
+                chart={renderLayout}
+            />
+
+            <GocharaKundaliPanel
+                chart={null}
+            />
+
+        </div>
+
+    );
+
 }
 
 export default KundaliWorkspace;
