@@ -22,13 +22,17 @@ class KundaliDocument {
 
         janmaChart,
 
-        gocharaChart = null
+        gocharaChart = null,
+
+        panchangam = null
 
     }) {
 
         this.janmaChart = janmaChart;
 
         this.gocharaChart = gocharaChart;
+
+        this.panchangam = panchangam;
 
         Object.freeze(this);
 

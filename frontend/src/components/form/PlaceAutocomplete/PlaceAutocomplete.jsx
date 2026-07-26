@@ -11,7 +11,7 @@ export default function PlaceAutocomplete({
   label,
   placeholder = "Enter place of birth",
   required = false,
-  helperText = "Type to see matching places and autofill coordinates.",
+  helperText = "",
 }) {
   const field = useField(name);
   const { actions } = useForm();

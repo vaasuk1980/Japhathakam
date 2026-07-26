@@ -2,6 +2,7 @@ import BirthContextEngine from "../../astrology/engines/BirthContextEngine.js";
 import PlanetPositionEngine from "../../astrology/engines/PlanetPositionEngine.js";
 import JanmaLagnaEngine from "../../astrology/engines/JanmaLagnaEngine.js";
 import SthanaEngine from "../../astrology/engines/SthanaEngine.js";
+import PanchangamEngine from "../../astrology/engines/PanchangamEngine.js";
 
 import GrahaPlacement from "../entities/GrahaPlacement.js";
 import KundaliFactory from "../factories/KundaliFactory.js";
@@ -50,13 +51,26 @@ class KundaliBuilder {
 
             });
 
+        const moonPosition =
+            planetPositions.find(
+                (planetPosition) => planetPosition.planet === "MOON"
+            );
+
+        const panchangam =
+            PanchangamEngine.calculate(
+                enrichedBirthContext,
+                moonPosition.nakshatra
+            );
+
         return KundaliFactory.create({
 
             birthContext: enrichedBirthContext,
 
             janmaLagna: enrichedBirthContext.janmaLagna,
 
-            grahaPlacements
+            grahaPlacements,
+
+            panchangam
 
         });
 

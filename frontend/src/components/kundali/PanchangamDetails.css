@@ -1,0 +1,67 @@
+/* ==========================================================
+   Panchangam Details
+   ----------------------------------------------------------
+   Key/value table of panchangam elements computed for the
+   submitted birth details.
+   ========================================================== */
+
+.pd-table-section {
+    margin: var(--spacing-lg) 0;
+}
+
+.pd-table-title {
+    margin: 0 0 var(--spacing-md);
+
+    font-family: var(--font-family);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-text-primary);
+}
+
+.pd-table-scroll {
+    overflow-x: auto;
+
+    background: var(--jp-color-surface);
+    border: 1px solid var(--jp-color-border);
+    border-radius: var(--radius-lg);
+}
+
+.pd-table {
+    width: 100%;
+    max-width: 480px;
+    border-collapse: collapse;
+
+    font-size: 14px;
+}
+
+.pd-table th {
+    width: 45%;
+
+    padding: 10px 14px;
+
+    border-bottom: 1px solid var(--jp-color-border);
+
+    font-family: var(--font-family);
+    font-weight: var(--font-semibold);
+    text-align: left;
+
+    color: var(--jp-color-primary);
+    background: var(--jp-color-background);
+}
+
+.pd-table td {
+    padding: 10px 14px;
+
+    border-bottom: 1px solid var(--jp-color-border);
+
+    color: var(--jp-color-text-primary);
+}
+
+.pd-table tr:last-child th,
+.pd-table tr:last-child td {
+    border-bottom: none;
+}
+
+.pd-table tr:hover td {
+    background: var(--jp-color-background);
+}

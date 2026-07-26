@@ -18,6 +18,7 @@ import KundaliChart from "../contracts/KundaliChart.js";
 import KundaliCell from "../contracts/KundaliCell.js";
 import DisplayGraha from "../contracts/DisplayGraha.js";
 import LongitudeFormatter from "../formatters/LongitudeFormatter.js";
+import DateTimeFormatter from "../formatters/DateTimeFormatter.js";
 import GrahaDisplayMapper from "../GrahaDisplayMapper.js";
 
 class KundaliAssembler {
@@ -157,6 +158,32 @@ class KundaliAssembler {
             });
 
         // -----------------------------------------
+        // Panchangam
+        // -----------------------------------------
+
+        const panchangam =
+            kundali.panchangam && {
+
+                masaName: kundali.panchangam.masaName,
+                masaIsLeap: kundali.panchangam.masaIsLeap,
+
+                samvatsaraName: kundali.panchangam.samvatsaraName,
+
+                nakshatraStart:
+                    DateTimeFormatter.formatLocal(
+                        kundali.panchangam.nakshatraStartJd,
+                        kundali.panchangam.timezone
+                    ),
+
+                nakshatraEnd:
+                    DateTimeFormatter.formatLocal(
+                        kundali.panchangam.nakshatraEndJd,
+                        kundali.panchangam.timezone
+                    ),
+
+            };
+
+        // -----------------------------------------
         // Document
         // -----------------------------------------
 
@@ -164,7 +191,9 @@ class KundaliAssembler {
 
             janmaChart,
 
-            gocharaChart: null
+            gocharaChart: null,
+
+            panchangam: panchangam || null
 
         });
 

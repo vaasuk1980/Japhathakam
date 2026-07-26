@@ -1,0 +1,25 @@
+/* ==========================================================
+   Japhathakam Enterprise Form Framework
+   AgeDisplay
+========================================================== */
+
+.jp-age-display {
+    width: 100%;
+    min-height: 42px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 10px 12px;
+    box-sizing: border-box;
+
+    border: 1px solid var(--jp-color-border);
+    border-radius: var(--radius-md);
+
+    background: var(--jp-color-background);
+
+    color: var(--jp-color-text-primary);
+
+    font-size: 14px;
+    font-family: inherit;
+}

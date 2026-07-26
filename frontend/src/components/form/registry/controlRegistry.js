@@ -5,6 +5,7 @@ import DateInput from "../DateInput";
 import TimeInput from "../TimeInput";
 import Select from "../Select";
 import PlaceAutocomplete from "../PlaceAutocomplete/PlaceAutocomplete";
+import AgeDisplay from "../AgeDisplay";
 
 const controlRegistry = {
     text: TextInput,
@@ -14,6 +15,7 @@ const controlRegistry = {
     time: TimeInput,
     select: Select,
     place: PlaceAutocomplete,
+    age: AgeDisplay,
 };
 
 export default controlRegistry;

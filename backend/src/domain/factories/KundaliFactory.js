@@ -7,7 +7,8 @@ class KundaliFactory {
         analysisContext = null,
         janmaLagna,
         gocharaLagna = null,
-        grahaPlacements = []
+        grahaPlacements = [],
+        panchangam = null
     }) {
 
         return new Kundali({
@@ -15,7 +16,8 @@ class KundaliFactory {
             analysisContext,
             janmaLagna,
             gocharaLagna,
-            grahaPlacements
+            grahaPlacements,
+            panchangam
         });
 
     }

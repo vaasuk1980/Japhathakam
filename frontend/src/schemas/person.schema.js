@@ -70,15 +70,9 @@ const personSchema = {
                 {
                     id: "age",
                     label: "Age",
-                    type: "number",
-                    placeholder: "Enter age",
-                    helperText: "Age in completed years",
+                    type: "age",
 
                     required: false,
-
-                    min: 0,
-                    max: 150,
-                    step: 1,
                 },
 
                 {
@@ -93,8 +87,7 @@ const personSchema = {
                     id: "placeOfBirth",
                     label: "Place of Birth",
                     type: "place",
-                    placeholder: "Enter place of birth",
-                    helperText: "Start typing to select a known city and autofill coordinates.",
+                    placeholder: "Start typing a city name...",
 
                     required: true,
                 },
@@ -102,8 +95,7 @@ const personSchema = {
                     id: "latitude",
                     label: "Latitude",
                     type: "number",
-                    placeholder: "Enter latitude",
-                    helperText: "Decimal degrees, e.g. 14.4426",
+                    placeholder: "e.g. 14.4426",
 
                     required: true,
                     min: -90,
@@ -115,8 +107,7 @@ const personSchema = {
                     id: "longitude",
                     label: "Longitude",
                     type: "number",
-                    placeholder: "Enter longitude",
-                    helperText: "Decimal degrees, e.g. 79.9860",
+                    placeholder: "e.g. 79.9860",
 
                     required: true,
                     min: -180,
@@ -128,8 +119,7 @@ const personSchema = {
                     id: "timezone",
                     label: "Time Zone Offset",
                     type: "number",
-                    placeholder: "Enter timezone offset",
-                    helperText: "UTC offset in hours, e.g. 5.5 for IST",
+                    placeholder: "e.g. 5.5 for IST",
 
                     required: true,
                     min: -12,

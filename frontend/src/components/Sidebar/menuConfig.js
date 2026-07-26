@@ -6,6 +6,7 @@ import {
   Clock3,
   FileText,
   ScrollText,
+  Library,
   Settings,
 } from "lucide-react";
 
@@ -21,6 +22,12 @@ const menuItems = Object.freeze([
     label: "Birth Details",
     icon: UserRound,
     path: "/person-details",
+  },
+  {
+    id: 9,
+    label: "Horoscope Library",
+    icon: Library,
+    path: "/horoscope-library",
   },
   {
     id: 3,
