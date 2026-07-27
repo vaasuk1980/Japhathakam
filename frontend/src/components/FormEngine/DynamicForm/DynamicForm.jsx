@@ -10,6 +10,7 @@ import DynamicFormContent from "./DynamicFormContent";
 function DynamicForm({
     schema,
     onSubmit,
+    submitLabel,
 }) {
 
     const initialState = useMemo(
@@ -23,6 +24,7 @@ function DynamicForm({
             <DynamicFormContent
                 schema={schema}
                 onSubmit={onSubmit}
+                submitLabel={submitLabel}
             />
 
         </FormStateProvider>

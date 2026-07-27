@@ -112,33 +112,56 @@
     transform: translateY(-50%) rotate(180deg);
 }
 
-.janma-lagna-marker {
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 1;
-}
-
 .kundali-cell--lagna {
     background-color: #fde2e2;
 }
 
-.region-container {
+/* All 9 Rasi Pada rows for a cell, one shared coordinate space
+   per row. Occupants and any aspect landing in the same Pada
+   render in the SAME row — differentiated by which side of the
+   row they're pinned to (left vs right) and by style, not by
+   splitting the cell into two half-width columns. */
+.pada-grid {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+
     width: 100%;
 }
 
-.region-view {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 6px;
+/* Every sign always renders all 9 Rasi Padas as fixed rows, in
+   order, whether occupied or not — so the vertical distance
+   between e.g. Pada 2 and Pada 9 is always the same 7-row gap,
+   never just "the next occupied row". */
+.pada-row {
+    position: relative;
+
+    width: 100%;
+    min-height: 13px;
 }
 
 .graha-symbol {
-    font-size: 13px;
+    position: absolute;
+
+    white-space: nowrap;
+    line-height: 1;
+}
+
+/* Occupant — the graha's own true placement. Larger and bold so
+   it reads as the primary information in the cell. */
+.graha-symbol--occupant {
+    font-size: 16px;
     font-weight: 700;
+    color: #1a1a1a;
+}
+
+/* Aspect (Drishti) — influence cast from elsewhere. Fully opaque
+   but in a distinct color + italic, so it stays clearly legible
+   while still reading as "not an occupant" at a glance. */
+.graha-symbol--aspect {
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 700;
+    color: #a6460f;
 }
 
 .astronomical-places-panel {

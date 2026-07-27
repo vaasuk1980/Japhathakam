@@ -17,19 +17,30 @@
 
 import RenderLayoutFactory from "../factories/RenderLayoutFactory";
 import RegionAssignmentPolicy from "../policies/RegionAssignmentPolicy";
+import AspectAssignmentPolicy from "../policies/AspectAssignmentPolicy";
 import GrahaOrderingPolicy from "../policies/GrahaOrderingPolicy";
 import PadaGroupingPolicy from "../policies/PadaGroupingPolicy";
 import CollisionPolicy from "../policies/CollisionPolicy";
 
 class KundaliRenderEngine {
 
-    render(kundaliDocument) {
+    /**
+     * @param {object} chart - a single chart from the Kundali
+     *   document (e.g. kundaliDocument.janmaChart or
+     *   kundaliDocument.gocharaChart) — NOT the whole document.
+     */
+    render(chart) {
 
         const renderLayout =
             RenderLayoutFactory.create();
 
         RegionAssignmentPolicy.apply(
-            kundaliDocument,
+            chart,
+            renderLayout
+        );
+
+        AspectAssignmentPolicy.apply(
+            chart,
             renderLayout
         );
 

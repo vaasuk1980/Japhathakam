@@ -14,17 +14,16 @@ function NewHoroscope() {
     const [requestState, setRequestState] = useState({
         status: "idle",
         document: null,
+        values: null,
         error: null
     });
 
     const handleGenerateKundali = async (values) => {
 
-        console.log("========== GENERATE KUNDALI ==========");
-        console.log(values);
-
         setRequestState({
             status: "loading",
             document: null,
+            values: null,
             error: null
         });
 
@@ -35,28 +34,13 @@ function NewHoroscope() {
 
             const kundaliDocument = response.kundali;
 
-            console.log("================================");
-            console.log("KUNDALI DOCUMENT");
-            console.log(kundaliDocument);
-
-            console.log("================================");
-            console.log("FIRST CELL");
-            console.log(kundaliDocument.janmaChart.cells[0]);
-
-            console.log("================================");
-            console.log("FIRST GRAHA");
-            console.log(kundaliDocument.janmaChart.cells[0].grahas[0]);
-
             const renderLayout =
-                KundaliRenderEngine.render(kundaliDocument);
-
-            console.log("================================");
-            console.log("RENDER LAYOUT");
-            console.log(renderLayout);
+                KundaliRenderEngine.render(kundaliDocument.janmaChart);
 
             setRequestState({
                 status: "success",
                 document: renderLayout,
+                values,
                 error: null
             });
 
@@ -69,6 +53,7 @@ function NewHoroscope() {
             setRequestState({
                 status: "error",
                 document: null,
+                values: null,
                 error: error.message
             });
 
@@ -107,6 +92,7 @@ function NewHoroscope() {
 
                 <KundaliWorkspace
                     renderLayout={requestState.document}
+                    birthDetails={requestState.values}
                 />
 
             )}

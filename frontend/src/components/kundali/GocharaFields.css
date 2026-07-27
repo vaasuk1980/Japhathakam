@@ -1,0 +1,12 @@
+.gochara-fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+
+    margin-bottom: var(--spacing-md);
+}
+
+.gochara-fields .jp-form-field {
+    flex: 1 1 160px;
+    min-width: 140px;
+}

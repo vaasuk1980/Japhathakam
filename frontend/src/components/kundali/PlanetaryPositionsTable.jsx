@@ -12,6 +12,7 @@ const GRAHA_ORDER = [
     "LAGNA",
     "SUN", "MOON", "MARS", "MERCURY",
     "JUPITER", "VENUS", "SATURN", "RAHU", "KETU",
+    "BHUMI", "MITRA", "CHITRA",
 ];
 
 const GRAHA_TELUGU_NAMES = {
@@ -25,6 +26,11 @@ const GRAHA_TELUGU_NAMES = {
     SATURN: "శని",
     RAHU: "రాహు",
     KETU: "కేతు",
+    // Tritha Siddhanta derived grahas (see DerivedGrahaEngine on
+    // the backend) — not fetched from Swiss Ephemeris.
+    BHUMI: "భూమి",
+    MITRA: "మిత్ర",
+    CHITRA: "చిత్ర",
 };
 
 const RASI_NAMES = [

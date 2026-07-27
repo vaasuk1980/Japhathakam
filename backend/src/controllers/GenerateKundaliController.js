@@ -24,7 +24,8 @@ export default class GenerateKundaliController {
 
             const request =
                 new GenerateKundaliRequest({
-                    birthDetails: req.body
+                    birthDetails: req.body,
+                    gocharaDetails: req.body.gochara ?? null
                 });
 
             const response =

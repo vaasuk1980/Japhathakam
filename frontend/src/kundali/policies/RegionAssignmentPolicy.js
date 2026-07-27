@@ -1,7 +1,7 @@
 import RenderRegion from "../models/RenderRegion";
 import RenderGraha from "../models/RenderGraha";
 import RenderPadaGroup from "../models/RenderPadaGroup";
-import { RASI_NAMES, SIGN_LORDS } from "../constants/RenderConstants";
+import { RASI_NAMES, SIGN_LORDS, PADA_SPAN } from "../constants/RenderConstants";
 
 class RegionAssignmentPolicy {
 
@@ -17,11 +17,11 @@ class RegionAssignmentPolicy {
      * 2-12 in natural zodiac order from there — the numbers
      * rotate around the fixed grid, not the signs themselves.
      */
-    apply(kundaliDocument, renderLayout) {
+    apply(chart, renderLayout) {
 
-        this.assignCellIdentity(kundaliDocument, renderLayout);
+        this.assignCellIdentity(chart, renderLayout);
 
-        const grahas = this.flattenGrahas(kundaliDocument);
+        const grahas = this.flattenGrahas(chart);
 
         grahas.forEach((graha) => {
 
@@ -42,10 +42,13 @@ class RegionAssignmentPolicy {
             const renderGraha =
                 this.createRenderGraha(graha, sthana);
 
+            const rasiPada =
+                this.rasiPadaForLongitude(graha.longitude);
+
             const padaGroup =
                 this.getOrCreatePadaGroup(
                     region,
-                    renderGraha.pada
+                    rasiPada
                 );
 
             padaGroup.grahas.push(renderGraha);
@@ -61,9 +64,9 @@ class RegionAssignmentPolicy {
      * if a Lagna is present — the Lagna-relative house number
      * and whether it's the Lagna's own cell.
      */
-    assignCellIdentity(kundaliDocument, renderLayout) {
+    assignCellIdentity(chart, renderLayout) {
 
-        const lagna = kundaliDocument.janmaChart.lagna;
+        const lagna = chart.lagna;
 
         const lagnaSignIndex =
             lagna ? this.signIndexForLongitude(lagna.longitude) : null;
@@ -89,11 +92,11 @@ class RegionAssignmentPolicy {
 
     }
 
-    flattenGrahas(kundaliDocument) {
+    flattenGrahas(chart) {
 
         const grahas = [];
 
-        kundaliDocument.janmaChart.cells.forEach((cell) => {
+        chart.cells.forEach((cell) => {
             cell.grahas.forEach((graha) => grahas.push(graha));
         });
 
@@ -115,6 +118,23 @@ class RegionAssignmentPolicy {
 
     }
 
+    /**
+     * Rasi-relative Pada (1-9) — which of the sign's own 9 equal
+     * 3°20' slices the graha falls into. This is the Stage 1
+     * rendering zone: it groups/separates grahas within a single
+     * Kundali cell by their true position across the whole sign,
+     * unlike Nakshatra Pada (1-4) which can repeat across
+     * unrelated nakshatras within the same sign.
+     */
+    rasiPadaForLongitude(longitude) {
+
+        const normalized = ((longitude % 360) + 360) % 360;
+        const withinSign = normalized % 30;
+
+        return Math.floor(withinSign / PADA_SPAN) + 1;
+
+    }
+
     findRenderCell(renderLayout, sthana) {
 
         return renderLayout.cells.find(
@@ -125,8 +145,12 @@ class RegionAssignmentPolicy {
 
     getOrCreateOccupantRegion(renderCell) {
 
-        if (renderCell.regions.length > 0) {
-            return renderCell.regions[0];
+        const existing = renderCell.regions.find(
+            region => region.type === "OCCUPANT"
+        );
+
+        if (existing) {
+            return existing;
         }
 
         const region = new RenderRegion({

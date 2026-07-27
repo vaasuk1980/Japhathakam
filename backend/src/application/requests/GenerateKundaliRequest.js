@@ -6,7 +6,8 @@ import BirthDetailsRequestMapper
 export default class GenerateKundaliRequest extends IRequest {
 
     constructor({
-        birthDetails
+        birthDetails,
+        gocharaDetails = null
     }) {
 
         super();
@@ -15,6 +16,11 @@ export default class GenerateKundaliRequest extends IRequest {
             BirthDetailsRequestMapper.map(
                 birthDetails
             );
+
+        this.gocharaDetails =
+            gocharaDetails
+                ? BirthDetailsRequestMapper.map(gocharaDetails)
+                : null;
 
     }
 

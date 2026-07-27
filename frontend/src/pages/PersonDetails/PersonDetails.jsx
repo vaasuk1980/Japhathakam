@@ -9,7 +9,7 @@ import PersonService from "../../services/PersonService";
 import KundaliRenderEngine from "../../kundali/engines/KundaliRenderEngine";
 
 import PlanetaryPositionsTable from "../../components/kundali/PlanetaryPositionsTable";
-import JanmaKundaliPanel from "../../components/kundali/JanmaKundaliPanel";
+import KundaliWorkspace from "../../components/kundali/KundaliWorkspace";
 import PanchangamDetails from "../../components/kundali/PanchangamDetails";
 
 function withDefaults(schema, person) {
@@ -46,6 +46,11 @@ function PersonDetails() {
         kundaliDocument: null,
         renderLayout: null,
         values: null,
+        error: null,
+    });
+
+    const [saveState, setSaveState] = useState({
+        status: "idle",
         error: null,
     });
 
@@ -97,6 +102,8 @@ function PersonDetails() {
 
     const generateKundali = async (values) => {
 
+        setSaveState({ status: "idle", error: null });
+
         setRequestState({
             status: "loading",
             kundaliDocument: null,
@@ -109,7 +116,7 @@ function PersonDetails() {
 
             const response = await GenerateKundaliService.generate(values);
             const kundaliDocument = response.kundali;
-            const renderLayout = KundaliRenderEngine.render(kundaliDocument);
+            const renderLayout = KundaliRenderEngine.render(kundaliDocument.janmaChart);
 
             setRequestState({
                 status: "success",
@@ -148,11 +155,23 @@ function PersonDetails() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loadedPerson]);
 
-    const handleSubmit = async (values) => {
+    // "Generate Kundali" only ever previews — it never saves
+    // anything on its own. Saving is a separate, explicit action.
+    const handleGenerate = (values) => {
+        generateKundali(values);
+    };
+
+    const handleSave = async () => {
+
+        if (!requestState.values) {
+            return;
+        }
+
+        setSaveState({ status: "saving", error: null });
 
         try {
 
-            const payload = { ...values };
+            const payload = { ...requestState.values };
             delete payload.age;
 
             const saved = personId
@@ -163,20 +182,13 @@ function PersonDetails() {
                 navigate(`/person-details?id=${saved.id}`, { replace: true });
             }
 
-            await generateKundali(values);
+            setSaveState({ status: "saved", error: null });
 
         }
         catch (error) {
 
             console.error("Save Error", error);
-
-            setRequestState({
-                status: "error",
-                kundaliDocument: null,
-                renderLayout: null,
-                values: null,
-                error: error.message,
-            });
+            setSaveState({ status: "error", error: error.message });
 
         }
 
@@ -230,8 +242,31 @@ function PersonDetails() {
             <DynamicForm
                 key={personId ?? "new"}
                 schema={schema}
-                onSubmit={handleSubmit}
+                onSubmit={handleGenerate}
+                submitLabel="Generate Kundali"
             />
+
+            {requestState.status === "success" && (
+                <div>
+                    <button
+                        type="button"
+                        onClick={handleSave}
+                        disabled={saveState.status === "saving"}
+                    >
+                        {saveState.status === "saving"
+                            ? "Saving..."
+                            : personId ? "Save Changes" : "Save"}
+                    </button>
+
+                    {saveState.status === "saved" && (
+                        <span> Saved.</span>
+                    )}
+
+                    {saveState.status === "error" && (
+                        <div>{saveState.error}</div>
+                    )}
+                </div>
+            )}
 
             {personId && (
                 <div>
@@ -270,8 +305,9 @@ function PersonDetails() {
                         kundaliDocument={requestState.kundaliDocument}
                     />
 
-                    <JanmaKundaliPanel
-                        chart={requestState.renderLayout}
+                    <KundaliWorkspace
+                        renderLayout={requestState.renderLayout}
+                        birthDetails={requestState.values}
                     />
                 </>
             )}

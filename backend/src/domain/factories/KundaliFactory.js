@@ -8,6 +8,7 @@ class KundaliFactory {
         janmaLagna,
         gocharaLagna = null,
         grahaPlacements = [],
+        gocharaPlacements = [],
         panchangam = null
     }) {
 
@@ -17,6 +18,7 @@ class KundaliFactory {
             janmaLagna,
             gocharaLagna,
             grahaPlacements,
+            gocharaPlacements,
             panchangam
         });
 

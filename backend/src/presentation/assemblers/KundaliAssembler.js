@@ -34,89 +34,7 @@ class KundaliAssembler {
         }
 
         // -----------------------------------------
-        // Create 12 empty Kundali cells
-        // -----------------------------------------
-
-        const cells = [];
-
-        for (let i = 1; i <= 12; i++) {
-
-            cells.push({
-
-                sthana: i,
-
-                // Grahas are placed via a Sthana that is already
-                // relative to the Lagna (see SthanaCalculation),
-                // so the Lagna's own house is always Sthana 1.
-                isJanmaLagna: i === 1,
-
-                grahas: []
-
-            });
-
-        }
-
-        // -----------------------------------------
-        // Place Grahas into their Sthanas
-        // -----------------------------------------
-
-        for (const placement of kundali.grahaPlacements) {
-
-            const cell =
-                cells[placement.sthana.number - 1];
-
-            cell.grahas.push(
-
-                new DisplayGraha({
-
-                    id: placement.graha,
-                    code: placement.graha,
-
-                    name: placement.graha,
-                    displayName: GrahaDisplayMapper.getDisplayName
-                        (placement.graha
-                            
-                        ),
-
-                    longitude: placement.longitude,
-
-                    formattedLongitude:
-                        LongitudeFormatter.format(
-                            placement.longitude
-                        ),
-
-                    nakshatra: placement.nakshatra,
-
-                    pada: placement.pada?.number
-
-                })
-
-            );
-
-        }
-
-        // -----------------------------------------
-        // Freeze Cells
-        // -----------------------------------------
-
-        const kundaliCells =
-
-            cells.map(cell =>
-
-                new KundaliCell({
-
-                    sthana: cell.sthana,
-
-                    isJanmaLagna: cell.isJanmaLagna,
-
-                    grahas: cell.grahas
-
-                })
-
-            );
-
-        // -----------------------------------------
-        // Lagna
+        // Janma Chart
         // -----------------------------------------
 
         const lagna =
@@ -143,19 +61,33 @@ class KundaliAssembler {
 
             });
 
-        // -----------------------------------------
-        // Chart
-        // -----------------------------------------
-
         const janmaChart =
 
             new KundaliChart({
 
-                cells: kundaliCells,
+                cells: this.buildCells(kundali.grahaPlacements),
 
                 lagna: lagna || null
 
             });
+
+        // -----------------------------------------
+        // Gochara Chart (transit) — same Sthana grid as
+        // the Janma chart (relative to the natal Lagna),
+        // populated with the requested moment's grahas.
+        // -----------------------------------------
+
+        const gocharaChart =
+            kundali.gocharaPlacements && kundali.gocharaPlacements.length > 0
+                ? new KundaliChart({
+                    cells: this.buildCells(kundali.gocharaPlacements),
+                    // Same natal Lagna as the Janma chart — the
+                    // Gochara grid's house numbering is relative
+                    // to the same fixed reference, not a freshly
+                    // computed "current" ascendant.
+                    lagna: lagna || null
+                })
+                : null;
 
         // -----------------------------------------
         // Panchangam
@@ -191,11 +123,88 @@ class KundaliAssembler {
 
             janmaChart,
 
-            gocharaChart: null,
+            gocharaChart,
 
             panchangam: panchangam || null
 
         });
+
+    }
+
+    /**
+     * Builds the 12 fixed-sign Kundali cells and places the
+     * given Graha placements into them. Shared by both the
+     * Janma and Gochara charts — a placement is just a graha
+     * code + Sthana + longitude/nakshatra/pada regardless of
+     * which moment it came from.
+     */
+    buildCells(placements) {
+
+        const cells = [];
+
+        for (let i = 1; i <= 12; i++) {
+
+            cells.push({
+
+                sthana: i,
+
+                // Grahas are placed via a Sthana that is already
+                // relative to the Lagna (see SthanaCalculation),
+                // so the Lagna's own house is always Sthana 1.
+                isJanmaLagna: i === 1,
+
+                grahas: []
+
+            });
+
+        }
+
+        for (const placement of placements) {
+
+            const cell =
+                cells[placement.sthana.number - 1];
+
+            cell.grahas.push(
+
+                new DisplayGraha({
+
+                    id: placement.graha,
+                    code: placement.graha,
+
+                    name: placement.graha,
+                    displayName: GrahaDisplayMapper.getDisplayName
+                        (placement.graha),
+
+                    longitude: placement.longitude,
+
+                    formattedLongitude:
+                        LongitudeFormatter.format(
+                            placement.longitude
+                        ),
+
+                    nakshatra: placement.nakshatra,
+
+                    pada: placement.pada?.number
+
+                })
+
+            );
+
+        }
+
+        return cells.map(cell =>
+
+            new KundaliCell({
+
+                sthana: cell.sthana,
+
+                isJanmaLagna: cell.isJanmaLagna,
+
+                grahas: cell.grahas
+
+            })
+
+        );
 
     }
 

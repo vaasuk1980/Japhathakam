@@ -10,6 +10,7 @@ import SubmitButton from "../SubmitButton/SubmitButton";
 function DynamicFormContent({
     schema,
     onSubmit,
+    submitLabel,
 }) {
 
     const {
@@ -88,7 +89,7 @@ function DynamicFormContent({
                 />
             ))}
 
-            <SubmitButton />
+            <SubmitButton label={submitLabel} />
 
         </form>
     );

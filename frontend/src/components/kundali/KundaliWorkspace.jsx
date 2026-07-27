@@ -1,7 +1,9 @@
+import "./KundaliWorkspace.css";
+
 import JanmaKundaliPanel from "./JanmaKundaliPanel";
 import GocharaKundaliPanel from "./GocharaKundaliPanel";
 
-function KundaliWorkspace({ renderLayout }) {
+function KundaliWorkspace({ renderLayout, birthDetails }) {
 
     return (
 
@@ -12,7 +14,7 @@ function KundaliWorkspace({ renderLayout }) {
             />
 
             <GocharaKundaliPanel
-                chart={null}
+                birthDetails={birthDetails}
             />
 
         </div>

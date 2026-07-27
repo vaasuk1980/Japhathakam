@@ -20,3 +20,12 @@ export const SIGN_LORDS = [
     "రవి", "బుధ", "శుక్ర", "భూమి",
     "కేతు", "రాహు", "శని", "గురు",
 ];
+
+/**
+ * One Pada = 3°20'. A sign (30°) always divides into exactly 9
+ * Padas (30 / 3°20' = 9) — this is the rendering-zone grid used
+ * to visually separate grahas within a Kundali cell, distinct
+ * from Nakshatra Pada (1-4) shown elsewhere in the UI.
+ */
+export const PADA_SPAN = 10 / 3;
+export const RASI_PADA_COUNT = 9;

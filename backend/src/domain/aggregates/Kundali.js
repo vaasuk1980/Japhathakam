@@ -12,6 +12,8 @@ export default class Kundali {
 
         grahaPlacements = [],
 
+        gocharaPlacements = [],
+
         panchangam = null
 
     }) {
@@ -28,6 +30,9 @@ export default class Kundali {
 
         this.grahaPlacements =
             Object.freeze([...grahaPlacements]);
+
+        this.gocharaPlacements =
+            Object.freeze([...gocharaPlacements]);
 
         Object.freeze(this);
 

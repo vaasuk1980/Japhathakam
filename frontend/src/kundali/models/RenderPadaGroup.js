@@ -6,8 +6,8 @@
  *
  * Frontend Rendering Model
  *
- * Represents a group of grahas occupying the same Pada
- * within a rendering region.
+ * Represents a group of grahas occupying the same Rasi-relative
+ * Pada (1-9) within a rendering region.
  *
  * Responsibilities
  * ----------------
@@ -33,7 +33,7 @@ class RenderPadaGroup {
     }) {
 
         /**
-         * Pada number.
+         * Rasi-relative Pada number (1-9).
          */
         this.pada = pada;
 

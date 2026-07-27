@@ -1,4 +1,4 @@
-import RegionView from "./RegionView";
+import PadaGridView from "./PadaGridView";
 
 function KundaliCell({ cell, edge }) {
 
@@ -27,26 +27,7 @@ function KundaliCell({ cell, edge }) {
                 {cell.houseNumber ?? cell.sthana}
             </div>
 
-            {cell.isJanmaLagna && (
-
-                <div className="janma-lagna-marker">
-                    //
-                </div>
-
-            )}
-
-            <div className="region-container">
-
-                {cell.regions.map((region, index) => (
-
-                    <RegionView
-                        key={index}
-                        region={region}
-                    />
-
-                ))}
-
-            </div>
+            <PadaGridView regions={cell.regions} />
 
         </div>
 

@@ -1,12 +1,12 @@
 import "./SubmitButton.css";
 
-function SubmitButton() {
+function SubmitButton({ label = "Submit" }) {
     return (
         <button
             type="submit"
             className="jp-submit-button"
         >
-            Submit
+            {label}
         </button>
     );
 }

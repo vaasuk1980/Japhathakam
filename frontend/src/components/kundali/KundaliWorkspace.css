@@ -1,0 +1,18 @@
+.kundali-workspace {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--spacing-xl);
+}
+
+.kundali-workspace > .janma-kundali-panel,
+.kundali-workspace > .gochara-kundali-panel {
+    flex: 1 1 480px;
+    min-width: 340px;
+}
+
+.gochara-error {
+    margin: var(--spacing-sm) 0;
+    color: var(--jp-color-danger);
+    font-size: 13px;
+}
