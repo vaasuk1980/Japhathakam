@@ -4,12 +4,14 @@ export default class GrahaPlacement {
     sthana,
     longitude,
     nakshatra,
-    pada
+    pada,
+    nature = null
   }) {
     this.graha = graha;
     this.sthana = sthana;
     this.longitude = longitude;
     this.nakshatra = nakshatra;
     this.pada = pada;
+    this.nature = nature;
   }
 }

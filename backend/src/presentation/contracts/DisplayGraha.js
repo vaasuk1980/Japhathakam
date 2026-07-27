@@ -30,7 +30,9 @@ class DisplayGraha {
         formattedLongitude,
 
         nakshatra,
-        pada
+        pada,
+
+        nature = null
 
     }) {
 
@@ -44,6 +46,11 @@ class DisplayGraha {
 
         this.nakshatra = nakshatra;
         this.pada = pada;
+
+        // Punya/Papa classification (Tritha Siddhantha) — null
+        // for the Lagna itself, which is not a graha and is
+        // never classified.
+        this.nature = nature;
 
         Object.freeze(this);
 

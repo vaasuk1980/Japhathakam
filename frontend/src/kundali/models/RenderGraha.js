@@ -37,6 +37,8 @@ class RenderGraha {
         nakshatra,
         pada,
 
+        nature = null,
+
         x = 0,
         y = 0
 
@@ -91,6 +93,12 @@ class RenderGraha {
          * Pada index.
          */
         this.pada = pada;
+
+        /**
+         * Punya/Papa classification (Tritha Siddhantha).
+         * "PUNYA" | "PAPA" | null (Lagna is never classified).
+         */
+        this.nature = nature;
 
         /**
          * Final render coordinates.

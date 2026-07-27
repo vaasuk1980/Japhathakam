@@ -10,6 +10,10 @@ export default class Kundali {
 
         gocharaLagna,
 
+        lagnaLord = null,
+
+        nativeParty = null,
+
         grahaPlacements = [],
 
         gocharaPlacements = [],
@@ -25,6 +29,10 @@ export default class Kundali {
         this.janmaLagna = janmaLagna;
 
         this.gocharaLagna = gocharaLagna;
+
+        this.lagnaLord = lagnaLord;
+
+        this.nativeParty = nativeParty;
 
         this.panchangam = panchangam;
 

@@ -182,7 +182,9 @@ class AspectAssignmentPolicy {
 
             longitude: graha.longitude,
             nakshatra: graha.nakshatra,
-            pada: graha.pada
+            pada: graha.pada,
+
+            nature: graha.nature
 
         });
 

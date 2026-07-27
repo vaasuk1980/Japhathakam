@@ -125,6 +125,10 @@ class KundaliAssembler {
 
             gocharaChart,
 
+            lagnaLord: kundali.lagnaLord,
+
+            nativeParty: kundali.nativeParty,
+
             panchangam: panchangam || null
 
         });
@@ -184,7 +188,9 @@ class KundaliAssembler {
 
                     nakshatra: placement.nakshatra,
 
-                    pada: placement.pada?.number
+                    pada: placement.pada?.number,
+
+                    nature: placement.nature
 
                 })
 

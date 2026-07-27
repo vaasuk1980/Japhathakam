@@ -6,9 +6,16 @@ function GrahaBadge({ graha }) {
 
     const isAspect = graha.relationship !== "OCCUPANT";
 
+    // Punya/Papa (Tritha Siddhantha) applies to the graha itself,
+    // whether shown as an occupant or as a Drishti (aspect) —
+    // it only overrides color, so the aspect's own italic/
+    // distance styling is unaffected.
+    const isPapa = graha.nature === "PAPA";
+
     const className =
         "graha-symbol" +
-        (isAspect ? " graha-symbol--aspect" : " graha-symbol--occupant");
+        (isAspect ? " graha-symbol--aspect" : " graha-symbol--occupant") +
+        (isPapa ? " graha-symbol--papa" : "");
 
     const style = {
         left: `${graha.x ?? 0}%`,

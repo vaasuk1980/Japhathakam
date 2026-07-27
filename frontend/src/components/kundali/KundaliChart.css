@@ -51,9 +51,12 @@
 }
 
 .sthana-number {
+    position: absolute;
+    right: 6px;
+    bottom: 4px;
+
     font-size: 14px;
     font-weight: 700;
-    margin-bottom: 2px;
 }
 
 /* Sign (+ lord) label, positioned outside the cell's own
@@ -154,14 +157,28 @@
     color: #1a1a1a;
 }
 
-/* Aspect (Drishti) — influence cast from elsewhere. Fully opaque
-   but in a distinct color + italic, so it stays clearly legible
-   while still reading as "not an occupant" at a glance. */
+/* Aspect (Drishti) — influence cast from elsewhere. Smaller and
+   italic so it reads as "not an occupant" at a glance; color
+   itself is the same Punya/Papa default as an occupant (see
+   .graha-symbol--papa below) — italics is what marks it as an
+   aspect, not a separate color language. */
 .graha-symbol--aspect {
     font-size: 13px;
     font-style: italic;
     font-weight: 700;
-    color: #a6460f;
+    color: #1a1a1a;
+}
+
+/* Punya/Papa (Tritha Siddhantha) classification, relative to the
+   Native's Party (see PunyaPapaClassifier on the backend). Applies
+   to a graha whether shown as an occupant or as an aspect — only
+   overrides color (declared last so it wins over both rules
+   above), never the occupant/aspect size/style/italic language.
+   Punya Grahas render in the default black above; Papa Grahas
+   render in Brick Red. Same rule applies identically in the
+   Planetary Position table. */
+.graha-symbol--papa {
+    color: #b22222;
 }
 
 .astronomical-places-panel {

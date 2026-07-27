@@ -24,6 +24,10 @@ class KundaliDocument {
 
         gocharaChart = null,
 
+        lagnaLord = null,
+
+        nativeParty = null,
+
         panchangam = null
 
     }) {
@@ -31,6 +35,10 @@ class KundaliDocument {
         this.janmaChart = janmaChart;
 
         this.gocharaChart = gocharaChart;
+
+        this.lagnaLord = lagnaLord;
+
+        this.nativeParty = nativeParty;
 
         this.panchangam = panchangam;
 

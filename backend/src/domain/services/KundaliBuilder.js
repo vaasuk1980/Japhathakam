@@ -7,6 +7,7 @@ import DerivedGrahaEngine from "../../astrology/engines/DerivedGrahaEngine.js";
 
 import GrahaPlacement from "../entities/GrahaPlacement.js";
 import KundaliFactory from "../factories/KundaliFactory.js";
+import PunyaPapaClassifier from "./PunyaPapaClassifier.js";
 
 class KundaliBuilder {
 
@@ -27,10 +28,20 @@ class KundaliBuilder {
                 enrichedBirthContext
             );
 
+        // Punya/Papa classification depends only on the Janma
+        // Lagna, never on where a graha is placed — computed
+        // once here and reused for every placement below
+        // (Janma and Gochara alike).
+        const { lagnaLord, nativeParty, natureByGraha } =
+            PunyaPapaClassifier.classify(
+                enrichedBirthContext.janmaLagna.lagna.id
+            );
+
         const grahaPlacements =
             this.buildPlacements(
                 planetPositions,
-                enrichedBirthContext.janmaLagna
+                enrichedBirthContext.janmaLagna,
+                natureByGraha
             );
 
         const moonPosition =
@@ -52,7 +63,8 @@ class KundaliBuilder {
             request.gocharaDetails
                 ? this.buildGocharaPlacements(
                     request.gocharaDetails,
-                    enrichedBirthContext.janmaLagna
+                    enrichedBirthContext.janmaLagna,
+                    natureByGraha
                 )
                 : [];
 
@@ -61,6 +73,10 @@ class KundaliBuilder {
             birthContext: enrichedBirthContext,
 
             janmaLagna: enrichedBirthContext.janmaLagna,
+
+            lagnaLord,
+
+            nativeParty,
 
             grahaPlacements,
 
@@ -72,7 +88,7 @@ class KundaliBuilder {
 
     }
 
-    buildGocharaPlacements(gocharaDetails, janmaLagna) {
+    buildGocharaPlacements(gocharaDetails, janmaLagna, natureByGraha) {
 
         const gocharaBirthContext =
             BirthContextEngine.create(gocharaDetails);
@@ -82,7 +98,8 @@ class KundaliBuilder {
 
         return this.buildPlacements(
             gocharaPlanetPositions,
-            janmaLagna
+            janmaLagna,
+            natureByGraha
         );
 
     }
@@ -93,9 +110,11 @@ class KundaliBuilder {
      * to the given Lagna. Shared by both Janma and Gochara — the
      * only difference between the two is which moment's planet
      * positions are passed in and which Lagna they're placed
-     * against (Gochara always uses the natal Lagna).
+     * against (Gochara always uses the natal Lagna). The Punya/
+     * Papa nature of each graha is likewise the same regardless
+     * of which moment placed it.
      */
-    buildPlacements(planetPositions, janmaLagna) {
+    buildPlacements(planetPositions, janmaLagna, natureByGraha) {
 
         const derivedPositions =
             DerivedGrahaEngine.calculate(planetPositions);
@@ -123,7 +142,9 @@ class KundaliBuilder {
 
                 nakshatra: planetPosition.nakshatra,
 
-                pada: planetPosition.pada
+                pada: planetPosition.pada,
+
+                nature: natureByGraha[planetPosition.planet] ?? null
 
             });
 

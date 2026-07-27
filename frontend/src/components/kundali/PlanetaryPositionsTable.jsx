@@ -82,6 +82,9 @@ function buildRows(kundaliDocument) {
             rasi: rasiForLongitude(lagna.longitude),
             // The Lagna always defines the 1st house (Tanu bhava).
             bhava: BHAVA_LABELS[0],
+            // The Lagna is a reference point, not a graha — it is
+            // never Punya/Papa classified.
+            isPapa: false,
         });
     }
 
@@ -96,6 +99,9 @@ function buildRows(kundaliDocument) {
                 pada: graha.pada ?? "—",
                 rasi: rasiForLongitude(graha.longitude),
                 bhava: BHAVA_LABELS[cell.sthana - 1] ?? "—",
+                // Punya/Papa (Tritha Siddhantha) — same
+                // classification the Kundali chart colors by.
+                isPapa: graha.nature === "PAPA",
             });
         });
     });
@@ -136,7 +142,9 @@ function PlanetaryPositionsTable({ kundaliDocument }) {
                     <tbody>
                         {rows.map((row) => (
                             <tr key={row.key}>
-                                <td>{row.name}</td>
+                                <td className={row.isPapa ? "pp-graha-papa" : undefined}>
+                                    {row.name}
+                                </td>
                                 <td className="mono">{row.deg}</td>
                                 <td>{row.nak}</td>
                                 <td>{row.pada}</td>

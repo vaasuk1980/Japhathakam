@@ -7,6 +7,8 @@ class KundaliFactory {
         analysisContext = null,
         janmaLagna,
         gocharaLagna = null,
+        lagnaLord = null,
+        nativeParty = null,
         grahaPlacements = [],
         gocharaPlacements = [],
         panchangam = null
@@ -17,6 +19,8 @@ class KundaliFactory {
             analysisContext,
             janmaLagna,
             gocharaLagna,
+            lagnaLord,
+            nativeParty,
             grahaPlacements,
             gocharaPlacements,
             panchangam
