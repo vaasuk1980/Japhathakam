@@ -1,10 +1,13 @@
-import { useMemo, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useForm from "../state/useForm";
 import useField from "../state/useField";
 import FieldWrapper from "../layout/FieldWrapper";
-import placeLocations from "../../../data/placeLocations";
+import GeocodingService from "../../../services/GeocodingService";
+import resolveUtcOffsetHours from "../../../utils/timezone/resolveUtcOffsetHours";
 
 import "./PlaceAutocomplete.css";
+
+const SEARCH_DEBOUNCE_MS = 350;
 
 export default function PlaceAutocomplete({
   name,
@@ -14,50 +17,141 @@ export default function PlaceAutocomplete({
   helperText = "",
 }) {
   const field = useField(name);
-  const { actions } = useForm();
+  const { state, actions } = useForm();
 
   const { value, error, touched, onChange, onBlur } = field;
 
   const [isOpen, setIsOpen] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchError, setSearchError] = useState(null);
+  const [isManual, setIsManual] = useState(false);
 
-  const normalizedQuery = (value || "").trim().toLowerCase();
+  // Remembered so the offset can be recomputed (DST-correctly) if
+  // the birth date/time changes after a place has already been
+  // picked — a place's UTC offset is not a fixed constant.
+  const selectedTimezoneId = useRef(null);
 
-  const suggestions = useMemo(() => {
-    if (!normalizedQuery) {
-      return [];
-    }
-
-    return placeLocations.filter((place) => {
-      const text = place.label.toLowerCase();
-      return normalizedQuery
-        .split(" ")
-        .every((segment) => text.includes(segment));
-    });
-  }, [normalizedQuery]);
+  const debounceRef = useRef(null);
+  const requestIdRef = useRef(0);
 
   function handleInputChange(event) {
+
     onChange(event);
+    setIsOpen(true);
+    setSearchError(null);
 
-    const typed = event.target.value.trim().toLowerCase();
-    const exactMatch = placeLocations.find(
-      (place) => place.label.toLowerCase() === typed
-    );
+    const query = event.target.value;
 
-    if (exactMatch) {
-      handleSelectPlace(exactMatch);
-      return;
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
     }
 
-    setIsOpen(true);
+    debounceRef.current = setTimeout(async () => {
+
+      const requestId = ++requestIdRef.current;
+
+      if (query.trim().length < 2) {
+        setSuggestions([]);
+        return;
+      }
+
+      setIsSearching(true);
+
+      try {
+
+        const results = await GeocodingService.search(query);
+
+        // Ignore replies to a since-superseded request (the user
+        // kept typing while this one was in flight).
+        if (requestId === requestIdRef.current) {
+          setSuggestions(results);
+        }
+
+      }
+      catch (requestError) {
+
+        console.error("Place search error", requestError);
+
+        if (requestId === requestIdRef.current) {
+          setSuggestions([]);
+          setSearchError("Could not search places — check your connection, or enter the details manually below.");
+        }
+
+      }
+      finally {
+        if (requestId === requestIdRef.current) {
+          setIsSearching(false);
+        }
+      }
+
+    }, SEARCH_DEBOUNCE_MS);
+
   }
 
   function handleSelectPlace(place) {
-    field.setValue(place.value);
+
+    field.setValue(place.label);
     field.setTouched(true);
+
     actions.setValue("latitude", place.latitude);
     actions.setValue("longitude", place.longitude);
-    actions.setValue("timezone", place.timezone);
+
+    actions.setReadOnly("latitude", true);
+    actions.setReadOnly("longitude", true);
+    actions.setReadOnly("timezone", true);
+
+    selectedTimezoneId.current = place.timezoneId;
+
+    actions.setValue(
+      "timezone",
+      resolveUtcOffsetHours(
+        place.timezoneId,
+        state.values.dateOfBirth,
+        state.values.timeOfBirth
+      )
+    );
+
+    setIsManual(false);
     setIsOpen(false);
+    setSuggestions([]);
+
+  }
+
+  // A place's UTC offset depends on the birth date (DST) — if the
+  // date/time changes after a place was already selected, keep the
+  // offset in sync rather than leaving a stale value in place.
+  useEffect(() => {
+
+    if (!selectedTimezoneId.current || isManual) {
+      return;
+    }
+
+    actions.setValue(
+      "timezone",
+      resolveUtcOffsetHours(
+        selectedTimezoneId.current,
+        state.values.dateOfBirth,
+        state.values.timeOfBirth
+      )
+    );
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.values.dateOfBirth, state.values.timeOfBirth]);
+
+  function handleToggleManual() {
+
+    const next = !isManual;
+
+    setIsManual(next);
+    setIsOpen(false);
+    setSuggestions([]);
+    setSearchError(null);
+
+    actions.setReadOnly("latitude", !next);
+    actions.setReadOnly("longitude", !next);
+    actions.setReadOnly("timezone", !next);
+
   }
 
   function handleBlur() {
@@ -92,14 +186,18 @@ export default function PlaceAutocomplete({
           aria-describedby={helperId}
           onChange={handleInputChange}
           onBlur={handleBlur}
-          onFocus={() => setIsOpen(Boolean(value))}
+          onFocus={() => setIsOpen(Boolean(value) && !isManual)}
         />
 
-        {isOpen && suggestions.length > 0 && (
+        {isSearching && (
+          <div className="jp-place-autocomplete__status">Searching…</div>
+        )}
+
+        {isOpen && !isManual && suggestions.length > 0 && (
           <ul className="jp-place-autocomplete__suggestions">
-            {suggestions.map((place) => (
+            {suggestions.map((place, index) => (
               <li
-                key={place.value}
+                key={`${place.label}-${index}`}
                 className="jp-place-autocomplete__suggestion"
                 onMouseDown={(event) => {
                   event.preventDefault();
@@ -110,6 +208,29 @@ export default function PlaceAutocomplete({
               </li>
             ))}
           </ul>
+        )}
+
+        {searchError && (
+          <div className="jp-place-autocomplete__error">{searchError}</div>
+        )}
+
+        <button
+          type="button"
+          className="jp-place-autocomplete__manual-toggle"
+          onClick={handleToggleManual}
+        >
+          {isManual
+            ? "↺ Use place search instead"
+            : "Can't find it? Enter manually"}
+        </button>
+
+        {isManual && (
+          <p className="jp-place-autocomplete__manual-hint">
+            Enter the place name freely, and fill in Latitude, Longitude,
+            and Time Zone Offset below yourself (e.g. from Google Maps —
+            the offset is the UTC offset that actually applied on the
+            birth date, e.g. 5.5 for IST).
+          </p>
         )}
       </div>
     </FieldWrapper>

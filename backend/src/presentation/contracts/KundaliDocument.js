@@ -28,7 +28,9 @@ class KundaliDocument {
 
         nativeParty = null,
 
-        panchangam = null
+        panchangam = null,
+
+        dasha = null
 
     }) {
 
@@ -41,6 +43,8 @@ class KundaliDocument {
         this.nativeParty = nativeParty;
 
         this.panchangam = panchangam;
+
+        this.dasha = dasha;
 
         Object.freeze(this);
 

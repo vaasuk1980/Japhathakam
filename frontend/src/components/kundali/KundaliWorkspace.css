@@ -1,18 +1,111 @@
-.kundali-workspace {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    gap: var(--spacing-xl);
+.kundali-workspace-section {
+    margin: var(--spacing-lg) 0;
+
+    background: var(--jp-color-surface);
+    border: 1px solid var(--jp-color-border);
+    border-radius: var(--radius-lg);
+
+    padding: var(--spacing-lg);
+
+    /* Lets the @container rule below react to this section's own
+       rendered width (sidebar width, page padding, report
+       max-width all already baked in) rather than guessing a
+       viewport breakpoint number. */
+    container-type: inline-size;
+    container-name: kundali-workspace;
 }
 
-.kundali-workspace > .janma-kundali-panel,
-.kundali-workspace > .gochara-kundali-panel {
-    flex: 1 1 480px;
-    min-width: 340px;
+.kundali-workspace-title {
+    margin: 0 0 var(--spacing-md);
+
+    font-family: Georgia, "Times New Roman", var(--font-family), serif;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-text-primary);
+}
+
+/* Explicit grid placement (not relying on document-order auto-flow)
+   is what actually keeps the two charts aligned: each panel's
+   title/controls/chart is pinned to the SAME row regardless of
+   how much content the other panel has above its chart. Janma has
+   no controls of its own, but still renders an empty
+   .kundali-panel__controls placeholder (see JanmaKundaliPanel) so
+   that row's height — and therefore where row 3 (the charts)
+   begins — is identical on both sides. */
+.kundali-workspace {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    column-gap: var(--spacing-xl);
+    row-gap: var(--spacing-sm);
+
+    align-items: start;
+}
+
+.kundali-workspace > .kundali-panel {
+    display: contents;
+}
+
+.janma-kundali-panel .kundali-panel__title,
+.janma-kundali-panel .kundali-panel__controls,
+.janma-kundali-panel .kundali-chart {
+    grid-column: 1;
+}
+
+.gochara-kundali-panel .kundali-panel__title,
+.gochara-kundali-panel .kundali-panel__controls,
+.gochara-kundali-panel .kundali-chart {
+    grid-column: 2;
+}
+
+.kundali-panel__title {
+    grid-row: 1;
+}
+
+.kundali-panel__controls {
+    grid-row: 2;
+}
+
+.kundali-workspace > .kundali-panel .kundali-chart {
+    grid-row: 3;
 }
 
 .gochara-error {
-    margin: var(--spacing-sm) 0;
+    margin: var(--spacing-sm) 0 0;
     color: var(--jp-color-danger);
     font-size: 13px;
+}
+
+/* Below this width, squeezing both charts into side-by-side
+   columns would shrink each one well below a comfortable size —
+   stack them instead so each chart keeps rendering close to its
+   full (up to 420px) size. This is the main fix for "compressing
+   the page width makes the chart/text look small": rather than
+   letting the chart shrink indefinitely, stop sharing the row
+   once there isn't enough width to do so comfortably. */
+@container kundali-workspace (max-width: 760px) {
+
+    .kundali-workspace {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--spacing-lg);
+    }
+
+    .kundali-workspace > .kundali-panel {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .janma-kundali-panel .kundali-panel__title,
+    .janma-kundali-panel .kundali-panel__controls,
+    .janma-kundali-panel .kundali-chart,
+    .gochara-kundali-panel .kundali-panel__title,
+    .gochara-kundali-panel .kundali-panel__controls,
+    .gochara-kundali-panel .kundali-chart,
+    .kundali-workspace > .kundali-panel .kundali-chart {
+        grid-column: unset;
+        grid-row: unset;
+    }
+
 }

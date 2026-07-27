@@ -135,7 +135,7 @@ function PlanetaryPositionsTable({ kundaliDocument }) {
                             <th>అంశలు</th>
                             <th>నక్షత్రం</th>
                             <th>పాదం</th>
-                            <th>రాశి</th>
+                            <th>లగ్నం</th>
                             <th>భావం</th>
                         </tr>
                     </thead>

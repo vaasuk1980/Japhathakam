@@ -11,7 +11,8 @@ class KundaliFactory {
         nativeParty = null,
         grahaPlacements = [],
         gocharaPlacements = [],
-        panchangam = null
+        panchangam = null,
+        dasha = null
     }) {
 
         return new Kundali({
@@ -23,7 +24,8 @@ class KundaliFactory {
             nativeParty,
             grahaPlacements,
             gocharaPlacements,
-            panchangam
+            panchangam,
+            dasha
         });
 
     }

@@ -7,7 +7,22 @@ function Header() {
           Application Branding
       ========================================== */}
       <div className="header-left">
-        <h1 className="app-title">జాఫతకం</h1>
+        <div className="app-logo">
+          <svg
+            className="app-logo__mark"
+            viewBox="0 0 40 40"
+            aria-hidden="true"
+          >
+            <circle cx="20" cy="20" r="18" />
+            <rect x="11" y="11" width="18" height="18" transform="rotate(45 20 20)" />
+            <circle className="app-logo__mark-bindu" cx="20" cy="20" r="2.5" />
+          </svg>
+
+          <div className="app-logo__text">
+            <span className="app-logo__title">జాఫతకం</span>
+            <span className="app-logo__subtitle">Japhathakam</span>
+          </div>
+        </div>
       </div>
 
       {/* ==========================================

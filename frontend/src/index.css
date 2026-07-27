@@ -18,7 +18,7 @@ body,
 /* Body */
 
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: var(--font-family);
   background: #f5f7fa;
   color: #1f2937;
   overflow: hidden;

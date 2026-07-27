@@ -8,9 +8,7 @@ import GenerateKundaliService from "../../services/GenerateKundaliService";
 import PersonService from "../../services/PersonService";
 import KundaliRenderEngine from "../../kundali/engines/KundaliRenderEngine";
 
-import PlanetaryPositionsTable from "../../components/kundali/PlanetaryPositionsTable";
-import KundaliWorkspace from "../../components/kundali/KundaliWorkspace";
-import PanchangamDetails from "../../components/kundali/PanchangamDetails";
+import HoroscopeReport from "../../components/kundali/HoroscopeReport";
 
 function withDefaults(schema, person) {
 
@@ -293,23 +291,11 @@ function PersonDetails() {
             )}
 
             {requestState.status === "success" && (
-                <>
-                    <PanchangamDetails
-                        kundaliDocument={requestState.kundaliDocument}
-                        dateOfBirth={requestState.values?.dateOfBirth}
-                        timeOfBirth={requestState.values?.timeOfBirth}
-                        gender={requestState.values?.gender}
-                    />
-
-                    <PlanetaryPositionsTable
-                        kundaliDocument={requestState.kundaliDocument}
-                    />
-
-                    <KundaliWorkspace
-                        renderLayout={requestState.renderLayout}
-                        birthDetails={requestState.values}
-                    />
-                </>
+                <HoroscopeReport
+                    values={requestState.values}
+                    kundaliDocument={requestState.kundaliDocument}
+                    renderLayout={requestState.renderLayout}
+                />
             )}
 
         </div>

@@ -4,6 +4,7 @@ import JanmaLagnaEngine from "../../astrology/engines/JanmaLagnaEngine.js";
 import SthanaEngine from "../../astrology/engines/SthanaEngine.js";
 import PanchangamEngine from "../../astrology/engines/PanchangamEngine.js";
 import DerivedGrahaEngine from "../../astrology/engines/DerivedGrahaEngine.js";
+import DashaEngine from "../../astrology/engines/DashaEngine.js";
 
 import GrahaPlacement from "../entities/GrahaPlacement.js";
 import KundaliFactory from "../factories/KundaliFactory.js";
@@ -55,6 +56,12 @@ class KundaliBuilder {
                 moonPosition.nakshatra
             );
 
+        const dasha =
+            DashaEngine.calculate(
+                enrichedBirthContext,
+                moonPosition
+            );
+
         // Gochara (transit): current/requested-moment planetary
         // positions, placed against the SAME natal Lagna used
         // above — the reference frame stays fixed to birth, only
@@ -82,7 +89,9 @@ class KundaliBuilder {
 
             gocharaPlacements,
 
-            panchangam
+            panchangam,
+
+            dasha
 
         });
 

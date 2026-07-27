@@ -38,3 +38,35 @@
 .jp-place-autocomplete__suggestion:hover {
   background: #f7f9ff;
 }
+
+.jp-place-autocomplete__status {
+  margin-top: 0.25rem;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.jp-place-autocomplete__error {
+  margin-top: 0.25rem;
+  font-size: 0.8rem;
+  color: #dc2626;
+}
+
+.jp-place-autocomplete__manual-toggle {
+  margin-top: 0.375rem;
+
+  padding: 0;
+  border: none;
+  background: none;
+
+  font-size: 0.8rem;
+  color: #2563eb;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.jp-place-autocomplete__manual-hint {
+  margin-top: 0.375rem;
+  font-size: 0.8rem;
+  color: #6b7280;
+  line-height: 1.4;
+}

@@ -17,8 +17,10 @@ import KundaliDocument from "../contracts/KundaliDocument.js";
 import KundaliChart from "../contracts/KundaliChart.js";
 import KundaliCell from "../contracts/KundaliCell.js";
 import DisplayGraha from "../contracts/DisplayGraha.js";
+import DashaPeriod from "../contracts/DashaPeriod.js";
 import LongitudeFormatter from "../formatters/LongitudeFormatter.js";
 import DateTimeFormatter from "../formatters/DateTimeFormatter.js";
+import DashaDurationFormatter from "../formatters/DashaDurationFormatter.js";
 import GrahaDisplayMapper from "../GrahaDisplayMapper.js";
 
 class KundaliAssembler {
@@ -116,6 +118,13 @@ class KundaliAssembler {
             };
 
         // -----------------------------------------
+        // Dasha (Trāitha Siddhānta Dasha System v1.0)
+        // -----------------------------------------
+
+        const dasha =
+            this.buildDasha(kundali.dasha, kundali.birthContext?.timezone);
+
+        // -----------------------------------------
         // Document
         // -----------------------------------------
 
@@ -129,7 +138,66 @@ class KundaliAssembler {
 
             nativeParty: kundali.nativeParty,
 
-            panchangam: panchangam || null
+            panchangam: panchangam || null,
+
+            dasha
+
+        });
+
+    }
+
+    /**
+     * Assembles the birth Mahadasha timeline: 12 Mahadashas, each
+     * eagerly carrying its 12 Antardashas as `children` (Rule 7).
+     * Deeper levels (Pratyantardasha, Sukshmadasha, Pranadasha) are
+     * computed on demand by the frontend, using the identical
+     * proportional rule (Rule 12) — see DashaSubdivisionEngine.
+     */
+    buildDasha(dasha, timezone) {
+
+        if (!dasha) {
+            return null;
+        }
+
+        return {
+
+            birthGraha: dasha.birthGraha,
+
+            birthGrahaDisplayName:
+                GrahaDisplayMapper.getDisplayName(dasha.birthGraha),
+
+            balanceYears: dasha.balanceYears,
+
+            balanceDisplay:
+                DashaDurationFormatter.format(dasha.balanceYears),
+
+            mahadashas: dasha.mahadashas.map(
+                (mahadasha) => this.buildDashaPeriod(mahadasha, timezone)
+            )
+
+        };
+
+    }
+
+    buildDashaPeriod(period, timezone) {
+
+        return new DashaPeriod({
+
+            graha: period.graha,
+            displayName: GrahaDisplayMapper.getDisplayName(period.graha),
+
+            start: DateTimeFormatter.formatLocal(period.startJd, timezone),
+            end: DateTimeFormatter.formatLocal(period.endJd, timezone),
+
+            startEpochMs: DateTimeFormatter.toEpochMillis(period.startJd),
+            endEpochMs: DateTimeFormatter.toEpochMillis(period.endJd),
+
+            durationYears: period.durationYears,
+            durationDisplay: DashaDurationFormatter.format(period.durationYears),
+
+            children: (period.antardashas || []).map(
+                (antardasha) => this.buildDashaPeriod(antardasha, timezone)
+            )
 
         });
 

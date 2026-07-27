@@ -25,6 +25,18 @@ const GENDER_LABELS = {
     other: "Transgender",
 };
 
+function formatDateDDMMYYYY(isoDate) {
+
+    if (!isoDate) {
+        return "—";
+    }
+
+    const [year, month, day] = isoDate.split("-");
+
+    return `${day}-${month}-${year}`;
+
+}
+
 function signIndexForLongitude(longitude) {
     const normalized = ((longitude % 360) + 360) % 360;
     return Math.floor(normalized / 30);
@@ -101,7 +113,7 @@ function PanchangamDetails({ kundaliDocument, dateOfBirth, timeOfBirth, gender }
             : "—";
 
         return [
-            { label: "DOB", value: dateOfBirth || "—" },
+            { label: "DOB", value: formatDateDDMMYYYY(dateOfBirth) },
             { label: "TOB", value: timeOfBirth || "—" },
             { label: "Nakshatra Start", value: panchangam?.nakshatraStart ?? "—" },
             { label: "Nakshtra End", value: panchangam?.nakshatraEnd ?? "—" },
@@ -123,17 +135,13 @@ function PanchangamDetails({ kundaliDocument, dateOfBirth, timeOfBirth, gender }
         <section className="pd-table-section">
             <h2 className="pd-table-title">పంచాంగం · Panchangam Details</h2>
 
-            <div className="pd-table-scroll">
-                <table className="pd-table">
-                    <tbody>
-                        {rows.map((row) => (
-                            <tr key={row.label}>
-                                <th>{row.label}</th>
-                                <td>{row.value}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+            <div className="pd-grid">
+                {rows.map((row) => (
+                    <div className="pd-grid__item" key={row.label}>
+                        <span className="pd-grid__label">{row.label}</span>
+                        <span className="pd-grid__value">{row.value}</span>
+                    </div>
+                ))}
             </div>
         </section>
     );

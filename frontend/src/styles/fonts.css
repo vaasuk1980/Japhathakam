@@ -1,0 +1,27 @@
+/* ==========================================================
+   JIMS — Telugu display font (Purushoth Kumar Guthula)
+   ----------------------------------------------------------
+   `unicode-range` restricts JIMS to the Telugu Unicode block
+   (plus ZWJ/ZWNJ, needed for conjunct forms) so it only ever
+   engages for Telugu glyphs — English/Latin text automatically
+   falls through to the next font in --font-family (variables.css)
+   untouched, even though JIMS is listed first in that stack.
+   ========================================================== */
+
+@font-face {
+    font-family: "JIMS";
+    src: url("../assets/fonts/JIMS-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0C00-0C7F, U+200C-200D;
+}
+
+@font-face {
+    font-family: "JIMS";
+    src: url("../assets/fonts/JIMS-Italic.woff2") format("woff2");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+    unicode-range: U+0C00-0C7F, U+200C-200D;
+}

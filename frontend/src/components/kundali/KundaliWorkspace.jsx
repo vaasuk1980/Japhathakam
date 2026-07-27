@@ -7,17 +7,23 @@ function KundaliWorkspace({ renderLayout, birthDetails }) {
 
     return (
 
-        <div className="kundali-workspace">
+        <section className="kundali-workspace-section">
 
-            <JanmaKundaliPanel
-                chart={renderLayout}
-            />
+            <h2 className="kundali-workspace-title">కుండలి · Kundali</h2>
 
-            <GocharaKundaliPanel
-                birthDetails={birthDetails}
-            />
+            <div className="kundali-workspace">
 
-        </div>
+                <JanmaKundaliPanel
+                    chart={renderLayout}
+                />
+
+                <GocharaKundaliPanel
+                    birthDetails={birthDetails}
+                />
+
+            </div>
+
+        </section>
 
     );
 

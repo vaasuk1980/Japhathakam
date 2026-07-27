@@ -60,17 +60,19 @@ function GocharaKundaliPanel({ birthDetails }) {
     }
 
     return (
-        <section className="gochara-kundali-panel">
-            <h2>గోచార కుండలి</h2>
+        <section className="gochara-kundali-panel kundali-panel">
+            <h2 className="kundali-panel__title">గోచార కుండలి</h2>
 
-            <GocharaControls
-                defaultPlace={defaultPlace}
-                onValuesChange={handleValuesChange}
-            />
+            <div className="kundali-panel__controls">
+                <GocharaControls
+                    defaultPlace={defaultPlace}
+                    onValuesChange={handleValuesChange}
+                />
 
-            {error && (
-                <div className="gochara-error">{error}</div>
-            )}
+                {error && (
+                    <div className="gochara-error">{error}</div>
+                )}
+            </div>
 
             <KundaliChart chart={renderLayout} />
         </section>

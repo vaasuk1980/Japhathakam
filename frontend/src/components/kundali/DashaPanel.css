@@ -1,0 +1,245 @@
+/* ==========================================================
+   Dasha Panel — Trāitha Siddhānta Dasha System v1.0
+   ----------------------------------------------------------
+   An expandable Mahadasha -> Antardasha -> Pratyantardasha ->
+   Sukshmadasha -> Pranadasha tree, styled with the shared
+   Japhathakam design tokens (see styles/variables.css).
+   ========================================================== */
+
+.dasha-panel {
+    margin: var(--spacing-lg) 0;
+
+    background: var(--jp-color-surface);
+    border: 1px solid var(--jp-color-border);
+    border-radius: var(--radius-lg);
+
+    padding: var(--spacing-lg);
+}
+
+.dasha-panel__title {
+    margin: 0 0 var(--spacing-md);
+
+    font-family: Georgia, "Times New Roman", var(--font-family), serif;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-text-primary);
+}
+
+.dasha-panel__summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-lg);
+
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-md);
+
+    background: var(--jp-color-background);
+    border-radius: var(--radius-md);
+}
+
+.dasha-panel__summary-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.dasha-panel__summary-label {
+    font-size: var(--font-size-xs);
+    color: var(--jp-color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.dasha-panel__summary-value {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-primary);
+}
+
+.dasha-panel__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm) var(--spacing-md);
+
+    margin-bottom: var(--spacing-md);
+}
+
+.dasha-panel__legend-item {
+    font-size: var(--font-size-xs);
+    color: var(--jp-color-text-muted);
+}
+
+.dasha-panel__header-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+
+    padding: 6px 12px;
+
+    border-bottom: 2px solid var(--jp-color-primary);
+
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--jp-color-primary);
+}
+
+.dasha-panel__header-graha {
+    width: 76px;
+    flex: none;
+}
+
+.dasha-panel__header-range {
+    flex: 1;
+}
+
+.dasha-panel__header-duration {
+    width: 90px;
+    flex: none;
+    text-align: right;
+}
+
+.dasha-panel__header-age {
+    width: 270px;
+    flex: none;
+    text-align: right;
+}
+
+.dasha-panel__tree {
+    border: 1px solid var(--jp-color-border);
+    border-top: none;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    overflow: hidden;
+}
+
+.dasha-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    width: 100%;
+
+    padding: 8px 12px 8px 0;
+
+    border: none;
+    border-bottom: 1px solid var(--jp-color-border);
+    background: var(--jp-color-surface);
+
+    font-family: var(--font-family);
+    /* Fluid, matching the Panchangam/Graha Sthithi tables — not
+       tied to --font-size-sm since that token is shared with
+       unrelated UI chrome elsewhere in the app. */
+    font-size: clamp(13px, 0.9vw + 10px, 15px);
+    color: var(--jp-color-text-primary);
+    text-align: left;
+    cursor: pointer;
+
+    transition: background var(--transition-fast);
+}
+
+.dasha-row-group:last-child > .dasha-row {
+    border-bottom: none;
+}
+
+.dasha-row:hover:not(.dasha-row--leaf) {
+    background: var(--jp-color-background);
+}
+
+.dasha-row--leaf {
+    cursor: default;
+}
+
+.dasha-row--current {
+    background: var(--jp-color-success-bg);
+}
+
+.dasha-row--current:hover {
+    background: var(--jp-color-success-bg);
+}
+
+.dasha-row__chevron {
+    display: inline-flex;
+    width: 14px;
+    flex: none;
+
+    color: var(--jp-color-text-muted);
+    transition: transform var(--transition-fast);
+}
+
+.dasha-row__chevron--open {
+    transform: rotate(90deg);
+}
+
+.dasha-row__graha {
+    width: 60px;
+    flex: none;
+
+    font-weight: var(--font-semibold);
+}
+
+.dasha-row__range {
+    flex: 1;
+
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+
+    font-variant-numeric: tabular-nums;
+    color: var(--jp-color-text-secondary);
+}
+
+.dasha-row__arrow {
+    color: var(--jp-color-text-muted);
+}
+
+.dasha-row__duration {
+    width: 90px;
+    flex: none;
+    text-align: right;
+
+    font-variant-numeric: tabular-nums;
+    color: var(--jp-color-text-secondary);
+}
+
+/* Age (Prarabham -> Mugimpu) — the person's calendar-accurate age
+   at this period's start and end, distinct from Duration (the
+   period's own length) and from the Start/End calendar dates. */
+.dasha-row__age {
+    width: 270px;
+    flex: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--spacing-sm);
+
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    color: var(--jp-color-text-secondary);
+}
+
+/* Fixed-width slot, always present (empty when not the current
+   period) — keeps every row's flex-grow allocation identical, so
+   Age/Duration line up whether or not that row shows the badge. */
+.dasha-row__badge-slot {
+    width: 100px;
+    flex: none;
+}
+
+.dasha-row__badge {
+    display: inline-block;
+
+    padding: 2px 8px;
+    border-radius: var(--radius-pill);
+
+    background: var(--jp-color-success);
+    color: var(--jp-color-text-white);
+
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-semibold);
+    white-space: nowrap;
+}
+
+.dasha-row-children {
+    background: var(--jp-color-background);
+}

@@ -41,17 +41,62 @@
 }
 
 /* ==========================================
-   Application Title
+   Application Logo
+   ------------------------------------------
+   A small circle-and-diamond mark (echoing the
+   Kundali chart's own diamond grid) plus a
+   stacked Telugu/English wordmark — no image
+   asset required.
 ========================================== */
 
-.app-title {
-  margin: 0;
+.app-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
 
+.app-logo__mark {
+  width: 34px;
+  height: 34px;
+  flex: none;
+
+  color: var(--jp-color-primary);
+}
+
+.app-logo__mark circle,
+.app-logo__mark rect {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.app-logo__mark-bindu {
+  fill: currentColor;
+  stroke: none;
+}
+
+.app-logo__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.app-logo__title {
   font-family: var(--font-family);
   font-size: var(--font-size-xl);
   font-weight: var(--font-bold);
 
   color: var(--jp-color-text-primary);
+}
+
+.app-logo__subtitle {
+  font-family: var(--font-family);
+  font-size: 11px;
+  font-weight: var(--font-medium);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+
+  color: var(--jp-color-text-muted);
 }
 
 /* ==========================================

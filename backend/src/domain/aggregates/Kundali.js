@@ -18,7 +18,9 @@ export default class Kundali {
 
         gocharaPlacements = [],
 
-        panchangam = null
+        panchangam = null,
+
+        dasha = null
 
     }) {
 
@@ -35,6 +37,8 @@ export default class Kundali {
         this.nativeParty = nativeParty;
 
         this.panchangam = panchangam;
+
+        this.dasha = dasha;
 
         this.grahaPlacements =
             Object.freeze([...grahaPlacements]);
