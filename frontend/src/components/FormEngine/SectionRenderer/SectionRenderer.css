@@ -4,6 +4,13 @@
 ========================================================== */
 
 .jp-form-section {
+    /* Matches HoroscopeReport's cap so the Basic Information card
+       and the report cards below it (Panchangam, Graha Sthithi,
+       Kundali, Dasha) line up at the same left AND right edge,
+       instead of the form stretching edge-to-edge across the
+       full page width while the report stays narrower. */
+    max-width: 1100px;
+
     background: #ffffff;
 
     border: 1px solid #e5e7eb;
@@ -35,24 +42,60 @@
 }
 
 /* ==========================================================
-   Two Column Grid
+   Six Column Base Grid
+   ----------------------------------------------------------
+   A finer 6-column base (instead of a flat 3) lets individual
+   fields size unevenly within a row via `grid-column: span N`
+   (see FieldRenderer.jsx/.css) — a plain field spans 2 (3 per
+   row, the default), while e.g. Place of Birth can span 3 and
+   sit alongside a narrower Latitude/Longitude/Time Zone Offset
+   trio (span 1 each) on the very same row.
 ========================================================== */
 
 .jp-form-section__body {
     display: grid;
 
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(6, 1fr);
 
-    column-gap: 48px;
+    column-gap: 32px;
 
     row-gap: 20px;
 }
 
 /* ==========================================================
-   Mobile
+   Footer (optional — e.g. page-specific action buttons)
+========================================================== */
+
+.jp-form-section__footer {
+    margin-top: 12px;
+
+    padding-top: 16px;
+
+    border-top: 1px solid #e5e7eb;
+}
+
+/* ==========================================================
+   Responsive
+   ----------------------------------------------------------
+   Below this, per-field spans stop mattering — every field
+   just stacks into a uniform 2 (then 1) column layout.
 ========================================================== */
 
 @media (max-width: 900px) {
+
+    .jp-form-section__body {
+
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+
+    .jp-form-field {
+        grid-column: span 1 !important;
+    }
+
+}
+
+@media (max-width: 600px) {
 
     .jp-form-section__body {
 

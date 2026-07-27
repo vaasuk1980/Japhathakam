@@ -1,4 +1,9 @@
-button[type="submit"] {
+/* Scoped to this component's own class — NOT a bare
+   button[type="submit"] selector, which would also leak onto any
+   other submit button on the page (e.g. an external action button
+   wired to this form via the `form="..."` attribute) and give it
+   different padding/height, breaking alignment with its siblings. */
+.jp-submit-button {
     margin-top: 24px;
     padding: 10px 24px;
     font-size: 15px;

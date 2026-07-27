@@ -2,7 +2,7 @@ import "./SectionRenderer.css";
 
 import FieldRenderer from "../FieldRenderer";
 
-function SectionRenderer({ section }) {
+function SectionRenderer({ section, footer }) {
     return (
         <section className="jp-form-section">
 
@@ -20,6 +20,12 @@ function SectionRenderer({ section }) {
                     />
                 ))}
             </div>
+
+            {footer && (
+                <div className="jp-form-section__footer">
+                    {footer}
+                </div>
+            )}
 
         </section>
     );

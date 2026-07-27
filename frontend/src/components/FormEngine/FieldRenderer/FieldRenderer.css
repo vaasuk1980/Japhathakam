@@ -3,9 +3,18 @@
    Enterprise Label Architecture
 ========================================================== */
 
+/* The section body is a 6-column base grid (see
+   SectionRenderer.css) so fields can be sized unevenly within a
+   row — a plain field spans 2 of 6 (3 fields per row, the
+   default), while a field carrying an explicit `gridSpan` (or
+   `fullWidth`, in FieldRenderer.jsx) can take more or less room,
+   e.g. Place of Birth wider than the narrow Latitude/Longitude/
+   Time Zone Offset trio sharing its row. */
 .jp-form-field {
     display: flex;
     flex-direction: column;
+
+    grid-column: span 2;
 
     gap: 8px;
 }

@@ -1,0 +1,28 @@
+/* ==========================================================
+   Person Details — Actions Row
+   ----------------------------------------------------------
+   Generate Kundali / Save / Delete side by side, rendered as
+   the Basic Information card's own footer (see SectionRenderer's
+   `footer` prop) — inside the same bordered card as the fields,
+   not floating disconnected below it.
+   ========================================================== */
+
+.person-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.person-actions__status {
+    color: var(--jp-color-success);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-medium);
+}
+
+.person-actions__error {
+    margin-top: 8px;
+
+    color: var(--jp-color-danger);
+    font-size: var(--font-size-sm);
+}

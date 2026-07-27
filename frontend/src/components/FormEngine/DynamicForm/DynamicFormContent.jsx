@@ -11,6 +11,9 @@ function DynamicFormContent({
     schema,
     onSubmit,
     submitLabel,
+    formId,
+    hideSubmitButton = false,
+    footer,
 }) {
 
     const {
@@ -80,16 +83,17 @@ function DynamicFormContent({
     );
 
     return (
-        <form onSubmit={handleSubmit} noValidate>
+        <form id={formId} onSubmit={handleSubmit} noValidate>
 
-            {schema.sections.map((section) => (
+            {schema.sections.map((section, index) => (
                 <SectionRenderer
                     key={section.id}
                     section={section}
+                    footer={index === schema.sections.length - 1 ? footer : undefined}
                 />
             ))}
 
-            <SubmitButton label={submitLabel} />
+            {!hideSubmitButton && <SubmitButton label={submitLabel} />}
 
         </form>
     );

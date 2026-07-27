@@ -68,19 +68,19 @@ const personSchema = {
                 },
 
                 {
-                    id: "age",
-                    label: "Age",
-                    type: "age",
-
-                    required: false,
-                },
-
-                {
                     id: "timeOfBirth",
                     label: "Time of Birth",
                     type: "time",
 
                     required: true,
+                },
+
+                {
+                    id: "age",
+                    label: "Age",
+                    type: "age",
+
+                    required: false,
                 },
 
                 {
@@ -90,6 +90,7 @@ const personSchema = {
                     placeholder: "Start typing a city name...",
 
                     required: true,
+                    gridSpan: 3,
                 },
                 {
                     id: "latitude",
@@ -102,6 +103,7 @@ const personSchema = {
                     max: 90,
                     step: 0.0001,
                     readOnly: true,
+                    gridSpan: 1,
                 },
                 {
                     id: "longitude",
@@ -114,6 +116,7 @@ const personSchema = {
                     max: 180,
                     step: 0.0001,
                     readOnly: true,
+                    gridSpan: 1,
                 },
                 {
                     id: "timezone",
@@ -126,6 +129,7 @@ const personSchema = {
                     max: 14,
                     step: 0.25,
                     readOnly: true,
+                    gridSpan: 1,
                 },
             ],
         },

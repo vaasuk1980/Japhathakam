@@ -47,8 +47,14 @@ function FieldRenderer({ field }) {
        Render Control
     ========================================== */
 
+    const gridStyle = field.fullWidth
+        ? { gridColumn: "1 / -1" }
+        : field.gridSpan
+            ? { gridColumn: `span ${field.gridSpan}` }
+            : undefined;
+
     return (
-        <div className="jp-form-field">
+        <div className="jp-form-field" style={gridStyle}>
             <Control
                 {...field}
                 name={field.id}

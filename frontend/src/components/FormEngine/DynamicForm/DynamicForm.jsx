@@ -11,6 +11,9 @@ function DynamicForm({
     schema,
     onSubmit,
     submitLabel,
+    formId,
+    hideSubmitButton = false,
+    footer,
 }) {
 
     const initialState = useMemo(
@@ -25,6 +28,9 @@ function DynamicForm({
                 schema={schema}
                 onSubmit={onSubmit}
                 submitLabel={submitLabel}
+                formId={formId}
+                hideSubmitButton={hideSubmitButton}
+                footer={footer}
             />
 
         </FormStateProvider>

@@ -7,6 +7,7 @@ function Button({
   disabled = false,
   fullWidth = false,
   type = "button",
+  form,
   onClick,
 }) {
   const className = [
@@ -21,6 +22,7 @@ function Button({
   return (
     <button
       type={type}
+      form={form}
       className={className}
       disabled={disabled}
       onClick={onClick}

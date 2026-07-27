@@ -9,6 +9,11 @@ import PersonService from "../../services/PersonService";
 import KundaliRenderEngine from "../../kundali/engines/KundaliRenderEngine";
 
 import HoroscopeReport from "../../components/kundali/HoroscopeReport";
+import Button from "../../components/common/Button";
+
+import "./PersonDetails.css";
+
+const PERSON_FORM_ID = "person-details-form";
 
 function withDefaults(schema, person) {
 
@@ -241,54 +246,63 @@ function PersonDetails() {
                 key={personId ?? "new"}
                 schema={schema}
                 onSubmit={handleGenerate}
-                submitLabel="Generate Kundali"
+                formId={PERSON_FORM_ID}
+                hideSubmitButton
+                footer={(
+                    <>
+                        <div className="person-actions">
+                            <Button
+                                type="submit"
+                                form={PERSON_FORM_ID}
+                                variant="primary"
+                                disabled={requestState.status === "loading"}
+                            >
+                                {requestState.status === "loading"
+                                    ? "Generating..."
+                                    : "Generate Kundali"}
+                            </Button>
+
+                            {requestState.status === "success" && (
+                                <Button
+                                    variant="secondary"
+                                    onClick={handleSave}
+                                    disabled={saveState.status === "saving"}
+                                >
+                                    {saveState.status === "saving"
+                                        ? "Saving..."
+                                        : personId ? "Save Changes" : "Save"}
+                                </Button>
+                            )}
+
+                            {personId && (
+                                <Button
+                                    variant="danger"
+                                    onClick={handleDelete}
+                                    disabled={deleteState.status === "deleting"}
+                                >
+                                    {deleteState.status === "deleting" ? "Deleting..." : "Delete"}
+                                </Button>
+                            )}
+
+                            {saveState.status === "saved" && (
+                                <span className="person-actions__status">Saved.</span>
+                            )}
+                        </div>
+
+                        {requestState.status === "error" && (
+                            <div className="person-actions__error">{requestState.error}</div>
+                        )}
+
+                        {saveState.status === "error" && (
+                            <div className="person-actions__error">{saveState.error}</div>
+                        )}
+
+                        {deleteState.status === "error" && (
+                            <div className="person-actions__error">{deleteState.error}</div>
+                        )}
+                    </>
+                )}
             />
-
-            {requestState.status === "success" && (
-                <div>
-                    <button
-                        type="button"
-                        onClick={handleSave}
-                        disabled={saveState.status === "saving"}
-                    >
-                        {saveState.status === "saving"
-                            ? "Saving..."
-                            : personId ? "Save Changes" : "Save"}
-                    </button>
-
-                    {saveState.status === "saved" && (
-                        <span> Saved.</span>
-                    )}
-
-                    {saveState.status === "error" && (
-                        <div>{saveState.error}</div>
-                    )}
-                </div>
-            )}
-
-            {personId && (
-                <div>
-                    <button
-                        type="button"
-                        onClick={handleDelete}
-                        disabled={deleteState.status === "deleting"}
-                    >
-                        {deleteState.status === "deleting" ? "Deleting..." : "Delete"}
-                    </button>
-
-                    {deleteState.status === "error" && (
-                        <div>{deleteState.error}</div>
-                    )}
-                </div>
-            )}
-
-            {requestState.status === "loading" && (
-                <div>Generating Kundali...</div>
-            )}
-
-            {requestState.status === "error" && (
-                <div>{requestState.error}</div>
-            )}
 
             {requestState.status === "success" && (
                 <HoroscopeReport
