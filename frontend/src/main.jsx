@@ -6,10 +6,13 @@ import "./styles/fonts.css";
 import "./styles/typography.css";
 import "./index.css";
 
+import { LanguageProvider } from "./i18n/I18nContext.jsx";
 import App from "./App.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <App />
+    <LanguageProvider>
+      <App />
+    </LanguageProvider>
   </StrictMode>
 );

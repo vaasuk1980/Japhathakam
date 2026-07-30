@@ -35,3 +35,29 @@
 
     min-height: 0;
 }
+
+/* ==========================================================
+   Mobile drawer
+   ----------------------------------------------------------
+   Below this width the sidebar becomes an off-canvas overlay
+   (see Sidebar.css) instead of a permanent column, so content
+   no longer needs to leave room for it.
+   ========================================================== */
+
+.sidebar-backdrop {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background: rgba(15, 23, 42, 0.45);
+
+    z-index: calc(var(--z-sidebar) - 1);
+}
+
+@media (max-width: 767px) {
+    .main-content {
+        margin-left: 0;
+    }
+}

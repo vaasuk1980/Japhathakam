@@ -22,13 +22,19 @@
  *   - Collision Resolution: multiple grahas sharing a Pada row on
  *     the same side are stacked *vertically*, in ascending
  *     longitude order, rather than spread out horizontally.
+ *
+ *   `graha.y` is left as a dimensionless 0-based stack level here
+ *   (0 = first/topmost) rather than a pixel offset — this runs in
+ *   plain JS with no DOM access, so it can't know the chart's
+ *   actual rendered size. The rendering layer (GrahaBadge /
+ *   PadaGridView) turns the level into an actual cqw-based offset,
+ *   scaled to match the chart's own square size (see
+ *   PADA_ROW_STEP_CQW in RenderConstants.js).
  * ============================================================================
  */
 
 const OCCUPANT_LEFT_PERCENT = 4;
 const ASPECT_LEFT_PERCENT = 62;
-
-const STACK_ROW_HEIGHT_PX = 20;
 
 class CollisionPolicy {
 
@@ -59,7 +65,7 @@ class CollisionPolicy {
         // (GrahaOrderingPolicy) — stack them in that order.
         grahas.forEach((graha, index) => {
             graha.x = leftPercent;
-            graha.y = index * STACK_ROW_HEIGHT_PX;
+            graha.y = index;
         });
 
     }

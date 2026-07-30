@@ -65,24 +65,26 @@ function DashaPanel({ dasha, timezone }) {
                 ))}
             </div>
 
-            <div className="dasha-panel__header-row">
-                <span className="dasha-panel__header-graha">గ్రహం</span>
-                <span className="dasha-panel__header-range">ప్రారంభం → ముగింపు</span>
-                <span className="dasha-panel__header-age">వయస్సు (ప్రారంభం → ముగింపు)</span>
-                <span className="dasha-panel__header-duration">వ్యవధి</span>
-            </div>
+            <div className="dasha-panel__scroll">
+                <div className="dasha-panel__header-row">
+                    <span className="dasha-panel__header-graha">గ్రహం</span>
+                    <span className="dasha-panel__header-range">ప్రారంభం → ముగింపు</span>
+                    <span className="dasha-panel__header-age">వయస్సు (ప్రారంభం → ముగింపు)</span>
+                    <span className="dasha-panel__header-duration">వ్యవధి</span>
+                </div>
 
-            <div className="dasha-panel__tree">
-                {dasha.mahadashas.map((mahadasha) => (
-                    <DashaPeriodRow
-                        key={`${mahadasha.graha}-${mahadasha.startEpochMs}`}
-                        period={mahadasha}
-                        depth={0}
-                        timezone={timezone}
-                        birthEpochMs={birthEpochMs}
-                        defaultExpanded={mahadasha.graha === activeMahadashaGraha}
-                    />
-                ))}
+                <div className="dasha-panel__tree">
+                    {dasha.mahadashas.map((mahadasha) => (
+                        <DashaPeriodRow
+                            key={`${mahadasha.graha}-${mahadasha.startEpochMs}`}
+                            period={mahadasha}
+                            depth={0}
+                            timezone={timezone}
+                            birthEpochMs={birthEpochMs}
+                            defaultExpanded={mahadasha.graha === activeMahadashaGraha}
+                        />
+                    ))}
+                </div>
             </div>
 
         </section>

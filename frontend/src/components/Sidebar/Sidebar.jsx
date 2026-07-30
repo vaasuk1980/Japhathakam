@@ -1,13 +1,11 @@
 import "./Sidebar.css";
 
-import SidebarHeader from "./SidebarHeader";
 import SidebarMenu from "./SidebarMenu";
 import SidebarFooter from "./SidebarFooter";
 
-function Sidebar() {
+function Sidebar({ isOpen }) {
   return (
-    <aside className="sidebar">
-      <SidebarHeader />
+    <aside className={isOpen ? "sidebar sidebar--open" : "sidebar"}>
       <SidebarMenu />
       <SidebarFooter />
     </aside>

@@ -68,9 +68,13 @@
     background: var(--jp-color-background);
 }
 
-/* Punya/Papa (Tritha Siddhantha) — same Brick Red used for Papa
-   Grahas in the Kundali chart (see KundaliChart.css); Punya
-   Grahas keep the table's default text color above. */
-.pp-graha-papa {
+/* Punya/Papa (Tritha Siddhantha) — same colors used for Punya/
+   Papa Grahas in the Kundali chart (see KundaliChart.css); the
+   Lagna keeps the table's default text color above. */
+.pp-table td.pp-graha-papa {
     color: #b22222;
+}
+
+.pp-table td.pp-graha-punya {
+    color: #16a34a;
 }

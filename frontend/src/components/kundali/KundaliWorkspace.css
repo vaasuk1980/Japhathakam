@@ -79,11 +79,12 @@
 /* Below this width, squeezing both charts into side-by-side
    columns would shrink each one well below a comfortable size —
    stack them instead so each chart keeps rendering close to its
-   full (up to 420px) size. This is the main fix for "compressing
-   the page width makes the chart/text look small": rather than
-   letting the chart shrink indefinitely, stop sharing the row
-   once there isn't enough width to do so comfortably. */
-@container kundali-workspace (max-width: 760px) {
+   full (up to 700px — see .kundali-chart) size. This is the main
+   fix for "compressing the page width makes the chart/text look
+   small": rather than letting the chart shrink indefinitely, stop
+   sharing the row once there isn't enough width to do so
+   comfortably. */
+@container kundali-workspace (max-width: 1250px) {
 
     .kundali-workspace {
         display: flex;

@@ -1,7 +1,5 @@
 import GrahaBadge from "./GrahaBadge";
-import { RASI_PADA_COUNT } from "../../kundali/constants/RenderConstants";
-
-const ROW_HEIGHT_PX = 20;
+import { RASI_PADA_COUNT, PADA_ROW_STEP_CQW } from "../../kundali/constants/RenderConstants";
 
 function findRegion(regions, type) {
     return regions.find((region) => region.type === type);
@@ -53,9 +51,18 @@ function PadaGridView({ regions }) {
                     ...aspects.map((graha) => graha.y ?? 0)
                 );
 
+                // Any row with at least one graha needs a full
+                // PADA_ROW_STEP_CQW of height, not just the tiny
+                // empty-row baseline — a single occupant's/aspect's
+                // own glyph is already taller than that baseline, so
+                // without this, two adjacent occupied Pada rows (not
+                // even stacked in the same Pada, just neighbouring
+                // ones) visually bleed into each other. A row with
+                // 2+ grahas stacked on the same side gets one more
+                // step per extra graha (see PADA_ROW_STEP_CQW).
                 const rowStyle =
                     (occupants.length || aspects.length)
-                        ? { minHeight: `${deepestStack + ROW_HEIGHT_PX}px` }
+                        ? { minHeight: `${(deepestStack + 1) * PADA_ROW_STEP_CQW}cqw` }
                         : undefined;
 
                 return (

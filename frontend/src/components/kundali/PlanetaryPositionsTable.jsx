@@ -85,6 +85,7 @@ function buildRows(kundaliDocument) {
             // The Lagna is a reference point, not a graha — it is
             // never Punya/Papa classified.
             isPapa: false,
+            isPunya: false,
         });
     }
 
@@ -102,6 +103,7 @@ function buildRows(kundaliDocument) {
                 // Punya/Papa (Tritha Siddhantha) — same
                 // classification the Kundali chart colors by.
                 isPapa: graha.nature === "PAPA",
+                isPunya: graha.nature === "PUNYA",
             });
         });
     });
@@ -142,7 +144,13 @@ function PlanetaryPositionsTable({ kundaliDocument }) {
                     <tbody>
                         {rows.map((row) => (
                             <tr key={row.key}>
-                                <td className={row.isPapa ? "pp-graha-papa" : undefined}>
+                                <td className={
+                                    row.isPapa
+                                        ? "pp-graha-papa"
+                                        : row.isPunya
+                                            ? "pp-graha-punya"
+                                            : undefined
+                                }>
                                     {row.name}
                                 </td>
                                 <td className="mono">{row.deg}</td>

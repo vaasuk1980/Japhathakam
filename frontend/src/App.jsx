@@ -8,12 +8,10 @@ import NewHoroscope from "./pages/NewHoroscope/NewHoroscope";
 import HoroscopeLibrary from "./pages/HoroscopeLibrary/HoroscopeLibrary";
 import Panchangam from "./pages/Panchangam/Panchangam";
 import Muhurtham from "./pages/Muhurtham/Muhurtham";
-import Reports from "./pages/Reports/Reports";
 import Settings from "./pages/Settings/Settings";
 import ComponentShowcase from "./pages/ComponentShowcase/ComponentShowcase";
 import FormPlayground from "./pages/FormPlayground/FormPlayground";
 import TestSwissEphemeris from "./pages/TestSwissEphemeris";
-import SitaraJatakam from "./pages/SitaraJatakam/SitaraJatakam";
 
 function App() {
     return (
@@ -27,8 +25,6 @@ function App() {
                     <Route path="/horoscope-library" element={<HoroscopeLibrary />} />
                     <Route path="/panchangam" element={<Panchangam />} />
                     <Route path="/muhurtham" element={<Muhurtham />} />
-                    <Route path="/reports" element={<Reports />} />
-                    <Route path="/sitara-jatakam" element={<SitaraJatakam />} />
                     <Route path="/component-showcase" element={<ComponentShowcase />} />
                     <Route path="/playground" element={<FormPlayground />} />
 

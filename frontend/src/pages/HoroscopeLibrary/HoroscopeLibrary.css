@@ -1,0 +1,187 @@
+.horoscope-library-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.horoscope-library__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+}
+
+.horoscope-library__subtitle {
+    margin: 4px 0 0;
+
+    font-family: var(--font-family);
+    font-size: var(--font-size-md);
+    color: var(--jp-color-text-secondary);
+}
+
+.horoscope-library__status {
+    font-family: var(--font-family);
+    color: var(--jp-color-text-secondary);
+}
+
+.horoscope-library__stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--spacing-md);
+}
+
+/* ==========================================================
+   Toolbar
+   ========================================================== */
+
+.horoscope-library__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-md);
+
+    margin-bottom: var(--spacing-md);
+}
+
+.horoscope-library__search {
+    flex: 1 1 260px;
+
+    padding: 8px 12px;
+
+    font-family: var(--font-family);
+    font-size: var(--font-size-sm);
+
+    border: 1px solid var(--jp-color-border);
+    border-radius: var(--radius-md);
+}
+
+.horoscope-library__sort {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+
+    font-family: var(--font-family);
+    font-size: var(--font-size-sm);
+    color: var(--jp-color-text-secondary);
+}
+
+.horoscope-library__sort select {
+    padding: 6px 8px;
+
+    font-family: var(--font-family);
+    font-size: var(--font-size-sm);
+
+    border: 1px solid var(--jp-color-border);
+    border-radius: var(--radius-sm);
+}
+
+/* ==========================================================
+   Table
+   ========================================================== */
+
+.horoscope-library__table-scroll {
+    overflow-x: auto;
+}
+
+.horoscope-library__table {
+    width: 100%;
+    border-collapse: collapse;
+
+    font-family: var(--font-family);
+    font-size: var(--font-size-sm);
+}
+
+.horoscope-library__table th {
+    padding: var(--spacing-sm);
+
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-text-muted);
+
+    border-bottom: 2px solid var(--jp-color-border);
+}
+
+.horoscope-library__table td {
+    padding: var(--spacing-sm);
+
+    color: var(--jp-color-text-primary);
+    border-bottom: 1px solid var(--jp-color-border);
+}
+
+.horoscope-library__table tr:last-child td {
+    border-bottom: none;
+}
+
+.horoscope-library__avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 28px;
+    height: 28px;
+    margin-right: var(--spacing-sm);
+
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-text-on-primary);
+
+    background: var(--jp-color-primary);
+    border-radius: var(--radius-pill);
+}
+
+.horoscope-library__actions {
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+.horoscope-library__actions a {
+    color: var(--jp-color-primary);
+    text-decoration: none;
+    font-weight: var(--font-medium);
+}
+
+.horoscope-library__actions a:hover {
+    text-decoration: underline;
+}
+
+.horoscope-library__delete {
+    background: none;
+    border: none;
+    padding: 0;
+
+    font-family: var(--font-family);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-medium);
+    color: var(--jp-color-danger);
+
+    cursor: pointer;
+}
+
+.horoscope-library__delete:hover {
+    text-decoration: underline;
+}
+
+.horoscope-library__empty {
+    font-family: var(--font-family);
+    color: var(--jp-color-text-muted);
+}
+
+/* ==========================================================
+   Pagination
+   ========================================================== */
+
+.horoscope-library__pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+
+    margin-top: var(--spacing-md);
+
+    font-family: var(--font-family);
+    font-size: var(--font-size-sm);
+    color: var(--jp-color-text-secondary);
+}

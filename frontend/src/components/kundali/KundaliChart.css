@@ -23,8 +23,13 @@
     /* Fixed max width (not just min(...,100%)) so the chart
        doesn't grow to fill an entire wide grid column — the
        rasi labels need consistent room on all four sides
-       regardless of how much space the column has. */
-    width: min(420px, 100%);
+       regardless of how much space the column has. Every cqw
+       clamp() below (here and in .sthana-number, .rasi-label,
+       .graha-symbol--*, .pada-row) has its own upper bound sized
+       to this exact max — raise this number and those maxes
+       together, or content silently stops growing past its old
+       ceiling while the box around it gets bigger. */
+    width: min(700px, 100%);
     aspect-ratio: 1 / 1;
 
     /* Establishes this box's own width as a query container, so
@@ -74,10 +79,10 @@
     bottom: 4px;
 
     /* Scales with the chart's own width (see .kundali-chart's
-       container-type) — 3.33cqw = 14px at the chart's own 420px
+       container-type) — 3.33cqw = 23px at the chart's own 700px
        max, shrinking proportionally instead of staying fixed
        while the chart around it gets smaller. */
-    font-size: clamp(8px, 3.33cqw, 14px);
+    font-size: clamp(8px, 3.33cqw, 23px);
     font-weight: 700;
 }
 
@@ -97,8 +102,8 @@
     --rasi-label-gap: 6px;
 
     /* See .sthana-number — scales with the chart's own width
-       (2.62cqw = 11px at the chart's 420px max). */
-    font-size: clamp(7px, 2.62cqw, 11px);
+       (2.62cqw = 18px at the chart's own 700px max). */
+    font-size: clamp(7px, 2.62cqw, 18px);
     font-weight: 600;
     color: #555;
     white-space: nowrap;
@@ -158,12 +163,24 @@
 /* Every sign always renders all 9 Rasi Padas as fixed rows, in
    order, whether occupied or not — so the vertical distance
    between e.g. Pada 2 and Pada 9 is always the same 7-row gap,
-   never just "the next occupied row". */
+   never just "the next occupied row".
+
+   The 2.14cqw mid/max is this row's EMPTY-row baseline — it keeps
+   9 empty rows, plus the cell's own padding/border, within one
+   quarter of the chart's own square height (see .kundali-chart's
+   aspect-ratio: 1/1 — at the 700px max width that's 700/4 = 175px
+   per row-band, of which 9 rows at 2.14cqw (15px) + ~22px cell
+   padding/border fits at ~157px). Any row with 1+ grahas gets a
+   taller, explicit min-height instead (see PADA_ROW_STEP_CQW in
+   RenderConstants.js) — a cell with several populated Padas can
+   still push its row-band past this budget. That's an accepted
+   trade-off: the alternative is graha glyphs overlapping
+   illegibly, either within one Pada or across neighbouring ones. */
 .pada-row {
     position: relative;
 
     width: 100%;
-    min-height: clamp(8px, 3.1cqw, 13px);
+    min-height: clamp(6px, 2.14cqw, 15px);
 }
 
 .graha-symbol {
@@ -177,21 +194,21 @@
    it reads as the primary information in the cell. */
 .graha-symbol--occupant {
     /* See .sthana-number — scales with the chart's own width
-       (3.81cqw = 16px at the chart's 420px max). */
-    font-size: clamp(10px, 3.81cqw, 16px);
+       (3.81cqw = 27px at the chart's own 700px max). */
+    font-size: clamp(10px, 3.81cqw, 27px);
     font-weight: 700;
     color: #1a1a1a;
 }
 
 /* Aspect (Drishti) — influence cast from elsewhere. Smaller and
    italic so it reads as "not an occupant" at a glance; color
-   itself is the same Punya/Papa default as an occupant (see
-   .graha-symbol--papa below) — italics is what marks it as an
-   aspect, not a separate color language. */
+   itself is overridden identically to an occupant's (see
+   .graha-symbol--papa / --punya below) — italics is what marks
+   it as an aspect, not a separate color language. */
 .graha-symbol--aspect {
     /* See .sthana-number — scales with the chart's own width
-       (3.1cqw = 13px at the chart's 420px max). */
-    font-size: clamp(8px, 3.1cqw, 13px);
+       (3.1cqw = 22px at the chart's own 700px max). */
+    font-size: clamp(8px, 3.1cqw, 22px);
     font-style: italic;
     font-weight: 700;
     color: #1a1a1a;
@@ -200,13 +217,18 @@
 /* Punya/Papa (Tritha Siddhantha) classification, relative to the
    Native's Party (see PunyaPapaClassifier on the backend). Applies
    to a graha whether shown as an occupant or as an aspect — only
-   overrides color (declared last so it wins over both rules
+   overrides color (declared last so they win over both rules
    above), never the occupant/aspect size/style/italic language.
-   Punya Grahas render in the default black above; Papa Grahas
-   render in Brick Red. Same rule applies identically in the
+   Punya Grahas render in Dark Green; Papa Grahas render in Brick
+   Red. The Lagna keeps the default black above — it is never
+   Punya/Papa classified. Same rule applies identically in the
    Planetary Position table. */
 .graha-symbol--papa {
     color: #b22222;
+}
+
+.graha-symbol--punya {
+    color: #16a34a;
 }
 
 .astronomical-places-panel {

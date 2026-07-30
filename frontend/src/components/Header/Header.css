@@ -1,10 +1,10 @@
 .header {
   position: fixed;
   top: 0;
-  left: var(--sidebar-width);
+  left: 0;
   right: 0;
 
-  width: calc(100% - var(--sidebar-width));
+  width: 100%;
   height: var(--header-height);
 
   display: flex;
@@ -29,24 +29,80 @@
 .header-left {
   display: flex;
   align-items: center;
+  flex: none;
+
+  /* Lines up with the sidebar's own right edge below it (see
+     Sidebar.css — the sidebar starts at top: var(--header-height),
+     directly under this), so the logo reads as sitting "above"
+     the sidebar column rather than floating inside the header
+     wherever the search bar happens to leave room. Header's own
+     left padding already accounts for the first --container-padding
+     of that width. */
+  width: calc(var(--sidebar-width) - var(--container-padding));
+  height: 100%;
+  box-sizing: border-box;
+
+  margin-right: var(--container-padding);
+  padding-right: var(--container-padding);
+
+  border-right: 1px solid var(--jp-color-border);
 }
 
 /* ==========================================
    Header Right
 ========================================== */
 
+.header-center {
+  display: flex;
+  flex: 1;
+
+  justify-content: center;
+  margin: 0 var(--spacing-xl);
+}
+
 .header-right {
   display: flex;
   align-items: center;
+
+  margin-left: auto;
+}
+
+/* ==========================================
+   Mobile Menu Toggle
+   ------------------------------------------
+   Opens the off-canvas sidebar drawer (see Sidebar.css /
+   MainLayout.jsx). Hidden on wide screens, where the sidebar
+   is a permanent column and there's nothing to toggle.
+========================================== */
+
+.header-menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+
+  width: 40px;
+  height: 40px;
+  margin-right: var(--spacing-sm);
+
+  background: none;
+  border: none;
+  border-radius: var(--radius-md);
+  color: var(--jp-color-text-primary);
+
+  cursor: pointer;
+}
+
+.header-menu-toggle:hover {
+  background: var(--jp-color-background);
 }
 
 /* ==========================================
    Application Logo
    ------------------------------------------
-   A small circle-and-diamond mark (echoing the
-   Kundali chart's own diamond grid) plus a
-   stacked Telugu/English wordmark — no image
-   asset required.
+   The brand medallion (see src/assets/logo-icon.png — cropped
+   from the full logo, src/assets/logo-full.png, background keyed
+   transparent) plus a stacked Telugu/English wordmark.
 ========================================== */
 
 .app-logo {
@@ -56,23 +112,11 @@
 }
 
 .app-logo__mark {
-  width: 34px;
-  height: 34px;
+  width: 42px;
+  height: 42px;
   flex: none;
 
-  color: var(--jp-color-primary);
-}
-
-.app-logo__mark circle,
-.app-logo__mark rect {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-}
-
-.app-logo__mark-bindu {
-  fill: currentColor;
-  stroke: none;
+  object-fit: contain;
 }
 
 .app-logo__text {
@@ -83,7 +127,7 @@
 
 .app-logo__title {
   font-family: var(--font-family);
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-xxl);
   font-weight: var(--font-bold);
 
   color: var(--jp-color-text-primary);
@@ -91,12 +135,151 @@
 
 .app-logo__subtitle {
   font-family: var(--font-family);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: var(--font-medium);
   letter-spacing: 0.12em;
   text-transform: uppercase;
 
   color: var(--jp-color-text-muted);
+}
+
+/* ==========================================
+   Global Search
+========================================== */
+
+.header-search {
+  position: relative;
+
+  width: 100%;
+  max-width: 440px;
+}
+
+.header-search__icon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+
+  color: var(--jp-color-text-muted);
+  pointer-events: none;
+}
+
+.header-search__input {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 9px 12px 9px 36px;
+
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  color: var(--jp-color-text-primary);
+
+  background: var(--jp-color-background);
+  border: 1px solid var(--jp-color-border);
+  border-radius: var(--radius-pill);
+}
+
+.header-search__input:focus {
+  outline: none;
+  border-color: var(--jp-color-primary);
+  background: var(--jp-color-surface);
+}
+
+.header-search__dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  background: var(--jp-color-surface);
+  border: 1px solid var(--jp-color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+
+  overflow: hidden;
+  z-index: var(--z-header);
+}
+
+.header-search__result {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  padding: var(--spacing-sm) var(--spacing-md);
+
+  text-align: left;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--jp-color-border);
+
+  cursor: pointer;
+}
+
+.header-search__result:hover {
+  background: var(--jp-color-background);
+}
+
+.header-search__result-name {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-medium);
+  color: var(--jp-color-text-primary);
+}
+
+.header-search__result-meta {
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  color: var(--jp-color-text-muted);
+}
+
+.header-search__empty {
+  padding: var(--spacing-md);
+
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  color: var(--jp-color-text-muted);
+}
+
+.header-search__view-all {
+  padding: var(--spacing-sm) var(--spacing-md);
+
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-medium);
+  color: var(--jp-color-primary);
+  text-align: left;
+
+  background: var(--jp-color-background);
+  border: none;
+
+  cursor: pointer;
+}
+
+.header-search__view-all:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================
+   Language Switcher
+========================================== */
+
+.language-switcher {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-medium);
+
+  color: var(--jp-color-text-secondary);
+  background: var(--jp-color-surface);
+  border: 1px solid var(--jp-color-border);
+  border-radius: var(--radius-sm);
+
+  padding: 6px 10px;
+  margin-right: var(--spacing-md);
+
+  cursor: pointer;
 }
 
 /* ==========================================
@@ -109,4 +292,74 @@
   font-weight: var(--font-medium);
 
   color: var(--jp-color-text-secondary);
+}
+
+/* ==========================================
+   Responsive
+   ------------------------------------------
+   Below this width the sidebar is a drawer, not a column (see
+   Sidebar.css), so header-left no longer needs to reserve
+   --sidebar-width of space to line up with it. The search bar,
+   language switcher, and welcome text are also trimmed so the
+   whole header actually fits phone-width viewports.
+========================================== */
+
+@media (max-width: 767px) {
+  .header {
+    padding: 0 var(--spacing-md);
+  }
+
+  .header-menu-toggle {
+    display: inline-flex;
+  }
+
+  .header-left {
+    width: auto;
+    height: auto;
+
+    margin-right: var(--spacing-sm);
+    padding-right: 0;
+
+    border-right: none;
+  }
+
+  .app-logo__mark {
+    width: 32px;
+    height: 32px;
+  }
+
+  .app-logo__title {
+    font-size: var(--font-size-lg);
+  }
+
+  .app-logo__subtitle {
+    display: none;
+  }
+
+  .header-center {
+    margin: 0 var(--spacing-sm);
+  }
+
+  .header-search {
+    max-width: none;
+  }
+
+  .language-switcher {
+    margin-right: var(--spacing-sm);
+    padding: 6px 6px;
+  }
+
+  .user-name {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-logo__title {
+    font-size: var(--font-size-md);
+  }
+
+  .header-center {
+    margin: 0 var(--spacing-xs);
+  }
 }

@@ -1,0 +1,17 @@
+.stat-card .card-body {
+    align-items: center;
+    text-align: center;
+}
+
+.stat-card__value {
+    font-family: var(--font-family);
+    font-size: var(--font-size-xxl);
+    font-weight: var(--font-bold);
+    color: var(--jp-color-primary);
+}
+
+.stat-card__label {
+    font-family: var(--font-family);
+    font-size: var(--font-size-sm);
+    color: var(--jp-color-text-secondary);
+}

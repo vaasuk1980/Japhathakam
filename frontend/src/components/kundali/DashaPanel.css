@@ -69,10 +69,20 @@
     color: var(--jp-color-text-muted);
 }
 
+/* Header row + tree scroll together as one unit, so the column
+   headers stay aligned with the rows beneath them on screens too
+   narrow for every fixed-width column (graha/duration/age/badge —
+   see below) to fit without one of them getting crushed illegibly. */
+.dasha-panel__scroll {
+    overflow-x: auto;
+}
+
 .dasha-panel__header-row {
     display: flex;
     align-items: center;
     gap: var(--spacing-sm);
+
+    min-width: 640px;
 
     padding: 6px 12px;
 
@@ -107,6 +117,8 @@
 }
 
 .dasha-panel__tree {
+    min-width: 640px;
+
     border: 1px solid var(--jp-color-border);
     border-top: none;
     border-radius: 0 0 var(--radius-md) var(--radius-md);

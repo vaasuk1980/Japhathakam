@@ -19,3 +19,4 @@ export { default as Button } from "./Button";
 /* Display Components */
 
 export { default as Card } from "./Card";
+export { default as StatCard } from "./StatCard";

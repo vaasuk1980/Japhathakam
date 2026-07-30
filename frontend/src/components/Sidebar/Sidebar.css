@@ -1,28 +1,40 @@
 .sidebar {
-  width: 250px;
-  height: calc(100vh - 70px);
+  width: var(--sidebar-width);
+  height: calc(100vh - var(--header-height));
   background: #1f2937;
   color: #ffffff;
 
   position: fixed;
-  top: 70px;
+  top: var(--header-height);
   left: 0;
+  z-index: var(--z-sidebar);
 
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-/* ---------- Header ---------- */
+/* ==========================================================
+   Mobile drawer
+   ----------------------------------------------------------
+   Below this width the sidebar is hidden off-canvas by default
+   and slides in as an overlay (see MainLayout's isSidebarOpen /
+   the hamburger button in Header) instead of permanently
+   pushing page content over, which is the only way it fits
+   phone-width viewports without every page's content being
+   squeezed into a sliver next to it.
+   ========================================================== */
 
-.sidebar-header {
-  padding: 20px;
-  border-bottom: 1px solid #374151;
-}
+@media (max-width: 767px) {
+  .sidebar {
+    max-width: 85vw;
+    transform: translateX(-100%);
+    transition: transform var(--transition-normal);
+    box-shadow: var(--shadow-lg);
+  }
 
-.sidebar-title {
-  margin: 0;
-  font-size: 22px;
-  text-align: center;
+  .sidebar.sidebar--open {
+    transform: translateX(0);
+  }
 }
 
 /* ---------- Menu ---------- */

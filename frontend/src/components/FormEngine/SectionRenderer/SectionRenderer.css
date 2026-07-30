@@ -4,12 +4,17 @@
 ========================================================== */
 
 .jp-form-section {
-    /* Matches HoroscopeReport's cap so the Basic Information card
-       and the report cards below it (Panchangam, Graha Sthithi,
-       Kundali, Dasha) line up at the same left AND right edge,
-       instead of the form stretching edge-to-edge across the
-       full page width while the report stays narrower. */
-    max-width: 1100px;
+    /* No max-width — fills 100% of page-content's own available
+       width (which already has symmetric left/right padding), so
+       the card's left and right margins actually match instead of
+       stopping short of a fixed cap and leaving unequal, uncapped-
+       feeling whitespace on the right on wide screens. Matches
+       HoroscopeReport (same rule, same reasoning) so the Basic
+       Information card and the report cards below it (Panchangam,
+       Graha Sthithi, Kundali, Dasha) still line up at the same
+       left AND right edge. */
+    width: 100%;
+    box-sizing: border-box;
 
     background: #ffffff;
 

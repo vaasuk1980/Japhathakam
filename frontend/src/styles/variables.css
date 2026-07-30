@@ -13,7 +13,7 @@
      ======================================================== */
 
   --sidebar-width: 250px;
-  --header-height: 70px;
+  --header-height: 90px;
 
   --content-max-width: 1600px;
 
@@ -251,4 +251,15 @@
   --z-tooltip: 3000;
   --z-toast: 4000;
 
+}
+
+/* Shorter header on phones — 90px of fixed chrome eats too much of a
+   ~700px-tall viewport. Every rule elsewhere reads --header-height via
+   var(), so redeclaring it here on :root is enough to resize the
+   header, the sidebar's top offset, and page-content's top margin
+   together. */
+@media (max-width: 767px) {
+  :root {
+    --header-height: 64px;
+  }
 }
