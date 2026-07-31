@@ -2,6 +2,8 @@ import { Menu } from "lucide-react";
 
 import { useTranslation } from "../../i18n/I18nContext";
 import HeaderSearch from "./HeaderSearch";
+import HeaderDateTime from "./HeaderDateTime";
+import HeaderLocation from "./HeaderLocation";
 import logoIcon from "../../assets/logo-icon.png";
 
 import "./Header.css";
@@ -55,6 +57,8 @@ function Header({ onMenuToggle }) {
           User Section
       ========================================== */}
       <div className="header-right">
+        <HeaderDateTime />
+
         <select
           className="language-switcher"
           aria-label={t("header.language")}
@@ -68,9 +72,7 @@ function Header({ onMenuToggle }) {
           ))}
         </select>
 
-        <span className="user-name">
-          {t("header.welcome", { name: "Sreenivasa Chari" })}
-        </span>
+        <HeaderLocation />
       </div>
     </header>
   );

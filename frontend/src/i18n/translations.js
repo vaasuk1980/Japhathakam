@@ -7,7 +7,7 @@
 
 const en = {
     header: {
-        welcome: "Welcome, {{name}}",
+        yourLocation: "Your Location",
         language: "Language",
         toggleMenu: "Toggle menu",
         searchPlaceholder: "Search by name or place of birth…",
@@ -26,14 +26,11 @@ const en = {
             afternoon: "Good Afternoon",
             evening: "Good Evening",
         },
-        subtitle: "An overview of your saved horoscopes and their current periods.",
         quickActions: {
             newHoroscope: "New Horoscope",
-        },
-        stats: {
-            total: "Total Horoscopes",
-            addedToday: "Added Today",
-            addedThisWeek: "Added This Week",
+            horoscopeLibrary: "Horoscope Library",
+            panchangam: "Panchangam",
+            muhurtham: "Muhurtham",
         },
         recent: {
             title: "Recent Horoscopes",
@@ -42,16 +39,24 @@ const en = {
             colName: "Name",
             colDob: "Date of Birth",
             colPlace: "Place of Birth",
-            colUpdated: "Last Updated",
+            colOpened: "Last Opened",
         },
-        dasha: {
-            title: "Current Dasha",
-            for: "For {{name}}",
-            mahadasha: "Mahadasha",
-            antardasha: "Antardasha",
-            viewChart: "View Full Chart",
-            loading: "Calculating current period…",
-            none: "No active period found.",
+        today: {
+            gocharaTitle: "Gochara · Today",
+            gocharaKundaliTitle: "Gochara Kundali",
+            panchangamTitle: "Panchangam · Today",
+            searchPlaceholder: "Search for a city…",
+            loading: "Loading…",
+            error: "Couldn't load today's sky — try again.",
+            ayanam: "Ayanam",
+            samvatsaram: "Samvatsaram",
+            masam: "Masam",
+            tithi: "Tithi",
+            vara: "Vara",
+            sunrise: "Sun Rise",
+            sunset: "Sun Set",
+            nakshatra: "Nakshatra - Pada",
+            nakshatraDuration: "Nakshatra Duration",
         },
         empty: {
             title: "No horoscopes yet",
@@ -94,7 +99,7 @@ const en = {
 
 const te = {
     header: {
-        welcome: "స్వాగతం, {{name}}",
+        yourLocation: "మీ స్థానం",
         language: "భాష",
         toggleMenu: "మెనూ తెరవండి",
         searchPlaceholder: "పేరు లేదా జనన స్థలం ద్వారా వెతకండి…",
@@ -113,14 +118,11 @@ const te = {
             afternoon: "శుభ మధ్యాహ్నం",
             evening: "శుభ సాయంత్రం",
         },
-        subtitle: "మీ సేవ్ చేసిన జాతకముల మరియు వాటి ప్రస్తుత దశల సారాంశం.",
         quickActions: {
             newHoroscope: "కొత్త జాతకము",
-        },
-        stats: {
-            total: "మొత్తం జాతకములు",
-            addedToday: "ఈరోజు చేర్చినవి",
-            addedThisWeek: "ఈ వారం చేర్చినవి",
+            horoscopeLibrary: "జాతకముల గ్రంధాలయం",
+            panchangam: "పంచాంగం",
+            muhurtham: "ముహూర్తం",
         },
         recent: {
             title: "ఇటీవలి జాతకములు",
@@ -129,16 +131,24 @@ const te = {
             colName: "పేరు",
             colDob: "జనన తేదీ",
             colPlace: "జనన స్థలం",
-            colUpdated: "చివరిగా నవీకరించినది",
+            colOpened: "చివరిగా తెరిచినది",
         },
-        dasha: {
-            title: "ప్రస్తుత దశ",
-            for: "{{name}} కొరకు",
-            mahadasha: "మహాదశ",
-            antardasha: "అంతర్దశ",
-            viewChart: "పూర్తి జాతకం చూడండి",
-            loading: "ప్రస్తుత దశను గణిస్తోంది…",
-            none: "ప్రస్తుతం జరుగుతున్న దశ కనబడలేదు.",
+        today: {
+            gocharaTitle: "గోచారం · ఈరోజు",
+            gocharaKundaliTitle: "గోచార కుండలి",
+            panchangamTitle: "పంచాంగం · ఈరోజు",
+            searchPlaceholder: "నగరం కోసం వెతకండి…",
+            loading: "లోడ్ అవుతోంది…",
+            error: "ఈరోజు ఆకాశాన్ని లోడ్ చేయలేకపోయాము — మళ్ళీ ప్రయత్నించండి.",
+            ayanam: "అయనం",
+            samvatsaram: "సంవత్సరం",
+            masam: "మాసం",
+            tithi: "తిథి",
+            vara: "వారం",
+            sunrise: "సూర్యోదయం",
+            sunset: "సూర్యాస్తమయం",
+            nakshatra: "నక్షత్రం - పాదం",
+            nakshatraDuration: "నక్షత్ర వ్యవధి",
         },
         empty: {
             title: "ఇంకా జాతకములు లేవు",

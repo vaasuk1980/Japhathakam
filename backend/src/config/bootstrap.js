@@ -6,6 +6,9 @@ import GenerateKundaliRoute
 import PersonRoute
     from "../routes/PersonRoute.js";
 
+import SkySnapshotRoute
+    from "../routes/SkySnapshotRoute.js";
+
 export default function bootstrap(app) {
 
     const {
@@ -31,6 +34,14 @@ export default function bootstrap(app) {
         "/api/persons",
 
         PersonRoute()
+
+    );
+
+    app.use(
+
+        "/api/sky-snapshot",
+
+        SkySnapshotRoute()
 
     );
 

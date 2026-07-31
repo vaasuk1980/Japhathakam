@@ -81,6 +81,25 @@ class PersonService {
 
     }
 
+    // Fire-and-forget from the caller's point of view — a failure here
+    // (e.g. offline) shouldn't block viewing the person, it just means
+    // the Dashboard's "Last Opened" column won't reflect this visit.
+    async markOpened(id) {
+
+        const response = await fetch(`${this.baseUrl}/${id}/opened`, {
+            method: "PATCH",
+        });
+
+        const body = await response.json();
+
+        if (!response.ok) {
+            throw new Error(body.message || "Failed to record view.");
+        }
+
+        return body.person;
+
+    }
+
     async remove(id) {
 
         const response = await fetch(`${this.baseUrl}/${id}`, {

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
 import PersonService from "../../services/PersonService";
+import formatDateDDMMYYYY from "../../utils/date/formatDateDDMMYYYY";
 import { useTranslation } from "../../i18n/I18nContext";
 
 import Card from "../../components/common/Card";
@@ -284,9 +285,9 @@ function HoroscopeLibrary() {
                                                         </span>
                                                         {person.firstName} {person.lastName}
                                                     </td>
-                                                    <td>{person.dateOfBirth} {person.timeOfBirth}</td>
+                                                    <td>{formatDateDDMMYYYY(person.dateOfBirth)} {person.timeOfBirth}</td>
                                                     <td>{person.placeOfBirth}</td>
-                                                    <td>{new Date(person.createdAt).toLocaleDateString()}</td>
+                                                    <td>{formatDateDDMMYYYY(person.createdAt)}</td>
                                                     <td className="horoscope-library__actions">
                                                         <Link to={`/person-details?id=${person.id}`}>
                                                             {t("horoscopeLibrary.view")}

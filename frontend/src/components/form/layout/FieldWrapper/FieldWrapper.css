@@ -19,7 +19,7 @@
     align-items: center;
     gap: 4px;
 
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
 
     color: var(--jp-color-text-primary);
@@ -44,7 +44,7 @@
 .jp-field-wrapper__helper {
     min-height: 18px;
 
-    font-size: 12px;
+    font-size: 13px;
     line-height: 1.4;
 
     color: var(--jp-color-text-secondary);

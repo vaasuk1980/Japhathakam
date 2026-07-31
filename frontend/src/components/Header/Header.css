@@ -55,6 +55,12 @@
 .header-center {
   display: flex;
   flex: 1;
+  /* Flex items default to min-width:auto, which refuses to shrink
+     below the search input's own intrinsic content width — without
+     this, the search bar wins a fight against header-right's other
+     items for space instead of yielding, and the header silently
+     overflows on narrow screens. */
+  min-width: 0;
 
   justify-content: center;
   margin: 0 var(--spacing-xl);
@@ -263,6 +269,34 @@
 }
 
 /* ==========================================
+   Date / Time
+========================================== */
+
+.header-datetime {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.25;
+
+  margin-right: var(--spacing-lg);
+}
+
+.header-datetime__date {
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  color: var(--jp-color-text-muted);
+}
+
+.header-datetime__time {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-medium);
+  color: var(--jp-color-text-secondary);
+
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================
    Language Switcher
 ========================================== */
 
@@ -280,18 +314,6 @@
   margin-right: var(--spacing-md);
 
   cursor: pointer;
-}
-
-/* ==========================================
-   User Name
-========================================== */
-
-.user-name {
-  font-family: var(--font-family);
-  font-size: var(--font-size-md);
-  font-weight: var(--font-medium);
-
-  color: var(--jp-color-text-secondary);
 }
 
 /* ==========================================
@@ -349,7 +371,7 @@
     padding: 6px 6px;
   }
 
-  .user-name {
+  .header-datetime {
     display: none;
   }
 }

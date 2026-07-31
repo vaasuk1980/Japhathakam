@@ -4,49 +4,47 @@
     gap: var(--spacing-lg);
 }
 
-.dashboard-subtitle {
-    margin: -8px 0 0;
-
-    font-family: var(--font-family);
-    font-size: var(--font-size-md);
-    color: var(--jp-color-text-secondary);
-}
-
 /* ==========================================================
    Quick Actions
+   ----------------------------------------------------------
+   Compact horizontal chips (icon + label in a row), not tall
+   centered tiles — a launcher row shouldn't cost more vertical
+   space than the content it leads to.
    ========================================================== */
 
 .dashboard-quick-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-md);
-}
-
-/* ==========================================================
-   Stats
-   ========================================================== */
-
-.dashboard-stats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: var(--spacing-md);
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: var(--spacing-sm);
 }
 
-/* ==========================================================
-   Columns (Recent Horoscopes + Current Dasha)
-   ========================================================== */
-
-.dashboard-columns {
-    display: grid;
-    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-    gap: var(--spacing-lg);
-    align-items: start;
+.dashboard-quick-action {
+    text-decoration: none;
+    color: inherit;
 }
 
-@media (max-width: 960px) {
-    .dashboard-columns {
-        grid-template-columns: 1fr;
-    }
+.dashboard-quick-action__card {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.dashboard-quick-action__card .card-body {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.dashboard-quick-action__icon {
+    flex: none;
+    color: var(--jp-color-primary);
+}
+
+.dashboard-quick-action__label {
+    font-family: var(--font-family);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-medium);
+    color: var(--jp-color-text-primary);
 }
 
 .dashboard-card__header {
@@ -132,54 +130,4 @@
 
 .dashboard-table a:hover {
     text-decoration: underline;
-}
-
-/* ==========================================================
-   Current Dasha
-   ========================================================== */
-
-.dashboard-dasha__for {
-    margin: -8px 0 0;
-
-    font-family: var(--font-family);
-    font-size: var(--font-size-sm);
-    color: var(--jp-color-text-secondary);
-}
-
-.dashboard-dasha__periods {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-md);
-}
-
-.dashboard-dasha__period {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-
-    padding: var(--spacing-sm) var(--spacing-md);
-
-    background: var(--jp-color-background);
-    border-radius: var(--radius-md);
-}
-
-.dashboard-dasha__period-label {
-    font-family: var(--font-family);
-    font-size: var(--font-size-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--jp-color-text-muted);
-}
-
-.dashboard-dasha__period-graha {
-    font-family: var(--font-family);
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-semibold);
-    color: var(--jp-color-primary);
-}
-
-.dashboard-dasha__period-range {
-    font-family: var(--font-family);
-    font-size: var(--font-size-xs);
-    color: var(--jp-color-text-secondary);
 }

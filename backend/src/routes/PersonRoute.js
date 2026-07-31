@@ -90,6 +90,20 @@ export default function PersonRoute() {
         }
     });
 
+    router.patch("/:id/opened", async (req, res, next) => {
+        try {
+            const person = await PersonRepository.touchOpened(req.params.id);
+
+            if (!person) {
+                return res.status(404).json({ message: "Person not found." });
+            }
+
+            return res.status(200).json({ person });
+        } catch (error) {
+            next(error);
+        }
+    });
+
     router.delete("/:id", async (req, res, next) => {
         try {
             const removed = await PersonRepository.remove(req.params.id);

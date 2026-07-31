@@ -2,6 +2,7 @@ import PanchangamDetails from "./PanchangamDetails";
 import PlanetaryPositionsTable from "./PlanetaryPositionsTable";
 import KundaliWorkspace from "./KundaliWorkspace";
 import DashaPanel from "./DashaPanel";
+import formatDateDDMMYYYY from "../../utils/date/formatDateDDMMYYYY";
 
 import "./HoroscopeReport.css";
 
@@ -35,7 +36,7 @@ function HoroscopeReport({ values, kundaliDocument, renderLayout }) {
                 <div className="horoscope-report__name">{fullName || "—"}</div>
 
                 <div className="horoscope-report__facts">
-                    <span>{values.dateOfBirth}</span>
+                    <span>{formatDateDDMMYYYY(values.dateOfBirth)}</span>
                     <span className="horoscope-report__dot">•</span>
                     <span>{values.timeOfBirth}</span>
                     <span className="horoscope-report__dot">•</span>

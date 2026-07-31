@@ -12,7 +12,7 @@
  * Example:
  *   153.8041417
  *      ↓
- *   3°48'14"
+ *   03°48'14"
  *
  * Notes:
  *   - Presentation only.
@@ -35,7 +35,9 @@ class LongitudeFormatter {
 
         const seconds = Math.floor((minutesDecimal - minutes) * 60);
 
-        return `${degrees}°${minutes}'${seconds}"`;
+        const pad = (value) => String(value).padStart(2, "0");
+
+        return `${pad(degrees)}°${pad(minutes)}'${pad(seconds)}"`;
 
     }
 

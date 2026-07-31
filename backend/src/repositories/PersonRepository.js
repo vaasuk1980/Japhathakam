@@ -101,6 +101,34 @@ class PersonRepository {
 
     }
 
+    // Distinct from update() — viewing a record shouldn't touch
+    // updatedAt (that must keep meaning "last edited"), so this is
+    // its own narrow write of just lastOpenedAt.
+    async touchOpened(id) {
+
+        const persons = await this.readAll();
+
+        const index = persons.findIndex(
+            (person) => person.id === id
+        );
+
+        if (index === -1) {
+            return null;
+        }
+
+        const updated = {
+            ...persons[index],
+            lastOpenedAt: new Date().toISOString(),
+        };
+
+        persons[index] = updated;
+
+        await this.writeAll(persons);
+
+        return updated;
+
+    }
+
     async remove(id) {
 
         const persons = await this.readAll();

@@ -1,0 +1,132 @@
+.today-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.today-panel__cards {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--spacing-lg);
+    align-items: start;
+}
+
+.today-panel__column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+/* Smaller than the default 700px .kundali-chart (see
+   KundaliChart.css), but not too small — below ~400px the chart
+   visibly stops being square: each cell reserves height for 9
+   sub-position rows, and cells with 2+ grahas sharing a Rashi
+   (common in a 12-graha Gochara chart, e.g. two planets sharing
+   a sign) need more than their 1/4 share of a square box. That
+   overhead is roughly fixed in px, so shrinking the container
+   only makes it a bigger fraction of the total — 700px is ~13%
+   taller than wide for this reason already; 280px was ~33%.
+   400px keeps that down to roughly ~16%, a reasonable trade
+   between compactness and staying visually square. Only scoped
+   to this card, not the shared component's default. */
+.today-gochara-kundali-card .kundali-chart {
+    width: min(400px, 100%);
+    margin: var(--spacing-sm) auto;
+}
+
+@media (max-width: 767px) {
+    .today-panel__cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================================
+   Gochara Summary — same table shape as the Planetary Positions
+   table (see PlanetaryPositionsTable.css), minus a Bhava column:
+   there's no natal chart here, so no house to number against.
+   ========================================================== */
+
+.today-gochara-scroll {
+    overflow-x: auto;
+}
+
+.today-gochara-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    font-family: var(--font-family);
+    font-size: var(--font-size-sm);
+}
+
+.today-gochara-table th {
+    padding: var(--spacing-sm);
+
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-text-muted);
+
+    border-bottom: 2px solid var(--jp-color-border);
+}
+
+.today-gochara-table td {
+    padding: var(--spacing-sm);
+
+    color: var(--jp-color-text-primary);
+    border-bottom: 1px solid var(--jp-color-border);
+
+    font-variant-numeric: tabular-nums;
+}
+
+.today-gochara-table tr:last-child td {
+    border-bottom: none;
+}
+
+.today-gochara-table__graha {
+    font-weight: var(--font-semibold);
+}
+
+/* ==========================================================
+   Today's Panchangam
+   ========================================================== */
+
+.today-panchangam-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.today-panchangam-grid__item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.today-panchangam-grid__item--wide {
+    grid-column: 1 / -1;
+}
+
+.today-panchangam-grid__label {
+    font-family: var(--font-family);
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--jp-color-text-muted);
+}
+
+.today-panchangam-grid__value {
+    font-family: var(--font-family);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-text-primary);
+
+    font-variant-numeric: tabular-nums;
+}
+
+.today-panchangam-grid__value--range {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-medium);
+    color: var(--jp-color-text-secondary);
+}

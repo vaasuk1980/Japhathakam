@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Search } from "lucide-react";
 
 import PersonService from "../../services/PersonService";
+import formatDateDDMMYYYY from "../../utils/date/formatDateDDMMYYYY";
 import { useTranslation } from "../../i18n/I18nContext";
 
 const MAX_RESULTS = 6;
@@ -128,7 +129,7 @@ function HeaderSearch() {
                                     {person.firstName} {person.lastName}
                                 </span>
                                 <span className="header-search__result-meta">
-                                    {person.dateOfBirth} · {person.placeOfBirth}
+                                    {formatDateDDMMYYYY(person.dateOfBirth)} · {person.placeOfBirth}
                                 </span>
                             </button>
                         ))

@@ -1,5 +1,8 @@
 import { useMemo } from "react";
 
+import { computeTithi, computeVara, computeAyana } from "../../kundali/utils/panchangamMath";
+import formatDateDDMMYYYY from "../../utils/date/formatDateDDMMYYYY";
+
 import "./PanchangamDetails.css";
 
 const RASI_NAMES = [
@@ -8,34 +11,11 @@ const RASI_NAMES = [
     "ధనుస్సు", "మకరం", "కుంభం", "మీనం",
 ];
 
-const VARA_NAMES = [
-    "ఆదివారం", "సోమవారం", "మంగళవారం", "బుధవారం",
-    "గురువారం", "శుక్రవారం", "శనివారం",
-];
-
-const TITHI_NAMES = [
-    "పాడ్యమి", "విదియ", "తదియ", "చవితి", "పంచమి",
-    "షష్ఠి", "సప్తమి", "అష్టమి", "నవమి", "దశమి",
-    "ఏకాదశి", "ద్వాదశి", "త్రయోదశి", "చతుర్దశి",
-];
-
 const GENDER_LABELS = {
     male: "Male",
     female: "Female",
     other: "Transgender",
 };
-
-function formatDateDDMMYYYY(isoDate) {
-
-    if (!isoDate) {
-        return "—";
-    }
-
-    const [year, month, day] = isoDate.split("-");
-
-    return `${day}-${month}-${year}`;
-
-}
 
 function signIndexForLongitude(longitude) {
     const normalized = ((longitude % 360) + 360) % 360;
@@ -50,42 +30,6 @@ function findGraha(kundaliDocument, code) {
         }
     }
     return null;
-}
-
-function computeTithi(sunLongitude, moonLongitude) {
-
-    const diff = ((moonLongitude - sunLongitude) % 360 + 360) % 360;
-    const tithiIndex = Math.floor(diff / 12); // 0-29
-
-    const paksha = tithiIndex < 15 ? "శుక్ల పక్షం" : "కృష్ణ పక్షం";
-    const dayInPaksha = tithiIndex % 15; // 0-14
-
-    const name = dayInPaksha === 14
-        ? (tithiIndex < 15 ? "పౌర్ణమి" : "అమావాస్య")
-        : TITHI_NAMES[dayInPaksha];
-
-    return { paksha, name };
-
-}
-
-function computeAyana(sunLongitude) {
-    const signIndex = signIndexForLongitude(sunLongitude);
-    // Makara (9) through Mithuna (2), wrapping: Uttarayana.
-    const isUttarayana = signIndex >= 9 || signIndex <= 2;
-    return isUttarayana ? "ఉత్తరాయణం" : "దక్షిణాయనం";
-}
-
-function computeVara(dateOfBirth) {
-
-    if (!dateOfBirth) {
-        return "—";
-    }
-
-    const [year, month, day] = dateOfBirth.split("-").map(Number);
-    const date = new Date(year, month - 1, day);
-
-    return VARA_NAMES[date.getDay()];
-
 }
 
 function PanchangamDetails({ kundaliDocument, dateOfBirth, timeOfBirth, gender }) {

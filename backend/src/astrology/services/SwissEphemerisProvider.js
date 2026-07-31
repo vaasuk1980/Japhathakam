@@ -72,6 +72,36 @@ class SwissEphemerisProvider {
 
     }
 
+    calculateRiseTransitSet(
+        julianDayNumber,
+        celestialBody,
+        eventType,
+        longitude,
+        latitude,
+        altitude = 0
+    ) {
+
+        return swisseph.calculateRiseTransitSet(
+            julianDayNumber,
+            celestialBody,
+            eventType,
+            longitude,
+            latitude,
+            altitude
+        );
+
+    }
+
+    dateFromJulianDay(
+        julianDayNumber
+    ) {
+
+        return swisseph.julianDayToDate(
+            julianDayNumber
+        );
+
+    }
+
     calculateHouses(
         julianDayNumber,
         latitude,

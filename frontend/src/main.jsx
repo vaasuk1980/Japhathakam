@@ -7,12 +7,15 @@ import "./styles/typography.css";
 import "./index.css";
 
 import { LanguageProvider } from "./i18n/I18nContext.jsx";
+import { LocationProvider } from "./location/LocationContext.jsx";
 import App from "./App.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <LanguageProvider>
-      <App />
+      <LocationProvider>
+        <App />
+      </LocationProvider>
     </LanguageProvider>
   </StrictMode>
 );

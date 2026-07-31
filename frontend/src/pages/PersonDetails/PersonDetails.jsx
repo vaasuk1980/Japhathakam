@@ -79,6 +79,11 @@ function PersonDetails() {
                 if (!cancelled) {
                     setLoadedPerson(person);
                 }
+
+                // Best-effort — the Dashboard's "Last Opened" column is a
+                // convenience, not something a failed PATCH should block
+                // viewing the person over.
+                PersonService.markOpened(personId).catch(() => {});
             })
             .catch((error) => {
                 console.error("Failed to load saved person", error);
