@@ -15,15 +15,6 @@
     container-name: kundali-workspace;
 }
 
-.kundali-workspace-title {
-    margin: 0 0 var(--spacing-md);
-
-    font-family: Georgia, "Times New Roman", var(--font-family), serif;
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-semibold);
-    color: var(--jp-color-text-primary);
-}
-
 /* Explicit grid placement (not relying on document-order auto-flow)
    is what actually keeps the two charts aligned: each panel's
    title/controls/chart is pinned to the SAME row regardless of
@@ -60,6 +51,27 @@
 
 .kundali-panel__title {
     grid-row: 1;
+
+    /* Bleeds to the section's top edge (undoing its own padding)
+       so the fill reads as a title bar, not an inset highlight —
+       the left/right bleed differs per panel below, since Janma
+       and Gochara share this section side by side rather than
+       each owning a full-width card of their own. */
+    margin-top: calc(-1 * var(--spacing-lg));
+    padding: var(--spacing-sm) var(--spacing-lg);
+
+    background: var(--jp-color-heading-fill);
+    color: var(--jp-color-text-primary);
+}
+
+.janma-kundali-panel .kundali-panel__title {
+    margin-left: calc(-1 * var(--spacing-lg));
+    border-radius: var(--radius-lg) 0 0 0;
+}
+
+.gochara-kundali-panel .kundali-panel__title {
+    margin-right: calc(-1 * var(--spacing-lg));
+    border-radius: 0 var(--radius-lg) 0 0;
 }
 
 .kundali-panel__controls {
@@ -73,7 +85,7 @@
 .gochara-error {
     margin: var(--spacing-sm) 0 0;
     color: var(--jp-color-danger);
-    font-size: 13px;
+    font-size: 18px;
 }
 
 /* Below this width, squeezing both charts into side-by-side
@@ -107,6 +119,25 @@
     .kundali-workspace > .kundali-panel .kundali-chart {
         grid-column: unset;
         grid-row: unset;
+    }
+
+    /* Stacked now (each panel is its own full-width block, not a
+       shared row) — both titles bleed on both sides and get fully
+       rounded top corners, instead of only bleeding the one edge
+       that used to face the section's own border. */
+    .janma-kundali-panel .kundali-panel__title,
+    .gochara-kundali-panel .kundali-panel__title {
+        margin-left: calc(-1 * var(--spacing-lg));
+        margin-right: calc(-1 * var(--spacing-lg));
+        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+
+    /* Only Janma still sits at the section's very top edge once
+       stacked — Gochara's title is now below Janma's whole chart,
+       so the shared rule's negative top margin (correct when they
+       share a row) would pull it up into Janma's content instead. */
+    .gochara-kundali-panel .kundali-panel__title {
+        margin-top: 0;
     }
 
 }

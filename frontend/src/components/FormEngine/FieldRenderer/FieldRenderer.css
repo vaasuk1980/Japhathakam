@@ -19,6 +19,31 @@
     gap: 8px;
 }
 
+/* Caps how wide a field's input box grows on wide screens — the
+   grid track itself still spans however many columns the field
+   asked for (keeping rows aligned with neighboring fields), but
+   the control inside stops growing past a size that's still
+   comfortable to read, instead of stretching a short value like
+   a first name across hundreds of extra idle pixels. Left as
+   generous headroom above each span's typical width at common
+   ~1440-1600px screens, so this is a no-op there and only caps
+   growth on genuinely wide monitors. */
+.jp-form-field {
+    max-width: 400px;
+}
+
+.jp-form-field--span-1 {
+    max-width: 200px;
+}
+
+.jp-form-field--span-3 {
+    max-width: 600px;
+}
+
+.jp-form-field--full {
+    max-width: none;
+}
+
 .jp-form-field__header {
     display: flex;
     align-items: center;

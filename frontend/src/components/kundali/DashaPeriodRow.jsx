@@ -5,6 +5,7 @@ import { DASHA_LEVEL_LABELS } from "../../kundali/constants/DashaConstants";
 import isCurrentPeriod from "../../utils/dasha/isCurrentPeriod";
 import resolveAgeAtEpoch from "../../utils/age/resolveAgeAtEpoch";
 import formatAgeYMD from "../../utils/age/formatAgeYMD";
+import resolveGrahaNature from "../../utils/dasha/resolveGrahaNature";
 
 const MAX_DEPTH = DASHA_LEVEL_LABELS.length - 1; // 4 = Pranadasha, the deepest level (Rule 12)
 
@@ -16,7 +17,7 @@ const MAX_DEPTH = DASHA_LEVEL_LABELS.length - 1; // 4 = Pranadasha, the deepest 
  * the browser, the first time a row is expanded — see
  * DashaSubdivisionEngine.
  */
-function DashaPeriodRow({ period, depth, timezone, birthEpochMs, defaultExpanded = false }) {
+function DashaPeriodRow({ period, depth, timezone, birthEpochMs, defaultExpanded = false, natureByGraha }) {
 
     const [expanded, setExpanded] = useState(defaultExpanded);
     const [computedChildren, setComputedChildren] = useState(null);
@@ -48,6 +49,7 @@ function DashaPeriodRow({ period, depth, timezone, birthEpochMs, defaultExpanded
     };
 
     const current = isCurrentPeriod(period);
+    const nature = resolveGrahaNature(period.graha, natureByGraha);
 
     const ageAtStart = formatAgeYMD(
         resolveAgeAtEpoch(birthEpochMs, period.startEpochMs, timezone)
@@ -79,7 +81,9 @@ function DashaPeriodRow({ period, depth, timezone, birthEpochMs, defaultExpanded
                     {canExpand ? "▸" : ""}
                 </span>
 
-                <span className="dasha-row__graha">{period.displayName}</span>
+                <span className={"dasha-row__graha" + (nature ? ` dasha-row__graha--${nature}` : "")}>
+                    {period.displayName}
+                </span>
 
                 <span className="dasha-row__range">
                     {period.start}
@@ -94,15 +98,6 @@ function DashaPeriodRow({ period, depth, timezone, birthEpochMs, defaultExpanded
                 </span>
 
                 <span className="dasha-row__duration">{period.durationDisplay}</span>
-
-                {/* Always rendered (empty on non-current rows) so every
-                    row reserves the SAME fixed width here — otherwise
-                    `range`'s flex-grow shrinks only on "current" rows to
-                    make room for the badge, shifting Age/Duration's
-                    position relative to every other row. */}
-                <span className="dasha-row__badge-slot">
-                    {current && <span className="dasha-row__badge">ప్రస్తుతం</span>}
-                </span>
             </button>
 
             {expanded && children && (
@@ -114,6 +109,7 @@ function DashaPeriodRow({ period, depth, timezone, birthEpochMs, defaultExpanded
                             depth={depth + 1}
                             timezone={timezone}
                             birthEpochMs={birthEpochMs}
+                            natureByGraha={natureByGraha}
                         />
                     ))}
                 </div>

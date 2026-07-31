@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate, useSearchParams, Link } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import DynamicForm from "../../components/FormEngine/DynamicForm";
 import personSchema from "../../schemas/person.schema";
@@ -241,11 +241,7 @@ function PersonDetails() {
     return (
         <div>
 
-            <h1>{personId ? "Edit Person" : "Person Details"}</h1>
-
-            <p>
-                <Link to="/horoscope-library">&larr; Back to Horoscope Library</Link>
-            </p>
+            <h1 className="no-print">Person Details</h1>
 
             <DynamicForm
                 key={personId ?? "new"}
@@ -276,6 +272,15 @@ function PersonDetails() {
                                     {saveState.status === "saving"
                                         ? "Saving..."
                                         : personId ? "Save Changes" : "Save"}
+                                </Button>
+                            )}
+
+                            {requestState.status === "success" && (
+                                <Button
+                                    variant="secondary"
+                                    onClick={() => window.print()}
+                                >
+                                    Save PDF
                                 </Button>
                             )}
 

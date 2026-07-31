@@ -29,8 +29,29 @@
     margin: 0;
 }
 
+/* Sticks to the top of the scrollable content area (.page-content)
+   once scrolled that far, so the person's name/DOB/place stay
+   visible while Panchangam/Planetary Positions/Kundali/Dasha
+   scroll past beneath it — no need to scroll back up to remember
+   whose report this is. An opaque background is required so
+   sticking content doesn't visibly show through underneath it.
+
+   `top: -var(--page-padding)` (not 0) is the actual fix for a real
+   gap: .page-content has its own top padding, which sticky "top:0"
+   would otherwise leave UNCOVERED above the stuck masthead (that
+   strip is still inside .page-content's visible box, just above
+   the masthead's own painted area) — later sections would become
+   briefly visible through it as they scrolled past. Pulling the
+   stick point up by that same padding closes the gap entirely. */
 .horoscope-report__masthead {
+    position: sticky;
+    top: calc(-1 * var(--page-padding));
+    z-index: 5;
+
+    padding-top: var(--spacing-sm);
     padding-bottom: var(--spacing-md);
+
+    background: var(--jp-color-background);
     border-bottom: 2px solid var(--jp-color-primary);
 }
 

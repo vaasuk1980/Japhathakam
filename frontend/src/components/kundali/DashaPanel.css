@@ -17,56 +17,29 @@
 }
 
 .dasha-panel__title {
-    margin: 0 0 var(--spacing-md);
+    /* Bleeds to the card's own edges (undoing its own padding/
+       corner radius) so the fill reads as a full-width title bar. */
+    margin: calc(-1 * var(--spacing-lg)) calc(-1 * var(--spacing-lg)) var(--spacing-md);
+
+    padding: var(--spacing-sm) var(--spacing-lg);
 
     font-family: Georgia, "Times New Roman", var(--font-family), serif;
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-xl);
     font-weight: var(--font-semibold);
     color: var(--jp-color-text-primary);
+
+    background: var(--jp-color-heading-fill);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
-.dasha-panel__summary {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-lg);
-
-    margin-bottom: var(--spacing-md);
-    padding: var(--spacing-md);
-
-    background: var(--jp-color-background);
-    border-radius: var(--radius-md);
+/* Punya/Papa (Tritha Siddhantha) — same classification and colors
+   as the Planetary Positions table and Kundali chart. */
+.dasha-row__graha--papa {
+    color: #b22222;
 }
 
-.dasha-panel__summary-item {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.dasha-panel__summary-label {
-    font-size: var(--font-size-xs);
-    color: var(--jp-color-text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-}
-
-.dasha-panel__summary-value {
-    font-size: var(--font-size-md);
-    font-weight: var(--font-semibold);
-    color: var(--jp-color-primary);
-}
-
-.dasha-panel__legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-sm) var(--spacing-md);
-
-    margin-bottom: var(--spacing-md);
-}
-
-.dasha-panel__legend-item {
-    font-size: var(--font-size-xs);
-    color: var(--jp-color-text-muted);
+.dasha-row__graha--punya {
+    color: #16a34a;
 }
 
 /* Header row + tree scroll together as one unit, so the column
@@ -77,47 +50,66 @@
     overflow-x: auto;
 }
 
-.dasha-panel__header-row {
-    display: flex;
+/* Header and data rows share this exact column template (chevron
+   spacer / graha / date-range / age / duration) so they line up
+   pixel-for-pixel regardless of content — grid, rather than flex
+   + hand-matched widths, is what actually guarantees that; the
+   previous flex layout let header and row columns drift apart
+   (a stretchy date-range column plus an unused trailing badge
+   slot only on data rows) enough to visibly misalign. Age sits
+   directly after the date range now, left-aligned, instead of
+   being pushed to the far right past a stretchy gap. */
+.dasha-panel__header-row,
+.dasha-row {
+    display: grid;
+    grid-template-columns: 14px 60px 380px 260px 130px;
     align-items: center;
-    gap: var(--spacing-sm);
+    column-gap: var(--spacing-sm);
+}
 
-    min-width: 640px;
+.dasha-panel__header-row {
+    min-width: 886px;
 
     padding: 6px 12px;
 
     border-bottom: 2px solid var(--jp-color-primary);
 
-    font-size: var(--font-size-xs);
+    font-size: 18px;
     font-weight: var(--font-semibold);
     text-transform: uppercase;
     letter-spacing: 0.04em;
     color: var(--jp-color-primary);
 }
 
+/* Empty first cell — spacer matching the chevron column in data
+   rows below, so "గ్రహం" lines up with the graha glyph, not the
+   chevron toggle. */
 .dasha-panel__header-graha {
-    width: 76px;
-    flex: none;
+    grid-column: 2;
 }
 
 .dasha-panel__header-range {
-    flex: 1;
-}
-
-.dasha-panel__header-duration {
-    width: 90px;
-    flex: none;
-    text-align: right;
+    grid-column: 3;
 }
 
 .dasha-panel__header-age {
-    width: 270px;
-    flex: none;
-    text-align: right;
+    grid-column: 4;
+    text-align: left;
+}
+
+.dasha-panel__header-duration {
+    grid-column: 5;
+    text-align: left;
+
+    /* Extra breathing room from Age — the standard column-gap alone
+       reads as almost touching Age's own content, since Age's text
+       ("37y 10m 4d → 47y 10m 4d" style) often runs close to its own
+       column's right edge. */
+    margin-left: var(--spacing-md);
 }
 
 .dasha-panel__tree {
-    min-width: 640px;
+    min-width: 886px;
 
     border: 1px solid var(--jp-color-border);
     border-top: none;
@@ -126,9 +118,6 @@
 }
 
 .dasha-row {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
     width: 100%;
 
     padding: 8px 12px 8px 0;
@@ -138,10 +127,7 @@
     background: var(--jp-color-surface);
 
     font-family: var(--font-family);
-    /* Fluid, matching the Panchangam/Graha Sthithi tables — not
-       tied to --font-size-sm since that token is shared with
-       unrelated UI chrome elsewhere in the app. */
-    font-size: clamp(13px, 0.9vw + 10px, 15px);
+    font-size: 18px;
     color: var(--jp-color-text-primary);
     text-align: left;
     cursor: pointer;
@@ -171,8 +157,7 @@
 
 .dasha-row__chevron {
     display: inline-flex;
-    width: 14px;
-    flex: none;
+    align-items: center;
 
     color: var(--jp-color-text-muted);
     transition: transform var(--transition-fast);
@@ -183,19 +168,15 @@
 }
 
 .dasha-row__graha {
-    width: 60px;
-    flex: none;
-
     font-weight: var(--font-semibold);
 }
 
 .dasha-row__range {
-    flex: 1;
-
     display: flex;
     align-items: center;
     gap: var(--spacing-sm);
 
+    white-space: nowrap;
     font-variant-numeric: tabular-nums;
     color: var(--jp-color-text-secondary);
 }
@@ -205,10 +186,10 @@
 }
 
 .dasha-row__duration {
-    width: 90px;
-    flex: none;
-    text-align: right;
+    text-align: left;
+    margin-left: var(--spacing-md);
 
+    white-space: nowrap;
     font-variant-numeric: tabular-nums;
     color: var(--jp-color-text-secondary);
 }
@@ -217,39 +198,14 @@
    at this period's start and end, distinct from Duration (the
    period's own length) and from the Start/End calendar dates. */
 .dasha-row__age {
-    width: 270px;
-    flex: none;
-
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
     gap: var(--spacing-sm);
 
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
     color: var(--jp-color-text-secondary);
-}
-
-/* Fixed-width slot, always present (empty when not the current
-   period) — keeps every row's flex-grow allocation identical, so
-   Age/Duration line up whether or not that row shows the badge. */
-.dasha-row__badge-slot {
-    width: 100px;
-    flex: none;
-}
-
-.dasha-row__badge {
-    display: inline-block;
-
-    padding: 2px 8px;
-    border-radius: var(--radius-pill);
-
-    background: var(--jp-color-success);
-    color: var(--jp-color-text-white);
-
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-semibold);
-    white-space: nowrap;
 }
 
 .dasha-row-children {

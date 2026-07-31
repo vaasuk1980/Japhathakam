@@ -90,6 +90,14 @@
   --jp-color-danger-hover: #b91c1c;
   --jp-color-danger-bg: #fee2e2;
 
+  /* Section heading fill — the light gray "title bar" background
+     used behind each card's own heading (Basic Information,
+     Panchangam, Planetary Positions, Janma/Gochara Kundali,
+     Dasacharam). Light fill keeps the existing dark heading text
+     (var(--jp-color-text-primary)) readable without needing a
+     separate light-text override. */
+  --jp-color-heading-fill: #ececec;
+
 
   /* ========================================================
      BACKWARD COMPATIBILITY TOKENS
@@ -164,12 +172,17 @@
     Verdana,
     sans-serif;
 
-  /* Font Sizes */
+  /* Font Sizes
+     xs/sm/md/lg are the body/data tier — all collapsed to one
+     uniform 18px per direct request, so nothing non-heading is
+     smaller or larger than any other non-heading text. xl/xxl
+     remain the two heading tiers (card/section titles, page
+     titles) and are deliberately NOT part of that collapse. */
 
-  --font-size-xs: 12px;
-  --font-size-sm: 14px;
-  --font-size-md: 16px;
-  --font-size-lg: 20px;
+  --font-size-xs: 18px;
+  --font-size-sm: 18px;
+  --font-size-md: 18px;
+  --font-size-lg: 18px;
   --font-size-xl: 24px;
   --font-size-xxl: 32px;
 

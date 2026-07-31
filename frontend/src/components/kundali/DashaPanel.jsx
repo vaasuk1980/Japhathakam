@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 
 import DashaPeriodRow from "./DashaPeriodRow";
-import { DASHA_LEVEL_LABELS } from "../../kundali/constants/DashaConstants";
+import DashaGlance from "./DashaGlance";
 import isCurrentPeriod from "../../utils/dasha/isCurrentPeriod";
 
 import "./DashaPanel.css";
@@ -16,7 +16,7 @@ import "./DashaPanel.css";
  * DashaSubdivisionEngine). The Mahadasha currently running (if any)
  * opens by default so the person can see where they are at a glance.
  */
-function DashaPanel({ dasha, timezone }) {
+function DashaPanel({ dasha, timezone, natureByGraha }) {
 
     const activeMahadashaGraha = useMemo(() => {
 
@@ -43,27 +43,9 @@ function DashaPanel({ dasha, timezone }) {
     return (
         <section className="dasha-panel">
 
-            <h2 className="dasha-panel__title">దశ · Dasha (Trāitha Siddhānta)</h2>
+            <h2 className="dasha-panel__title">దశాచారం · Dasacharam</h2>
 
-            <div className="dasha-panel__summary">
-                <div className="dasha-panel__summary-item">
-                    <span className="dasha-panel__summary-label">జన్మ మహాదశ (Birth Mahadasha)</span>
-                    <span className="dasha-panel__summary-value">{dasha.birthGrahaDisplayName}</span>
-                </div>
-
-                <div className="dasha-panel__summary-item">
-                    <span className="dasha-panel__summary-label">మిగిలిన కాలం (Balance)</span>
-                    <span className="dasha-panel__summary-value">{dasha.balanceDisplay}</span>
-                </div>
-            </div>
-
-            <div className="dasha-panel__legend">
-                {DASHA_LEVEL_LABELS.map((label, index) => (
-                    <span key={label} className="dasha-panel__legend-item">
-                        {index + 1}. {label}
-                    </span>
-                ))}
-            </div>
+            <DashaGlance dasha={dasha} timezone={timezone} natureByGraha={natureByGraha} />
 
             <div className="dasha-panel__scroll">
                 <div className="dasha-panel__header-row">
@@ -82,6 +64,7 @@ function DashaPanel({ dasha, timezone }) {
                             timezone={timezone}
                             birthEpochMs={birthEpochMs}
                             defaultExpanded={mahadasha.graha === activeMahadashaGraha}
+                            natureByGraha={natureByGraha}
                         />
                     ))}
                 </div>

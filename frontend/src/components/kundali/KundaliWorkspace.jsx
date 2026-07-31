@@ -9,8 +9,6 @@ function KundaliWorkspace({ renderLayout, birthDetails }) {
 
         <section className="kundali-workspace-section">
 
-            <h2 className="kundali-workspace-title">కుండలి · Kundali</h2>
-
             <div className="kundali-workspace">
 
                 <JanmaKundaliPanel

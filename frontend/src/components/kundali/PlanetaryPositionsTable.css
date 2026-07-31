@@ -17,12 +17,19 @@
 }
 
 .pp-table-title {
-    margin: 0 0 var(--spacing-md);
+    /* Bleeds to the card's own edges (undoing its own padding/
+       corner radius) so the fill reads as a full-width title bar. */
+    margin: calc(-1 * var(--spacing-lg)) calc(-1 * var(--spacing-lg)) var(--spacing-md);
+
+    padding: var(--spacing-sm) var(--spacing-lg);
 
     font-family: Georgia, "Times New Roman", var(--font-family), serif;
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-xl);
     font-weight: var(--font-semibold);
     color: var(--jp-color-text-primary);
+
+    background: var(--jp-color-heading-fill);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
 .pp-table-scroll {
@@ -33,9 +40,7 @@
     width: 100%;
     border-collapse: collapse;
 
-    /* Fluid: a bit larger on wide screens, never smaller than
-       13px, so it reads comfortably regardless of window width. */
-    font-size: clamp(13px, 0.9vw + 10px, 15px);
+    font-size: 18px;
 }
 
 .pp-table th {
@@ -44,7 +49,7 @@
     border-bottom: 2px solid var(--jp-color-primary);
 
     font-family: var(--font-family);
-    font-size: clamp(11px, 0.6vw + 9px, 13px);
+    font-size: 18px;
     font-weight: var(--font-semibold);
     text-align: left;
     text-transform: uppercase;

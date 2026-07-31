@@ -1,0 +1,75 @@
+/* ==========================================================
+   Print / Save-as-PDF
+   ----------------------------------------------------------
+   Scopes the Birth Details page down to just the report worth
+   handing someone on paper — Personal details, Panchangam,
+   Planetary Positions, the Janma Lagna Kundali only (not
+   Gochara, which is "right now" and meaningless on a saved
+   PDF), and the Dasha system. App chrome (sidebar, header, the
+   edit form itself, action buttons) never prints.
+   ========================================================== */
+
+@media print {
+
+    .no-print,
+    .sidebar,
+    .sidebar-backdrop,
+    .header,
+    .jp-form-section {
+        display: none !important;
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+    }
+
+    .page-content {
+        margin-top: 0 !important;
+        padding: 0 !important;
+        overflow: visible !important;
+    }
+
+    .horoscope-report__masthead {
+        position: static !important;
+    }
+
+    /* Gochara is "right now", not a fact about the person — leaves
+       no reason to sit in a saved PDF. Janma takes the full width
+       left behind instead of sharing a column it no longer needs. */
+    .gochara-kundali-panel {
+        display: none !important;
+    }
+
+    .kundali-workspace {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* The Dasha tree's column widths assume screen space (up to
+       886px wide) wider than a printed page reliably offers —
+       without shrinking it, the Duration column can run off the
+       right edge instead of just wrapping. */
+    .dasha-panel__header-row,
+    .dasha-row {
+        grid-template-columns: 12px 40px 220px 160px 70px !important;
+        font-size: 12px !important;
+    }
+
+    .dasha-panel__header-row,
+    .dasha-panel__tree {
+        min-width: 0 !important;
+    }
+
+    .dasha-panel__scroll {
+        overflow-x: visible !important;
+    }
+
+    /* Each section stays on one page where possible, rather than
+       splitting a table/chart awkwardly across a page break. */
+    .pd-table-section,
+    .pp-table-section,
+    .kundali-workspace-section,
+    .dasha-panel {
+        break-inside: avoid;
+    }
+
+}

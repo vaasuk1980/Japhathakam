@@ -31,13 +31,22 @@ class DashaDurationFormatter {
         const remainingAfterYears = totalDays - (years * DAYS_PER_YEAR);
 
         const months = Math.floor(remainingAfterYears / DAYS_PER_MONTH);
-        const days = Math.round(remainingAfterYears - (months * DAYS_PER_MONTH));
+        const remainingAfterMonths = remainingAfterYears - (months * DAYS_PER_MONTH);
+        const days = Math.round(remainingAfterMonths);
 
         const parts = [];
 
         if (years > 0) parts.push(`${years}y`);
         if (months > 0) parts.push(`${months}m`);
-        if (days > 0 || parts.length === 0) parts.push(`${days}d`);
+
+        if (days > 0) {
+            parts.push(`${days}d`);
+        } else if (parts.length === 0) {
+            // Sub-day period — "0d" would hide how long it actually
+            // is, so fall back to hours instead.
+            const hours = Math.max(1, Math.round(remainingAfterMonths * 24));
+            parts.push(`${hours}h`);
+        }
 
         return parts.join(" ");
 

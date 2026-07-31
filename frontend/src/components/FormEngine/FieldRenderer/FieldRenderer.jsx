@@ -53,8 +53,14 @@ function FieldRenderer({ field }) {
             ? { gridColumn: `span ${field.gridSpan}` }
             : undefined;
 
+    const className = field.fullWidth
+        ? "jp-form-field jp-form-field--full"
+        : field.gridSpan
+            ? `jp-form-field jp-form-field--span-${field.gridSpan}`
+            : "jp-form-field";
+
     return (
-        <div className="jp-form-field" style={gridStyle}>
+        <div className={className} style={gridStyle}>
             <Control
                 {...field}
                 name={field.id}

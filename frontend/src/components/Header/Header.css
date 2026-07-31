@@ -367,8 +367,19 @@
   }
 
   .language-switcher {
-    margin-right: var(--spacing-sm);
-    padding: 6px 6px;
+    margin-right: var(--spacing-xs);
+    padding: 6px 4px;
+
+    /* At this width, the language dropdown and location control
+       are chrome competing with the search bar for very little
+       room — kept at their pre-uniform-body-text size here (unlike
+       everywhere else) purely so the row still fits; this isn't
+       "data" content the 18px pass was about. */
+    font-size: 13px;
+  }
+
+  .header-location__value {
+    font-size: 14px;
   }
 
   .header-datetime {
@@ -383,5 +394,35 @@
 
   .header-center {
     margin: 0 var(--spacing-xs);
+  }
+}
+
+/* Tablet-width band above the drawer breakpoint: the sidebar is
+   still a permanent column here (unlike below 767px), but now that
+   body text is uniformly 18px, the search bar + clock + language
+   switcher + location control no longer all fit on one row without
+   the clock wrapping/overlapping. Drop the least essential item
+   (the clock — already duplicated by every OS/browser chrome) and
+   tighten the search bar rather than touch the 767px drawer
+   threshold itself, which Sidebar.css also depends on. */
+@media (min-width: 768px) and (max-width: 1100px) {
+  .header-datetime {
+    display: none;
+  }
+
+  .header-center {
+    margin: 0 var(--spacing-sm);
+  }
+
+  .header-search {
+    max-width: 200px;
+  }
+
+  .language-switcher {
+    margin-right: var(--spacing-sm);
+  }
+
+  .header-location__value {
+    max-width: 140px;
   }
 }

@@ -16,12 +16,19 @@
 }
 
 .pd-table-title {
-    margin: 0 0 var(--spacing-md);
+    /* Bleeds to the card's own edges (undoing its own padding/
+       corner radius) so the fill reads as a full-width title bar. */
+    margin: calc(-1 * var(--spacing-lg)) calc(-1 * var(--spacing-lg)) var(--spacing-md);
+
+    padding: var(--spacing-sm) var(--spacing-lg);
 
     font-family: Georgia, "Times New Roman", var(--font-family), serif;
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-xl);
     font-weight: var(--font-semibold);
     color: var(--jp-color-text-primary);
+
+    background: var(--jp-color-heading-fill);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
 /* Two label/value pairs per row instead of one narrow single
@@ -36,9 +43,7 @@
     border-radius: var(--radius-lg);
     overflow: hidden;
 
-    /* Fluid: a bit larger on wide screens, never smaller than
-       13px, so it reads comfortably regardless of window width. */
-    font-size: clamp(13px, 0.9vw + 10px, 15px);
+    font-size: 18px;
 }
 
 .pd-grid__item {

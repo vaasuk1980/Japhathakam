@@ -31,15 +31,18 @@ function KundaliChart({ chart }) {
     return (
         <div className="kundali-chart">
 
-            {layout.map((sthanaNumber, index) => {
+            {/* The four null slots in `layout` mark the middle 2x2
+                area — rendered as ONE spanning cell (not four) so
+                "ఆత్మ" sits genuinely centered rather than confined to
+                whichever of the four sub-cells happened to hold it. */}
+            <div className="kundali-center">
+                <span className="kundali-center__label">ఆత్మ</span>
+            </div>
+
+            {layout.map((sthanaNumber) => {
 
                 if (sthanaNumber === null) {
-                    return (
-                        <div
-                            key={`center-${index}`}
-                            className="kundali-center"
-                        />
-                    );
+                    return null;
                 }
 
                 return (

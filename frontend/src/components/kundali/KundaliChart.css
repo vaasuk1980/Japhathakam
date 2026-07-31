@@ -69,8 +69,23 @@
 }
 
 .kundali-center {
+    grid-column: 2 / 4;
+    grid-row: 2 / 4;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     background: transparent;
     border: none;
+}
+
+.kundali-center__label {
+    font-family: Georgia, "Times New Roman", var(--font-family), serif;
+    font-weight: 700;
+    color: #444;
+
+    font-size: 25px;
 }
 
 .sthana-number {

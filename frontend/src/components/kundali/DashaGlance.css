@@ -1,0 +1,226 @@
+/* ==========================================================
+   Dasha Glance
+   ----------------------------------------------------------
+   "At a glance" summary sitting between the Dasacharam title
+   and the full expandable tree: a proportional Mahadasha-cycle
+   timeline, plus a card naming the period active right now at
+   every level (Mahadasha -> Pranadasha) with a progress bar for
+   the current Mahadasha. Styled with the same tokens/borders as
+   the rest of the Dasha panel, not the bright per-Graha palette
+   of the original reference — current-ness reuses the same
+   green highlight already used for .dasha-row--current.
+   ========================================================== */
+
+.dasha-glance {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+
+    margin-bottom: var(--spacing-md);
+}
+
+.dasha-glance__timeline-card,
+.dasha-glance__current-card {
+    padding: var(--spacing-md);
+
+    background: var(--jp-color-surface);
+    border: 1px solid var(--jp-color-border);
+    border-radius: var(--radius-md);
+}
+
+.dasha-glance__timeline-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
+
+    margin-bottom: var(--spacing-md);
+}
+
+.dasha-glance__timeline-title,
+.dasha-glance__current-title {
+    margin: 0;
+
+    font-family: var(--font-family);
+    font-size: 18px;
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-text-primary);
+}
+
+.dasha-glance__timeline-total {
+    font-size: 18px;
+    color: var(--jp-color-text-secondary);
+}
+
+.dasha-glance__scroll {
+    overflow-x: auto;
+}
+
+.dasha-glance__track {
+    display: flex;
+    align-items: stretch;
+}
+
+.dasha-glance__segment {
+    flex: none;
+
+    /* Duration-proportional flex-basis is set inline per segment —
+       but the birth Mahadasha's segment is only a partial "balance"
+       (see DashaEngine.buildMahadashas), sometimes just a few
+       months, which at this scale is narrower than its own graha/
+       duration/date-range text needs. A floor keeps that text
+       inside its own box instead of overflowing into the scroll
+       container's clipped left edge. */
+    min-width: 90px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+
+    padding: var(--spacing-sm) 6px 0;
+
+    border-right: 1px solid var(--jp-color-border);
+}
+
+.dasha-glance__segment:first-child {
+    border-left: 1px solid var(--jp-color-border);
+}
+
+.dasha-glance__segment--current {
+    background: var(--jp-color-success-bg);
+}
+
+.dasha-glance__segment-graha {
+    font-size: 18px;
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-text-primary);
+}
+
+.dasha-glance__segment-duration {
+    font-size: 13px;
+    color: var(--jp-color-text-secondary);
+}
+
+.dasha-glance__segment-dates {
+    font-size: 12px;
+    line-height: 1.35;
+    text-align: center;
+    color: var(--jp-color-text-muted);
+
+    font-variant-numeric: tabular-nums;
+}
+
+.dasha-glance__axis {
+    position: relative;
+
+    height: 20px;
+    margin-top: var(--spacing-xs);
+
+    border-top: 1px solid var(--jp-color-border);
+}
+
+.dasha-glance__axis-tick {
+    position: absolute;
+    top: 4px;
+
+    font-size: 11px;
+    color: var(--jp-color-text-muted);
+    white-space: nowrap;
+}
+
+.dasha-glance__axis-tick--left {
+    transform: translateX(0);
+}
+
+.dasha-glance__axis-tick--center {
+    transform: translateX(-50%);
+}
+
+.dasha-glance__axis-tick--right {
+    transform: translateX(-100%);
+}
+
+.dasha-glance__current-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--spacing-sm);
+
+    margin-bottom: var(--spacing-md);
+}
+
+.dasha-glance__current-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    padding: var(--spacing-sm);
+
+    background: var(--jp-color-background);
+    border-radius: var(--radius-sm);
+}
+
+.dasha-glance__current-label {
+    font-size: 18px;
+    color: var(--jp-color-text-secondary);
+}
+
+.dasha-glance__current-value {
+    font-size: 18px;
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-primary);
+}
+
+/* Punya/Papa (Tritha Siddhantha) — same classification and colors
+   as the Planetary Positions table and Kundali chart. Declared
+   after the base rules above so these actually win the cascade
+   (equal specificity, later wins). */
+.dasha-glance__segment-graha--papa,
+.dasha-glance__current-value--papa {
+    color: #b22222;
+}
+
+.dasha-glance__segment-graha--punya,
+.dasha-glance__current-value--punya {
+    color: #16a34a;
+}
+
+.dasha-glance__progress-label {
+    margin-bottom: var(--spacing-xs);
+
+    font-size: 18px;
+    color: var(--jp-color-text-primary);
+}
+
+.dasha-glance__progress-track {
+    height: 8px;
+
+    background: var(--jp-color-background);
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+}
+
+.dasha-glance__progress-fill {
+    height: 100%;
+
+    background: var(--jp-color-primary);
+    border-radius: var(--radius-pill);
+}
+
+.dasha-glance__progress-remaining {
+    margin-top: var(--spacing-xs);
+
+    font-size: 13px;
+    color: var(--jp-color-text-secondary);
+}
+
+/* Below this, five equal current-level columns get too cramped —
+   wrap into two rows instead of squeezing text unreadably small. */
+@media (max-width: 640px) {
+
+    .dasha-glance__current-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}

@@ -5,6 +5,7 @@ import "./styles/variables.css";
 import "./styles/fonts.css";
 import "./styles/typography.css";
 import "./index.css";
+import "./styles/print.css";
 
 import { LanguageProvider } from "./i18n/I18nContext.jsx";
 import { LocationProvider } from "./location/LocationContext.jsx";
