@@ -48,11 +48,30 @@
     top: calc(-1 * var(--page-padding));
     z-index: 5;
 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+
     padding-top: var(--spacing-sm);
     padding-bottom: var(--spacing-md);
 
     background: var(--jp-color-background);
     border-bottom: 2px solid var(--jp-color-primary);
+}
+
+/* Name + facts stay together as one group on the left so the
+   Save PDF button (right) has a single flex sibling to split
+   the row with, rather than three separate items whose wrapping
+   would fight each other. */
+.horoscope-report__identity {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    column-gap: var(--spacing-md);
+    row-gap: 2px;
+
+    min-width: 0;
 }
 
 .horoscope-report__name {
@@ -63,14 +82,16 @@
 }
 
 .horoscope-report__facts {
-    margin-top: 4px;
-
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
 
     font-size: var(--font-size-sm);
     color: var(--jp-color-text-secondary);
+}
+
+.horoscope-report__save-pdf {
+    flex-shrink: 0;
 }
 
 .horoscope-report__dot {

@@ -5,6 +5,7 @@ import DashaPanel from "./DashaPanel";
 import formatDateDDMMYYYY from "../../utils/date/formatDateDDMMYYYY";
 import resolveAgeAtEpoch from "../../utils/age/resolveAgeAtEpoch";
 import formatAgeYMD from "../../utils/age/formatAgeYMD";
+import Button from "../common/Button";
 
 import "./HoroscopeReport.css";
 
@@ -66,22 +67,33 @@ function HoroscopeReport({ values, kundaliDocument, renderLayout }) {
         <div className="horoscope-report">
 
             <div className="horoscope-report__masthead">
-                <div className="horoscope-report__name">{fullName || "—"}</div>
+                <div className="horoscope-report__identity">
+                    <div className="horoscope-report__name">{fullName || "—"}</div>
 
-                <div className="horoscope-report__facts">
-                    <span>{formatDateDDMMYYYY(values.dateOfBirth)}</span>
-                    <span className="horoscope-report__dot">•</span>
-                    <span>{values.timeOfBirth}</span>
-                    <span className="horoscope-report__dot">•</span>
-                    <span>{values.placeOfBirth}</span>
-                    <span className="horoscope-report__dot">•</span>
-                    <span>{GENDER_LABELS[values.gender] ?? values.gender}</span>
-                    {age && (
-                        <>
-                            <span className="horoscope-report__dot">•</span>
-                            <span>{age}</span>
-                        </>
-                    )}
+                    <div className="horoscope-report__facts">
+                        <span>{formatDateDDMMYYYY(values.dateOfBirth)}</span>
+                        <span className="horoscope-report__dot">•</span>
+                        <span>{values.timeOfBirth}</span>
+                        <span className="horoscope-report__dot">•</span>
+                        <span>{values.placeOfBirth}</span>
+                        <span className="horoscope-report__dot">•</span>
+                        <span>{GENDER_LABELS[values.gender] ?? values.gender}</span>
+                        {age && (
+                            <>
+                                <span className="horoscope-report__dot">•</span>
+                                <span>{age}</span>
+                            </>
+                        )}
+                    </div>
+                </div>
+
+                <div className="horoscope-report__save-pdf">
+                    <Button
+                        variant="primary"
+                        onClick={() => window.print()}
+                    >
+                        Save PDF
+                    </Button>
                 </div>
             </div>
 

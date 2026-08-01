@@ -439,15 +439,6 @@ function PersonDetails() {
                                 </Button>
                             )}
 
-                            {requestState.status === "success" && (
-                                <Button
-                                    variant="secondary"
-                                    onClick={() => window.print()}
-                                >
-                                    Save PDF
-                                </Button>
-                            )}
-
                             {personId && (
                                 <Button
                                     variant="secondary"

@@ -15,7 +15,8 @@
     .sidebar,
     .sidebar-backdrop,
     .header,
-    .jp-form-section {
+    .jp-form-section,
+    .horoscope-report__save-pdf {
         display: none !important;
     }
 
