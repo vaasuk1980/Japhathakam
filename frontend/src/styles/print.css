@@ -2,14 +2,66 @@
    Print / Save-as-PDF
    ----------------------------------------------------------
    Scopes the Birth Details page down to just the report worth
-   handing someone on paper — Personal details, Panchangam,
-   Planetary Positions, the Janma Lagna Kundali only (not
-   Gochara, which is "right now" and meaningless on a saved
-   PDF), and the Dasha system. App chrome (sidebar, header, the
-   edit form itself, action buttons) never prints.
+   handing someone on paper — the invocation header (swapped in
+   for the on-screen PanchangamDetails grid, replaced here by
+   the Birth Summary prose sentence), Planetary Positions, the
+   Janma Lagna Kundali only (not Gochara, which is "right now"
+   and meaningless on a saved PDF), and the full Dasha
+   breakdown. App chrome (sidebar, header, the edit form itself,
+   action buttons) never prints.
    ========================================================== */
 
+/* A true repeating per-page header (position: fixed inside an
+   enlarged @page margin) was tried here and tested directly against
+   a real rendered PDF — Chrome's headless print-to-pdf did NOT
+   repeat it on every page; it printed once, oddly appended after
+   the footer on the last page. Chrome has no CSS Paged Media
+   @page margin-box support either, so a literal running header (as
+   the reference PDF has) isn't achievable via CSS alone — the real
+   "Save PDF" flow now generates the PDF server-side instead (see
+   backend/src/services/HoroscopePdfService.js — Puppeteer's
+   Page.printToPDF has genuine repeating headerTemplate/
+   footerTemplate support).
+
+   The top/bottom margins here are sized to match that server-side
+   header/footer, not just this page's own body content — verified
+   directly, Chrome uses THIS @page rule's margin for body layout
+   even when Page.printToPDF is also given its own marginTop/Bottom
+   (tested explicitly: CDP marginTop values of 12mm/34mm/80mm, via
+   both Puppeteer's page.pdf() wrapper and the raw CDP command, all
+   produced byte-for-byte the same body content position — only
+   changing THIS CSS rule actually moves it). window.print()/Ctrl+P
+   (unsupported, no header content shows there any more — see
+   ReportInvocation.jsx) just gets a taller blank top margin as a
+   side effect. */
+@page {
+    size: auto;
+    margin: 40mm 12mm 14mm 12mm;
+}
+
 @media print {
+
+    /* The app's page canvas (--jp-color-background, #f5f7fa) is a
+       light gray-blue, not white — fine on screen, but printed
+       paper should be plain white. Without this, the repeating
+       header image (captured with an explicit white background —
+       see HoroscopePdfService.js) sits on white while the body
+       right below it shows the app's gray canvas, creating a
+       visible seam right where content starts (confirmed by a
+       screenshot of a real generated PDF, not a hypothetical). */
+    html,
+    body,
+    .layout,
+    .main-content,
+    .page-content {
+        background: #fff !important;
+    }
+
+    html,
+    body {
+        height: auto !important;
+        overflow: visible !important;
+    }
 
     .no-print,
     .sidebar,
@@ -20,18 +72,42 @@
         display: none !important;
     }
 
-    .main-content {
-        margin-left: 0 !important;
-    }
-
+    .layout,
+    .main-content,
     .page-content {
-        margin-top: 0 !important;
-        padding: 0 !important;
+        height: auto !important;
+        max-height: none !important;
         overflow: visible !important;
     }
 
+    .main-content {
+        margin-left: 0 !important;
+        display: block !important;
+    }
+
+    .page-content {
+        display: block !important;
+        margin-top: 0 !important;
+        padding: 0 !important;
+    }
+
+    .horoscope-report {
+        display: block !important;
+        margin: 0 !important;
+    }
+
+    .horoscope-report > * {
+        break-inside: auto;
+        page-break-inside: auto;
+    }
+
+    /* The masthead's identity line now has a print-only copy in
+       ReportInvocation (just below the guru blessing), and its
+       Save PDF button never printed anyway — so the whole thing
+       is skipped for print rather than showing the name/facts
+       twice. */
     .horoscope-report__masthead {
-        position: static !important;
+        display: none !important;
     }
 
     /* Gochara is "right now", not a fact about the person — leaves
@@ -43,6 +119,55 @@
 
     .kundali-workspace {
         grid-template-columns: 1fr !important;
+    }
+
+    /* The chart's screen-sized max (700px, ~780px tall including
+       its own margin — see KundaliChart.css) pushes the whole
+       Janma panel just over one page's usable height, so
+       break-inside: avoid on .kundali-workspace-section has
+       nowhere to fit it and the browser tears the grid apart
+       mid-page instead. Shrinking it for print (every internal
+       label/number already scales via cqw container queries, so
+       this alone re-scales the whole chart) keeps the panel
+       comfortably under one page.
+
+       320px is tuned for A4 (@page's size:auto defers to the
+       browser/printer default, and A4 — not US Letter — is this
+       app's actual target). Verified via real print-to-pdf runs
+       across several sample charts: 320px is the largest size
+       that still keeps the header+table+chart together on A4
+       page 1 (330px already overflows to a 2nd page). On US
+       Letter specifically (shorter than A4) this same 320px chart
+       pushes the layout to 6 pages instead of 5 — a real trade-off
+       if Letter output ever matters more than A4 here. */
+    .kundali-chart {
+        width: min(280px, 100%) !important;
+        margin: 4px auto !important;
+        border-width: 1px !important;
+    }
+
+    .kundali-workspace-section {
+        padding: 8px !important;
+        /* The chart's bottom-row rasi labels sit outside the chart's
+           own box (position: absolute; top: 100% — see .rasi-label--
+           bottom in KundaliChart.css), so they don't count toward
+           this section's flow height. Without extra room here,
+           Chrome's page-break math thinks the section is a few px
+           shorter than it actually renders, and cuts page 1 right
+           through those protruding labels — they then bleed onto
+           the top of page 2 instead of just showing on page 1 where
+           they belong. Confirmed by direct visual inspection of a
+           generated PDF, not a hypothetical. */
+        padding-bottom: 28px !important;
+        border: none !important;
+        background: none !important;
+    }
+
+    .janma-kundali-panel .kundali-panel__title {
+        font-size: 14px !important;
+        padding: 4px 8px !important;
+        margin-top: -8px !important;
+        margin-left: -8px !important;
     }
 
     /* The Dasha tree's column widths assume screen space (up to
@@ -66,11 +191,150 @@
 
     /* Each section stays on one page where possible, rather than
        splitting a table/chart awkwardly across a page break. */
-    .pd-table-section,
     .pp-table-section,
     .kundali-workspace-section,
     .dasha-panel {
         break-inside: avoid;
+    }
+
+    /* The printed report is always Telugu, regardless of the
+       on-screen language toggle (see PlanetaryPositionsTable.jsx/
+       .css) — matters for more than just fidelity to the
+       reference: the English nakshatra/rasi names ("Purva
+       Bhadrapada", "Sagittarius", ...) are long enough to wrap
+       inside the table's print-width columns, which inflates the
+       table's height and pushes later sections onto extra pages. */
+    .report-lang-te {
+        display: inline !important;
+    }
+
+    .report-lang-en {
+        display: none !important;
+    }
+
+    /* Compact row height so the table is more likely to share
+       page 1 with the header content and the Kundali chart above
+       and below it, instead of needing a page of its own — same
+       shrink-for-print approach as the Dasha tree's rows. */
+    .pp-table {
+        font-size: 9px !important;
+    }
+
+    /* Column headings had no print override of their own — since
+       .pp-table th sets its own font-size directly (18px), it
+       never inherited the table's 9px print shrink above (a rule
+       only takes effect on the specific element it targets; the
+       th's own more-specific, non-!important rule still wins over
+       an ancestor's !important font-size — importance only beats
+       specificity for rules on the SAME element). Sized to match
+       DashaFullBreakdown's own table headings. */
+    .pp-table th {
+        padding: 1px 4px !important;
+        font-size: 12px !important;
+        border-bottom-width: 1px !important;
+    }
+
+    .pp-table td {
+        padding: 1px 4px !important;
+    }
+
+    .pp-table-section {
+        padding: 8px !important;
+        border: none !important;
+        background: none !important;
+    }
+
+    .pp-table-title {
+        font-size: 14px !important;
+        padding: 4px 8px !important;
+        margin: -8px -8px 6px !important;
+    }
+
+    /* Tighter inter-section spacing for print — the screen's
+       generous var(--spacing-lg) gaps between sections add up to
+       real page space once you're trying to fit the header,
+       table, and chart together on page 1. */
+    .horoscope-report {
+        gap: 4px !important;
+    }
+
+    /* The shivaya/blessing/identity block (.report-invocation__
+       header-source) is never rendered at all now — always
+       display:none (see ReportInvocation.css); the PDF's real
+       repeating header covers that content instead (see
+       backend/src/services/HoroscopePdfService.js). Only the
+       couplet below is real print content. */
+    /* line-height 1.2, then 1.6, both let the two lines' Telugu
+       vowel-sign glyphs visually collide — JIMS's glyph ink extends
+       further above/below the baseline than either line-height gave
+       it room for, confirmed by measuring actual glyph bboxes in a
+       generated PDF (get_text('dict')), not just eyeballing a
+       render. 2 was the first value verified clear; 1.85 is the
+       tightest step down from there re-verified (bbox check) to
+       still leave the two lines' ink clear of each other — don't
+       lower this further without re-measuring, the margin here is
+       thin (well under 1pt at 2). margin-top gives the header's
+       blue divider a little breathing room above line 1, which
+       otherwise starts right at the page's top margin edge. */
+    .report-invocation__shloka {
+        margin-top: 6px !important;
+        font-size: 11px !important;
+        line-height: 2 !important;
+    }
+
+    .birth-summary {
+        padding: 8px !important;
+        font-size: 12px !important;
+        line-height: 1.4 !important;
+        border: none !important;
+        background: none !important;
+    }
+
+    /* DashaPanel is the on-screen expandable tree — redundant on
+       paper next to the full breakdown below, and its tree markup
+       doesn't paginate cleanly, so it's left out of the printed
+       report entirely (DashaFullBreakdown covers the same data). */
+    .dasha-panel {
+        display: none !important;
+    }
+
+    /* DashaFullBreakdown is print-only (hidden on screen, see
+       DashaFullBreakdown.css) — shown here for print/Save-PDF.
+       Forced onto its own new page rather than left to flow
+       naturally, so page 1 always ends with the Janma Lagna
+       Kundali (per the intended layout) regardless of exactly
+       how much page-1 content there is. */
+    .dasha-full-breakdown {
+        display: block !important;
+        break-before: page;
+        page-break-before: always;
+        border: none !important;
+        background: none !important;
+    }
+
+    .dasha-full-breakdown__summary {
+        break-inside: avoid;
+    }
+
+    /* ReportInvocation/BirthSummary/the footer are print-only
+       (hidden on screen, see their own CSS) — shown here for
+       print/Save PDF, in PanchangamDetails' place. */
+    .report-invocation,
+    .birth-summary,
+    .horoscope-report__footer {
+        display: block !important;
+        break-inside: avoid;
+    }
+
+    /* --font-size-sm is 18px in this app's scale — fine for
+       on-screen body text, too large for a one-line print footer. */
+    .horoscope-report__footer {
+        padding-top: 6px !important;
+        font-size: 10px !important;
+    }
+
+    .pd-table-section {
+        display: none !important;
     }
 
 }

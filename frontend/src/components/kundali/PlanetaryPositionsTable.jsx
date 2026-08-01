@@ -83,8 +83,10 @@ function buildRows(kundaliDocument) {
             nak: lagna.nakshatra,
             pada: lagna.pada ?? "—",
             rasi: rasiForLongitude(lagna.longitude),
-            // The Lagna always defines the 1st house (Tanu bhava).
-            bhava: BHAVA_LABELS[0],
+            // The Lagna row's bhava is left blank, matching the
+            // reference layout — showing "1-తనువు" here is
+            // redundant since Lagna always IS house 1.
+            bhava: null,
             // The Lagna is a reference point, not a graha — it is
             // never Punya/Papa classified, and never retrograde.
             isPapa: false,
@@ -115,7 +117,14 @@ function buildRows(kundaliDocument) {
 
     rows.sort((a, b) => GRAHA_ORDER.indexOf(a.en) - GRAHA_ORDER.indexOf(b.en));
 
-    return rows;
+    // Serial numbers run 1-12 over the grahas only — the Lagna row
+    // (always first, per GRAHA_ORDER) stays unnumbered, matching
+    // the reference table.
+    let serial = 0;
+    return rows.map((row) => ({
+        ...row,
+        serial: row.en === "LAGNA" ? null : ++serial,
+    }));
 
 }
 
@@ -137,9 +146,10 @@ function PlanetaryPositionsTable({ kundaliDocument }) {
             <h2 className="pp-table-title">{t("kundali.planetaryPositionsTitle")}</h2>
 
             <div className="pp-table-scroll">
-                <table className="pp-table">
+                <table className={`pp-table pp-table--lang-${language}`}>
                     <thead>
                         <tr>
+                            <th>సం.</th>
                             <th>గ్రహం</th>
                             <th>అంశలు</th>
                             <th>నక్షత్రం</th>
@@ -151,6 +161,7 @@ function PlanetaryPositionsTable({ kundaliDocument }) {
                     <tbody>
                         {rows.map((row) => (
                             <tr key={row.key}>
+                                <td className="mono">{row.serial ?? ""}</td>
                                 <td className={
                                     row.isPapa
                                         ? "pp-graha-papa"
@@ -170,9 +181,15 @@ function PlanetaryPositionsTable({ kundaliDocument }) {
                                     )}
                                 </td>
                                 <td className="mono">{row.deg}</td>
-                                <td>{(language === "te" ? row.nak?.teluguName : row.nak?.englishName) ?? "—"}</td>
+                                <td>
+                                    <span className="report-lang-te">{row.nak?.teluguName ?? "—"}</span>
+                                    <span className="report-lang-en">{row.nak?.englishName ?? "—"}</span>
+                                </td>
                                 <td>{row.pada}</td>
-                                <td>{language === "te" ? row.rasi.tel : row.rasi.en}</td>
+                                <td>
+                                    <span className="report-lang-te">{row.rasi.tel}</span>
+                                    <span className="report-lang-en">{row.rasi.en}</span>
+                                </td>
                                 <td>{row.bhava}</td>
                             </tr>
                         ))}

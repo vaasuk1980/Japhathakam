@@ -1,0 +1,34 @@
+/* ==========================================================
+   Birth Summary
+   ----------------------------------------------------------
+   One Telugu prose sentence stating the birth moment in
+   Panchangam terms.
+
+   Print-only: hidden on screen (PanchangamDetails' label/value
+   grid is what shows there), shown for print/Save PDF in its
+   place (see the @media print override in print.css).
+   ========================================================== */
+
+.birth-summary {
+    display: none;
+
+    margin: 0 0 var(--spacing-lg);
+
+    padding: var(--spacing-lg);
+
+    background: var(--jp-color-surface);
+    border: 1px solid var(--jp-color-border);
+    border-radius: var(--radius-lg);
+
+    /* Body text uses the app's normal font stack (same as
+       PlanetaryPositionsTable/DashaPanel row text) — Georgia is
+       reserved for section-title headings elsewhere, and putting
+       it first here made Latin digits (dates, the pada number)
+       render in Georgia's serif figures while the surrounding
+       Telugu text falls through to the Telugu-scoped "JIMS" font,
+       so the numbers visibly didn't match the rest of the sentence. */
+    font-family: var(--font-family);
+    font-size: var(--font-size-md);
+    line-height: 1.8;
+    color: var(--jp-color-text-primary);
+}

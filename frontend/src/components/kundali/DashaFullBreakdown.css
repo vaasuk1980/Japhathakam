@@ -1,0 +1,135 @@
+/* ==========================================================
+   Dasha Full Breakdown
+   ----------------------------------------------------------
+   Print-only: hidden on screen (the on-screen Dasha experience
+   is DashaPanel's expandable tree), shown for print/Save-PDF so
+   the saved report carries the complete 12-Mahadasha x
+   Antardasha listing — see print.css for the @media print
+   display override.
+   ========================================================== */
+
+.dasha-full-breakdown {
+    display: none;
+
+    margin: var(--spacing-lg) 0;
+
+    background: var(--jp-color-surface);
+    border: 1px solid var(--jp-color-border);
+    border-radius: var(--radius-lg);
+
+    padding: var(--spacing-lg);
+}
+
+.dasha-full-breakdown__title {
+    margin: calc(-1 * var(--spacing-lg)) calc(-1 * var(--spacing-lg)) var(--spacing-md);
+
+    padding: var(--spacing-sm) var(--spacing-lg);
+
+    font-family: Georgia, "Times New Roman", var(--font-family), serif;
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-text-primary);
+
+    background: var(--jp-color-heading-fill);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.dasha-full-breakdown__subheading {
+    margin: 0 0 6px;
+
+    font-family: Georgia, "Times New Roman", var(--font-family), serif;
+    font-size: 16px;
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-primary);
+
+    break-after: avoid;
+    page-break-after: avoid;
+}
+
+/* Starts its own fresh page rather than trying to squeeze the
+   first row of mini-tables into whatever's left after the
+   Mahadasha summary table — Chrome's print engine rejects a row
+   as a whole if it doesn't fit the remaining space (see
+   .dasha-full-breakdown__row), so a partial fit there just left a
+   large blank gap behind the heading instead of actually using it. */
+.dasha-full-breakdown__subheading--antardasha {
+    break-before: page;
+    page-break-before: always;
+}
+
+.dasha-full-breakdown__summary {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: var(--spacing-lg);
+
+    font-size: 12px;
+}
+
+.dasha-full-breakdown__summary th,
+.dasha-full-breakdown__summary td {
+    padding: 2px 6px;
+    border: 1px solid var(--jp-color-border);
+    text-align: left;
+}
+
+.dasha-full-breakdown__summary th {
+    background: var(--jp-color-background);
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-primary);
+}
+
+/* Plain block flow, not CSS Grid — Chrome's print engine doesn't
+   fragment grid containers across page breaks (a grid that doesn't
+   fit the rest of a page gets pushed whole to the next one, leaving
+   a large blank gap behind it instead of letting rows flow). Each
+   .dasha-full-breakdown__row below is an independent flex row that
+   can break on its own. */
+.dasha-full-breakdown__grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.dasha-full-breakdown__row {
+    display: flex;
+    gap: var(--spacing-md);
+
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+.dasha-full-breakdown__mahadasha-table {
+    flex: 1;
+    min-width: 0;
+
+    border-collapse: collapse;
+
+    font-size: 12px;
+
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+.dasha-full-breakdown__mahadasha-table th,
+.dasha-full-breakdown__mahadasha-table td {
+    padding: 3px 6px;
+    border: 1px solid var(--jp-color-border);
+    text-align: left;
+}
+
+.dasha-full-breakdown__mahadasha-table thead tr:first-child th {
+    background: var(--jp-color-heading-fill);
+    font-family: Georgia, "Times New Roman", var(--font-family), serif;
+    font-weight: var(--font-semibold);
+    text-align: center;
+}
+
+.dasha-full-breakdown__mahadasha-table thead tr:last-child th {
+    background: var(--jp-color-background);
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-primary);
+}
+
+.mono {
+    font-variant-numeric: tabular-nums;
+}

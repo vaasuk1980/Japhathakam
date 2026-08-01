@@ -1,0 +1,81 @@
+/* ==========================================================
+   Report Invocation
+   ----------------------------------------------------------
+   Only the traditional invocatory couplet (.report-invocation__
+   shloka) actually prints in-flow, once, above the birth-summary
+   sentence. "ఓం నమః శివాయ" / the guru blessing / the identity line
+   now live in the PDF's real repeating header instead (see
+   backend/src/services/HoroscopePdfService.js) — .report-invocation
+   __header-source below stays in the DOM as that data source but
+   is never itself rendered, screen or print.
+
+   Print-only: hidden on screen, shown for print/Save PDF (see
+   the @media print override in print.css) — the on-screen report
+   stays exactly as it was before this section existed.
+   ========================================================== */
+
+.report-invocation {
+    display: none;
+
+    font-family: var(--font-family);
+    text-align: center;
+}
+
+.report-invocation__header-source {
+    display: none !important;
+}
+
+.report-invocation__shivaya {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-primary);
+
+    margin-bottom: 4px;
+}
+
+.report-invocation__blessing {
+    margin-bottom: var(--spacing-sm);
+
+    font-size: var(--font-size-md);
+    font-weight: var(--font-bold);
+    color: var(--jp-color-primary);
+}
+
+.report-invocation__identity {
+    margin-bottom: var(--spacing-sm);
+    padding-bottom: var(--spacing-sm);
+
+    /* Matches .horoscope-report__masthead's own accent line (the
+       on-screen masthead this identity line stands in for, for
+       print — see print.css) — kept here so the printed report
+       still has it under the name/facts line. */
+    border-bottom: 2px solid var(--jp-color-primary);
+}
+
+.report-invocation__identity-name {
+    display: block;
+
+    font-family: Georgia, "Times New Roman", var(--font-family), serif;
+    font-size: var(--font-size-xxl);
+    font-weight: var(--font-bold);
+    color: var(--jp-color-text-primary);
+}
+
+.report-invocation__identity-facts {
+    font-size: var(--font-size-sm);
+    color: var(--jp-color-text-secondary);
+}
+
+.report-invocation__dot {
+    margin: 0 6px;
+    color: var(--jp-color-text-muted);
+}
+
+.report-invocation__shloka {
+    margin-top: var(--spacing-sm);
+
+    font-size: var(--font-size-sm);
+    font-style: italic;
+    line-height: 1.6;
+    color: var(--jp-color-text-secondary);
+}

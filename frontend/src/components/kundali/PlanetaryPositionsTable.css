@@ -101,3 +101,12 @@
     text-decoration: none;
     cursor: pointer;
 }
+
+/* Nakshatra/Rasi cells render both language variants; on screen
+   only the one matching the current language toggle shows (see
+   the pp-table--lang-{en,te} class PlanetaryPositionsTable.jsx
+   sets) — print.css forces Telugu regardless (see print.css). */
+.pp-table--lang-te .report-lang-en,
+.pp-table--lang-en .report-lang-te {
+    display: none;
+}

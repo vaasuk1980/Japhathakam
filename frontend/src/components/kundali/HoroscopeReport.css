@@ -29,20 +29,9 @@
     margin: 0;
 }
 
-/* Sticks to the top of the scrollable content area (.page-content)
-   once scrolled that far, so the person's name/DOB/place stay
-   visible while Panchangam/Planetary Positions/Kundali/Dasha
-   scroll past beneath it — no need to scroll back up to remember
-   whose report this is. An opaque background is required so
-   sticking content doesn't visibly show through underneath it.
-
-   `top: -var(--page-padding)` (not 0) is the actual fix for a real
-   gap: .page-content has its own top padding, which sticky "top:0"
-   would otherwise leave UNCOVERED above the stuck masthead (that
-   strip is still inside .page-content's visible box, just above
-   the masthead's own painted area) — later sections would become
-   briefly visible through it as they scrolled past. Pulling the
-   stick point up by that same padding closes the gap entirely. */
+/* For screen view, the masthead stays pinned while the report scrolls.
+   For print, we switch it back to a normal flow so the browser can
+   paginate the full report naturally across multiple pages. */
 .horoscope-report__masthead {
     position: sticky;
     top: calc(-1 * var(--page-padding));
@@ -92,8 +81,32 @@
 
 .horoscope-report__save-pdf {
     flex-shrink: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.horoscope-report__pdf-error {
+    font-size: var(--font-size-sm);
+    color: var(--jp-color-danger);
 }
 
 .horoscope-report__dot {
     color: var(--jp-color-text-muted);
+}
+
+/* Print-only: hidden on screen, shown for print/Save PDF (see
+   the @media print override in print.css). */
+.horoscope-report__footer {
+    display: none;
+
+    padding-top: var(--spacing-md);
+
+    border-top: 1px solid var(--jp-color-border);
+
+    font-size: var(--font-size-sm);
+    color: var(--jp-color-text-muted);
+    text-align: center;
 }

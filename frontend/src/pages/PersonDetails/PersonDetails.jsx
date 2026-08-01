@@ -483,6 +483,7 @@ function PersonDetails() {
                     values={requestState.values}
                     kundaliDocument={requestState.kundaliDocument}
                     renderLayout={requestState.renderLayout}
+                    personId={personId}
                 />
             )}
 

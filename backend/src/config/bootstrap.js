@@ -6,6 +6,9 @@ import GenerateKundaliRoute
 import PersonRoute
     from "../routes/PersonRoute.js";
 
+import HoroscopePdfRoute
+    from "../routes/HoroscopePdfRoute.js";
+
 import SkySnapshotRoute
     from "../routes/SkySnapshotRoute.js";
 
@@ -37,6 +40,14 @@ export default function bootstrap(app) {
         "/api/persons",
 
         PersonRoute()
+
+    );
+
+    app.use(
+
+        "/api/persons",
+
+        HoroscopePdfRoute()
 
     );
 
