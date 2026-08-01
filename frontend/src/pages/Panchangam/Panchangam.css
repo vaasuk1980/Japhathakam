@@ -21,10 +21,28 @@
    page's own title-bar sections instead of a Dashboard Card.
    ========================================================== */
 
+/* Fixed (not auto-fit) column counts, chosen so the 8 regular
+   items always fill whole rows (4x2, then 2x4, then 1x8) before
+   the full-width "wide" item — auto-fit let the column count
+   float independently of the item count, so the wide item's
+   forced grid-column: 1 / -1 could strand the row before it
+   mid-way, leaving a large empty gap to its right. */
 .rt-panchangam-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: var(--spacing-md);
+}
+
+@media (max-width: 1024px) {
+    .rt-panchangam-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .rt-panchangam-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .rt-panchangam-grid__item {
@@ -58,6 +76,25 @@
     color: var(--jp-color-text-secondary);
 }
 
+/* Group heading for the "Year controls + all Graha tables" block —
+   same filled title-bar treatment as .rt-table-title (and Today's
+   Panchangam's own bar above it), but standalone rather than bled
+   from a parent card, since it sits above several separate cards
+   rather than inside just one. */
+.rt-group-title {
+    margin: 0;
+
+    padding: var(--spacing-sm) var(--spacing-lg);
+
+    font-family: Georgia, "Times New Roman", var(--font-family), serif;
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-text-primary);
+
+    background: var(--jp-color-heading-fill);
+    border-radius: var(--radius-lg);
+}
+
 .rt-controls-card {
     display: flex;
     flex-direction: column;
@@ -66,8 +103,9 @@
 
 .rt-controls {
     display: flex;
-    flex-direction: column;
-    gap: var(--spacing-xs);
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-sm);
 }
 
 .rt-year-label {

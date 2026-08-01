@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import DashaPeriodRow from "./DashaPeriodRow";
 import DashaGlance from "./DashaGlance";
 import isCurrentPeriod from "../../utils/dasha/isCurrentPeriod";
+import { useTranslation } from "../../i18n/I18nContext";
 
 import "./DashaPanel.css";
 
@@ -17,6 +18,8 @@ import "./DashaPanel.css";
  * opens by default so the person can see where they are at a glance.
  */
 function DashaPanel({ dasha, timezone, natureByGraha }) {
+
+    const { t } = useTranslation();
 
     const activeMahadashaGraha = useMemo(() => {
 
@@ -43,7 +46,7 @@ function DashaPanel({ dasha, timezone, natureByGraha }) {
     return (
         <section className="dasha-panel">
 
-            <h2 className="dasha-panel__title">దశాచారం · Dasacharam</h2>
+            <h2 className="dasha-panel__title">{t("kundali.dashaTitle")}</h2>
 
             <DashaGlance dasha={dasha} timezone={timezone} natureByGraha={natureByGraha} />
 

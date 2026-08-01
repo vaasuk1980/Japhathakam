@@ -1,6 +1,8 @@
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 
+import { useTranslation } from "../../i18n/I18nContext";
+
 import "./PlanetaryPositionsTable.css";
 
 /* ==========================================================
@@ -78,7 +80,7 @@ function buildRows(kundaliDocument) {
             name: GRAHA_TELUGU_NAMES[lagna.code] ?? lagna.displayName,
             en: lagna.code,
             deg: lagna.formattedLongitude,
-            nak: lagna.nakshatra?.teluguName ?? "—",
+            nak: lagna.nakshatra,
             pada: lagna.pada ?? "—",
             rasi: rasiForLongitude(lagna.longitude),
             // The Lagna always defines the 1st house (Tanu bhava).
@@ -98,7 +100,7 @@ function buildRows(kundaliDocument) {
                 name: GRAHA_TELUGU_NAMES[graha.code] ?? graha.displayName,
                 en: graha.code,
                 deg: graha.formattedLongitude,
-                nak: graha.nakshatra?.teluguName ?? "—",
+                nak: graha.nakshatra,
                 pada: graha.pada ?? "—",
                 rasi: rasiForLongitude(graha.longitude),
                 bhava: BHAVA_LABELS[cell.sthana - 1] ?? "—",
@@ -119,6 +121,8 @@ function buildRows(kundaliDocument) {
 
 function PlanetaryPositionsTable({ kundaliDocument }) {
 
+    const { t, language } = useTranslation();
+
     const rows = useMemo(
         () => buildRows(kundaliDocument),
         [kundaliDocument]
@@ -130,7 +134,7 @@ function PlanetaryPositionsTable({ kundaliDocument }) {
 
     return (
         <section className="pp-table-section">
-            <h2 className="pp-table-title">గ్రహస్థితి · Planetary Positions</h2>
+            <h2 className="pp-table-title">{t("kundali.planetaryPositionsTitle")}</h2>
 
             <div className="pp-table-scroll">
                 <table className="pp-table">
@@ -159,16 +163,16 @@ function PlanetaryPositionsTable({ kundaliDocument }) {
                                         <Link
                                             to={`/panchangam?graha=${row.en}`}
                                             className="pp-graha-retrograde"
-                                            title="ప్రస్తుత వక్రి కాలం చూడండి · View current retrograde period"
+                                            title={t("common.retrogradeTooltip")}
                                         >
                                             R
                                         </Link>
                                     )}
                                 </td>
                                 <td className="mono">{row.deg}</td>
-                                <td>{row.nak}</td>
+                                <td>{(language === "te" ? row.nak?.teluguName : row.nak?.englishName) ?? "—"}</td>
                                 <td>{row.pada}</td>
-                                <td>{row.rasi.tel}</td>
+                                <td>{language === "te" ? row.rasi.tel : row.rasi.en}</td>
                                 <td>{row.bhava}</td>
                             </tr>
                         ))}

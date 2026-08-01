@@ -23,6 +23,7 @@ const GOCHARA_ORDER = [
 
 function GocharaSummaryCard({ snapshotState, t }) {
 
+    const { language } = useTranslation();
     const data = snapshotState.data;
     const positions = data?.planetPositions ?? [];
     const lagna = data?.lagna;
@@ -63,10 +64,10 @@ function GocharaSummaryCard({ snapshotState, t }) {
                                     <td className="today-gochara-table__graha">లగ్నం</td>
                                     <td className="mono">{lagna.formattedLongitude}</td>
                                     <td>
-                                        {lagna.nakshatra?.teluguName ?? "—"}
+                                        {(language === "te" ? lagna.nakshatra?.teluguName : lagna.nakshatra?.englishName) ?? "—"}
                                         {lagna.pada?.number ? ` - ${lagna.pada.number}` : ""}
                                     </td>
-                                    <td>{lagna.teluguName}</td>
+                                    <td>{language === "te" ? lagna.teluguName : lagna.englishName}</td>
                                     {/* The Lagna moves through a Rashi in ~2 hours — an
                                         entered/leaves range isn't meaningful for it the
                                         way it is for a Graha, so this cell stays blank. */}
@@ -82,7 +83,7 @@ function GocharaSummaryCard({ snapshotState, t }) {
                                             <Link
                                                 to={`/panchangam?graha=${position.planet}`}
                                                 className="today-gochara-table__retrograde"
-                                                title="ప్రస్తుత వక్రి కాలం చూడండి · View current retrograde period"
+                                                title={t("common.retrogradeTooltip")}
                                             >
                                                 R
                                             </Link>
@@ -90,10 +91,10 @@ function GocharaSummaryCard({ snapshotState, t }) {
                                     </td>
                                     <td className="mono">{position.formattedLongitude}</td>
                                     <td>
-                                        {position.nakshatra?.teluguName ?? "—"}
+                                        {(language === "te" ? position.nakshatra?.teluguName : position.nakshatra?.englishName) ?? "—"}
                                         {position.pada?.number ? ` - ${position.pada.number}` : ""}
                                     </td>
-                                    <td>{position.lagna?.teluguName ?? "—"}</td>
+                                    <td>{(language === "te" ? position.lagna?.teluguName : position.lagna?.englishName) ?? "—"}</td>
                                     <td className="mono today-gochara-table__transit">
                                         {position.rashiEntered ?? "—"}
                                         <span className="today-gochara-table__arrow">→</span>
@@ -183,6 +184,7 @@ function GocharaKundaliCard({ snapshotState, t }) {
 
 function TodayPanchangamCard({ snapshotState, t }) {
 
+    const { language } = useTranslation();
     const data = snapshotState.data;
 
     const sun = data?.planetPositions?.find((position) => position.planet === "SUN");
@@ -252,7 +254,7 @@ function TodayPanchangamCard({ snapshotState, t }) {
                     <div className="today-panchangam-grid__item">
                         <span className="today-panchangam-grid__label">{t("dashboard.today.nakshatra")}</span>
                         <span className="today-panchangam-grid__value">
-                            {moon?.nakshatra?.teluguName ?? "—"}
+                            {(language === "te" ? moon?.nakshatra?.teluguName : moon?.nakshatra?.englishName) ?? "—"}
                             {moon?.pada?.number ? ` - ${moon.pada.number}` : ""}
                         </span>
                     </div>

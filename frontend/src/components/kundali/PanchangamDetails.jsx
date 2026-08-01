@@ -2,13 +2,23 @@ import { useMemo } from "react";
 
 import { computeTithi, computeVara, computeAyana } from "../../kundali/utils/panchangamMath";
 import formatDateDDMMYYYY from "../../utils/date/formatDateDDMMYYYY";
+import { useTranslation } from "../../i18n/I18nContext";
 
 import "./PanchangamDetails.css";
 
 const RASI_NAMES = [
-    "మేషం", "వృషభం", "మిథునం", "కర్కాటకం",
-    "సింహం", "కన్య", "తుల", "వృశ్చికం",
-    "ధనుస్సు", "మకరం", "కుంభం", "మీనం",
+    { tel: "మేషం", en: "Aries" },
+    { tel: "వృషభం", en: "Taurus" },
+    { tel: "మిథునం", en: "Gemini" },
+    { tel: "కర్కాటకం", en: "Cancer" },
+    { tel: "సింహం", en: "Leo" },
+    { tel: "కన్య", en: "Virgo" },
+    { tel: "తుల", en: "Libra" },
+    { tel: "వృశ్చికం", en: "Scorpio" },
+    { tel: "ధనుస్సు", en: "Sagittarius" },
+    { tel: "మకరం", en: "Capricorn" },
+    { tel: "కుంభం", en: "Aquarius" },
+    { tel: "మీనం", en: "Pisces" },
 ];
 
 const GENDER_LABELS = {
@@ -34,6 +44,8 @@ function findGraha(kundaliDocument, code) {
 
 function PanchangamDetails({ kundaliDocument, dateOfBirth, timeOfBirth, gender }) {
 
+    const { t, language } = useTranslation();
+
     const rows = useMemo(() => {
 
         const sun = findGraha(kundaliDocument, "SUN");
@@ -46,8 +58,16 @@ function PanchangamDetails({ kundaliDocument, dateOfBirth, timeOfBirth, gender }
 
         const ayana = sun ? computeAyana(sun.longitude) : "—";
 
-        const lagnamu = lagna
+        const lagnaRasi = lagna
             ? RASI_NAMES[signIndexForLongitude(lagna.longitude)]
+            : null;
+
+        const lagnamu = lagnaRasi
+            ? (language === "te" ? lagnaRasi.tel : lagnaRasi.en)
+            : "—";
+
+        const nakshatram = moon?.nakshatra
+            ? (language === "te" ? moon.nakshatra.teluguName : moon.nakshatra.englishName)
             : "—";
 
         const panchangam = kundaliDocument?.panchangam;
@@ -66,18 +86,18 @@ function PanchangamDetails({ kundaliDocument, dateOfBirth, timeOfBirth, gender }
             { label: "Masam", value: masam },
             { label: "Paksham", value: tithi?.paksha ?? "—" },
             { label: "Thidhi", value: tithi?.name ?? "—" },
-            { label: "Nakshatram", value: moon?.nakshatra?.teluguName ?? "—" },
+            { label: "Nakshatram", value: nakshatram ?? "—" },
             { label: "Lagnamu", value: lagnamu },
             { label: "Day", value: computeVara(dateOfBirth) },
             { label: "సమయము", value: timeOfBirth || "—" },
             { label: "Gender", value: GENDER_LABELS[gender] ?? gender ?? "—" },
         ];
 
-    }, [kundaliDocument, dateOfBirth, timeOfBirth, gender]);
+    }, [kundaliDocument, dateOfBirth, timeOfBirth, gender, language]);
 
     return (
         <section className="pd-table-section">
-            <h2 className="pd-table-title">పంచాంగం · Panchangam Details</h2>
+            <h2 className="pd-table-title">{t("kundali.panchangamDetailsTitle")}</h2>
 
             <div className="pd-grid">
                 {rows.map((row) => (

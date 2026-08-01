@@ -25,3 +25,16 @@
     font-display: swap;
     unicode-range: U+0C00-0C7F, U+200C-200D;
 }
+
+/* Digits render ~10% taller than JIMS Telugu glyphs at the same
+   font-size (measured via ink-extent, not just declared size) —
+   this virtual face scales Segoe UI's digit glyphs down to match,
+   without touching any other Latin character or the Telugu font.
+   Inserted into --font-family ahead of plain "Segoe UI" so only
+   0-9 route through it; everything else falls through unaffected. */
+@font-face {
+    font-family: "Segoe UI Numerals";
+    src: local("Segoe UI");
+    unicode-range: U+0030-0039;
+    size-adjust: 90%;
+}

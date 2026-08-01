@@ -58,6 +58,8 @@ const en = {
             sunrise: "Sun Rise",
             sunset: "Sun Set",
             nakshatra: "Nakshatra",
+            nakshatraPada: "Nakshatra - Pada",
+            nakshatraDuration: "Nakshatra Duration",
             viewAll: "View All",
         },
         empty: {
@@ -65,6 +67,21 @@ const en = {
             subtitle: "Create your first horoscope to see it appear here.",
             cta: "Create Horoscope",
         },
+    },
+    panchangam: {
+        todayTitle: "Today's Panchangam",
+        groupTitle: "Planet Transit through Lagnas",
+        yearLabel: "Year",
+        noLagnaChange: "No Lagna change this year.",
+        lagnaColumn: "Lagna",
+    },
+    kundali: {
+        planetaryPositionsTitle: "Planetary Positions",
+        dashaTitle: "Dasacharam",
+        panchangamDetailsTitle: "Panchangam Details",
+    },
+    common: {
+        retrogradeTooltip: "View current retrograde period",
     },
     horoscopeLibrary: {
         title: "Horoscope Library",
@@ -150,6 +167,8 @@ const te = {
             sunrise: "సూర్యోదయం",
             sunset: "సూర్యాస్తమయం",
             nakshatra: "నక్షత్రం",
+            nakshatraPada: "నక్షత్రం - పాదం",
+            nakshatraDuration: "నక్షత్ర వ్యవధి",
             viewAll: "అన్నీ చూడండి",
         },
         empty: {
@@ -157,6 +176,21 @@ const te = {
             subtitle: "ఇక్కడ కనిపించడానికి మీ మొదటి జాతకాన్ని సృష్టించండి.",
             cta: "జాతకం సృష్టించండి",
         },
+    },
+    panchangam: {
+        todayTitle: "నేటి పంచాంగం",
+        groupTitle: "గ్రహాల లగ్న గోచారం",
+        yearLabel: "సంవత్సరం",
+        noLagnaChange: "ఈ సంవత్సరంలో లగ్నం మార్పు లేదు.",
+        lagnaColumn: "లగ్నం",
+    },
+    kundali: {
+        planetaryPositionsTitle: "గ్రహస్థితి",
+        dashaTitle: "దశాచారం",
+        panchangamDetailsTitle: "పంచాంగం",
+    },
+    common: {
+        retrogradeTooltip: "ప్రస్తుత వక్రి కాలం చూడండి",
     },
     horoscopeLibrary: {
         title: "జాతకపు గ్రంధాలయము",

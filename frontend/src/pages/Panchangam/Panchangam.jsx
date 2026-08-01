@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import RashiTransitSummaryService from "../../services/RashiTransitSummaryService";
 import resolveUtcOffsetHours from "../../utils/timezone/resolveUtcOffsetHours";
 import { useSavedLocation } from "../../location/LocationContext";
+import { useTranslation } from "../../i18n/I18nContext";
 
 import Card from "../../components/common/Card";
 import TodayPanchangamDetails from "./TodayPanchangamDetails";
@@ -98,7 +99,9 @@ function useRashiTransitSummary(year, timezone) {
 
 function GrahaTransitTable({ graha, transitions, highlightNowMs }) {
 
+    const { t, language } = useTranslation();
     const label = GRAHA_LABELS[graha] ?? { tel: graha, en: graha };
+    const grahaName = language === "te" ? label.tel : label.en;
     const showsVakri = GRAHAS_WITH_VARIABLE_DIRECTION.has(graha);
 
     // The row whose stay currently contains "now" — only looked up
@@ -125,16 +128,16 @@ function GrahaTransitTable({ graha, transitions, highlightNowMs }) {
 
     return (
         <section className="rt-table-section">
-            <h2 className="rt-table-title">{label.tel} · {label.en}</h2>
+            <h2 className="rt-table-title">{grahaName}</h2>
 
             {transitions.length === 0 ? (
-                <p className="rt-table-empty">ఈ సంవత్సరంలో రాశి మార్పు లేదు · No Rashi change this year.</p>
+                <p className="rt-table-empty">{t("panchangam.noLagnaChange")}</p>
             ) : (
                 <div className="rt-table-scroll">
                     <table className="rt-table">
                         <thead>
                             <tr>
-                                <th>రాశి</th>
+                                <th>{t("panchangam.lagnaColumn")}</th>
                                 <th>ప్రవేశం</th>
                                 <th>నిష్క్రమణ</th>
                                 <th>వ్యవధి</th>
@@ -150,7 +153,7 @@ function GrahaTransitTable({ graha, transitions, highlightNowMs }) {
                                     ref={index === currentRowIndex ? currentRowRef : null}
                                     className={index === currentRowIndex ? "rt-table__row--current" : undefined}
                                 >
-                                    <td>{row.rasiTeluguName} · {row.rasiEnglishName}</td>
+                                    <td>{language === "te" ? row.rasiTeluguName : row.rasiEnglishName}</td>
                                     <td className="mono">{row.entered}</td>
                                     <td className="mono">{row.leaves}</td>
                                     <td className="mono">{row.durationDisplay}</td>
@@ -184,6 +187,7 @@ function GrahaTransitTable({ graha, transitions, highlightNowMs }) {
 
 function Panchangam() {
 
+    const { t } = useTranslation();
     const { location } = useSavedLocation();
     const [searchParams] = useSearchParams();
 
@@ -209,10 +213,12 @@ function Panchangam() {
         <div className="rt-page">
             <TodayPanchangamDetails />
 
+            <h2 className="rt-group-title">{t("panchangam.groupTitle")}</h2>
+
             <Card className="rt-controls-card" padding="medium" shadow="medium">
                 <div className="rt-controls">
                     <label className="rt-year-label" htmlFor="rt-year-input">
-                        సంవత్సరం (ఉగాది → ఉగాది) · Year (Ugadi to Ugadi)
+                        {t("panchangam.yearLabel")}
                     </label>
                     <input
                         id="rt-year-input"
@@ -224,7 +230,7 @@ function Panchangam() {
                 </div>
 
                 {summaryState.status === "loading" && (
-                    <p className="rt-controls__status">లోడ్ అవుతోంది... · Loading...</p>
+                    <p className="rt-controls__status">{t("dashboard.today.loading")}</p>
                 )}
 
                 {summaryState.status === "error" && (

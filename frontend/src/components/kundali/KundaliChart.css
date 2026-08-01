@@ -50,6 +50,13 @@
 
     border: 2px solid #444;
     background-color: #ffffff;
+
+    /* Opt out of the app-wide digit size-adjust (fonts.css'
+       "Segoe UI Numerals" face) — the Sthana numbers, degree
+       values, etc. in here were already hand-tuned via their own
+       cqw clamp()s, and re-scaling their digits on top of that
+       would throw those numbers off again. */
+    font-family: "JIMS", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .kundali-cell {
