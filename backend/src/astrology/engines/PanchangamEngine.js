@@ -150,6 +150,33 @@ class PanchangamEngine {
 
     }
 
+    /**
+     * The Ugadi (Chaitra Shukla Padyami — start of the Telugu
+     * lunisolar year) window for a given Gregorian year: the Chaitra
+     * start nearest that year, and the following one a lunisolar
+     * year later. Ugadi normally falls March-April, so a reference
+     * date of June 1st is safely after it (even in an unusual year)
+     * without risking landing past the FOLLOWING Ugadi too.
+     *
+     * @param {number} year - Gregorian year, e.g. 2026.
+     * @returns {{ startJd: number, endJd: number }}
+     */
+    findUgadiWindowForYear(year) {
+
+        const referenceJd = swisseph.julianDay(year, 6, 1, 12);
+
+        const startJd = this.findCurrentChaitraStart(this.findNewMoon(referenceJd, -1));
+
+        // A Chaitra-to-Chaitra cycle is 12 lunar months (~354 days) or,
+        // in an Adhika (leap) year, 13 (~384 days) — 400 days ahead of
+        // startJd is past either case, so searching backward from there
+        // reliably lands on the NEXT Ugadi rather than this same one.
+        const endJd = this.findCurrentChaitraStart(this.findNewMoon(startJd + 400, -1));
+
+        return { startJd, endJd };
+
+    }
+
     calculateNakshatraBoundaries(birthJulianDay, nakshatra) {
 
         const startJd = CrossingTimeSearch.find({

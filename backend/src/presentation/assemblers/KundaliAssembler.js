@@ -258,7 +258,9 @@ class KundaliAssembler {
 
                     pada: placement.pada?.number,
 
-                    nature: placement.nature
+                    nature: placement.nature,
+
+                    isRetrograde: placement.isRetrograde
 
                 })
 

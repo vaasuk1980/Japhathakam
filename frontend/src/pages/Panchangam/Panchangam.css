@@ -1,0 +1,188 @@
+/* ==========================================================
+   Panchangam — per-Graha Rashi transit tables
+   ----------------------------------------------------------
+   Same section/title-bar/table shape as the Planetary Positions
+   table (see PlanetaryPositionsTable.css), styled with the shared
+   Japhathakam design tokens — one section per Graha rather than
+   one combined table, since each Graha's Rashi visits happen at
+   completely different cadences (Sun: ~12/year, Saturn: ~0-1/year).
+   ========================================================== */
+
+.rt-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+/* ==========================================================
+   Today's Panchangam (TodayPanchangamDetails.jsx) — full version
+   of the Dashboard's compact "Panchangam · Today" card (see
+   TodayPanel.css's .today-panchangam-grid), styled to match this
+   page's own title-bar sections instead of a Dashboard Card.
+   ========================================================== */
+
+.rt-panchangam-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.rt-panchangam-grid__item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.rt-panchangam-grid__item--wide {
+    grid-column: 1 / -1;
+}
+
+.rt-panchangam-grid__label {
+    font-family: var(--font-family);
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--jp-color-text-muted);
+}
+
+.rt-panchangam-grid__value {
+    font-family: var(--font-family);
+    font-size: 18px;
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-text-primary);
+
+    font-variant-numeric: tabular-nums;
+}
+
+.rt-panchangam-grid__value--range {
+    color: var(--jp-color-text-secondary);
+}
+
+.rt-controls-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.rt-controls {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.rt-year-label {
+    font-family: var(--font-family);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-text-secondary);
+}
+
+.rt-year-input {
+    width: 140px;
+    padding: var(--spacing-sm);
+
+    font-family: var(--font-family);
+    font-size: 18px;
+
+    border: 1px solid var(--jp-color-border);
+    border-radius: var(--radius-md);
+    background: var(--jp-color-surface);
+    color: var(--jp-color-text-primary);
+}
+
+.rt-controls__status {
+    font-family: var(--font-family);
+    font-size: 18px;
+    color: var(--jp-color-text-secondary);
+}
+
+.rt-controls__status--error {
+    color: #b22222;
+}
+
+.rt-table-section {
+    margin: 0;
+
+    background: var(--jp-color-surface);
+    border: 1px solid var(--jp-color-border);
+    border-radius: var(--radius-lg);
+
+    padding: var(--spacing-lg);
+}
+
+.rt-table-title {
+    /* Bleeds to the card's own edges (undoing its own padding/
+       corner radius) so the fill reads as a full-width title bar —
+       same treatment as .pp-table-title. */
+    margin: calc(-1 * var(--spacing-lg)) calc(-1 * var(--spacing-lg)) var(--spacing-md);
+
+    padding: var(--spacing-sm) var(--spacing-lg);
+
+    font-family: Georgia, "Times New Roman", var(--font-family), serif;
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-text-primary);
+
+    background: var(--jp-color-heading-fill);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.rt-table-empty {
+    font-family: var(--font-family);
+    font-size: 18px;
+    color: var(--jp-color-text-muted);
+}
+
+.rt-table-scroll {
+    overflow-x: auto;
+}
+
+.rt-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    font-size: 18px;
+}
+
+.rt-table th {
+    padding: 10px 12px;
+
+    border-bottom: 2px solid var(--jp-color-primary);
+
+    font-family: var(--font-family);
+    font-size: 18px;
+    font-weight: var(--font-semibold);
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--jp-color-primary);
+}
+
+.rt-table td {
+    padding: 11px 12px;
+
+    border-bottom: 1px solid var(--jp-color-border);
+
+    color: var(--jp-color-text-primary);
+    font-variant-numeric: tabular-nums;
+}
+
+.rt-table tr:last-child td {
+    border-bottom: none;
+}
+
+.rt-table tr:hover td {
+    background: var(--jp-color-background);
+}
+
+/* Deep-link target — the row containing "right now," jumped to and
+   scrolled into view when arriving via a (R) retrograde link (see
+   GrahaBadge.jsx). Left accent bar on the first cell only, since a
+   plain <tr> border doesn't render under border-collapse. */
+.rt-table__row--current td {
+    background: rgba(37, 99, 235, 0.08);
+}
+
+.rt-table__row--current td:first-child {
+    border-left: 3px solid var(--jp-color-primary);
+}

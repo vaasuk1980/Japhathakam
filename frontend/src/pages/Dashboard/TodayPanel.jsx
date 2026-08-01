@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
+import { Link } from "react-router-dom";
 
-import SkySnapshotService from "../../services/SkySnapshotService";
-import resolveUtcOffsetHours from "../../utils/timezone/resolveUtcOffsetHours";
+import useSkySnapshot from "../../hooks/useSkySnapshot";
 import { computeTithi, computeVara, computeAyana } from "../../kundali/utils/panchangamMath";
 import { DASHA_GRAHA_NAMES } from "../../kundali/constants/DashaGrahaNames";
 import { CHART_GRAHA_SYMBOLS } from "../../kundali/constants/ChartGrahaSymbols";
@@ -20,102 +20,6 @@ const GOCHARA_ORDER = [
     "SUN", "MOON", "MARS", "MERCURY", "JUPITER", "VENUS", "SATURN", "RAHU", "KETU",
     "BHUMI", "MITRA", "CHITRA",
 ];
-
-// The ascendant moves roughly one Rashi every ~2 hours, so a snapshot
-// that only re-fetches on location change would silently go stale if
-// the Dashboard is left open — refresh periodically so Lagna (and
-// everything relative to it) stays live.
-const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
-
-// Sthana relative to a given ascendant — mirrors the backend's
-// SthanaCalculation.js exactly (both take 1-based, Mesha=1 sequence
-// numbers).
-function bhavaForSequence(planetSequence, lagnaSequence) {
-    return ((planetSequence - lagnaSequence + 12) % 12) + 1;
-}
-
-function todayIsoDate() {
-
-    const now = new Date();
-    const pad = (value) => String(value).padStart(2, "0");
-
-    return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
-
-}
-
-function nowHHMM() {
-
-    const now = new Date();
-    const pad = (value) => String(value).padStart(2, "0");
-
-    return `${pad(now.getHours())}:${pad(now.getMinutes())}`;
-
-}
-
-function useSkySnapshot(location) {
-
-    const [state, setState] = useState({ status: "idle", data: null, error: null });
-
-    useEffect(() => {
-
-        if (!location) {
-            setState({ status: "idle", data: null, error: null });
-            return;
-        }
-
-        let cancelled = false;
-
-        function fetchSnapshot(isRefresh) {
-
-            if (!isRefresh) {
-                setState({ status: "loading", data: null, error: null });
-            }
-
-            const date = todayIsoDate();
-            const time = nowHHMM();
-            const timezone = resolveUtcOffsetHours(location.timezoneId, date, time);
-
-            SkySnapshotService.get({
-                date,
-                time,
-                latitude: location.latitude,
-                longitude: location.longitude,
-                timezone,
-            })
-                .then((data) => {
-                    if (!cancelled) {
-                        setState({ status: "success", data: { ...data, date }, error: null });
-                    }
-                })
-                .catch((error) => {
-                    if (!cancelled) {
-                        setState({ status: "error", data: null, error: error.message });
-                    }
-                });
-
-        }
-
-        fetchSnapshot(false);
-
-        // The ascendant (and, to a lesser extent, the planets) keep
-        // moving — re-fetch periodically so a Dashboard left open
-        // doesn't silently show a stale Lagna. Passes isRefresh=true
-        // so this doesn't flash the loading state over live data.
-        const timer = setInterval(() => fetchSnapshot(true), REFRESH_INTERVAL_MS);
-
-        return () => {
-            cancelled = true;
-            clearInterval(timer);
-        };
-
-    // Re-fetch (and restart the refresh timer) only when the location
-    // actually changes — the timer above is what handles time passing.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [location?.latitude, location?.longitude, location?.timezoneId]);
-
-    return state;
-
-}
 
 function GocharaSummaryCard({ snapshotState, t }) {
 
@@ -148,10 +52,9 @@ function GocharaSummaryCard({ snapshotState, t }) {
                             <tr>
                                 <th>గ్రహం</th>
                                 <th>అంశలు</th>
-                                <th>నక్షత్రం</th>
-                                <th>పాదం</th>
+                                <th>నక్షత్రం - పాదం</th>
                                 <th>లగ్నం</th>
-                                <th>భావం</th>
+                                <th>ప్రవేశం → నిష్క్రమణ</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -159,10 +62,15 @@ function GocharaSummaryCard({ snapshotState, t }) {
                                 <tr>
                                     <td className="today-gochara-table__graha">లగ్నం</td>
                                     <td className="mono">{lagna.formattedLongitude}</td>
-                                    <td>{lagna.nakshatra?.teluguName ?? "—"}</td>
-                                    <td>{lagna.pada?.number ?? "—"}</td>
+                                    <td>
+                                        {lagna.nakshatra?.teluguName ?? "—"}
+                                        {lagna.pada?.number ? ` - ${lagna.pada.number}` : ""}
+                                    </td>
                                     <td>{lagna.teluguName}</td>
-                                    <td>1</td>
+                                    {/* The Lagna moves through a Rashi in ~2 hours — an
+                                        entered/leaves range isn't meaningful for it the
+                                        way it is for a Graha, so this cell stays blank. */}
+                                    <td>—</td>
                                 </tr>
                             )}
 
@@ -170,15 +78,26 @@ function GocharaSummaryCard({ snapshotState, t }) {
                                 <tr key={position.planet}>
                                     <td className="today-gochara-table__graha">
                                         {DASHA_GRAHA_NAMES[position.planet] ?? position.planet}
+                                        {position.isRetrograde && (
+                                            <Link
+                                                to={`/panchangam?graha=${position.planet}`}
+                                                className="today-gochara-table__retrograde"
+                                                title="ప్రస్తుత వక్రి కాలం చూడండి · View current retrograde period"
+                                            >
+                                                R
+                                            </Link>
+                                        )}
                                     </td>
                                     <td className="mono">{position.formattedLongitude}</td>
-                                    <td>{position.nakshatra?.teluguName ?? "—"}</td>
-                                    <td>{position.pada?.number ?? "—"}</td>
-                                    <td>{position.lagna?.teluguName ?? "—"}</td>
                                     <td>
-                                        {lagna && position.lagna
-                                            ? bhavaForSequence(position.lagna.sequence, lagna.sequence)
-                                            : "—"}
+                                        {position.nakshatra?.teluguName ?? "—"}
+                                        {position.pada?.number ? ` - ${position.pada.number}` : ""}
+                                    </td>
+                                    <td>{position.lagna?.teluguName ?? "—"}</td>
+                                    <td className="mono today-gochara-table__transit">
+                                        {position.rashiEntered ?? "—"}
+                                        <span className="today-gochara-table__arrow">→</span>
+                                        {position.rashiLeaves ?? "—"}
                                     </td>
                                 </tr>
                             ))}
@@ -210,6 +129,7 @@ function GocharaKundaliCard({ snapshotState, t }) {
             longitude: position.longitude,
             nakshatra: position.nakshatra,
             pada: position.pada,
+            isRetrograde: position.isRetrograde,
         }));
 
         // The real ascendant for this location/moment (see
@@ -277,6 +197,9 @@ function TodayPanchangamCard({ snapshotState, t }) {
         <Card className="dashboard-card today-card" padding="medium" shadow="medium">
             <div className="dashboard-card__header">
                 <h2 className="dashboard-card__title">{t("dashboard.today.panchangamTitle")}</h2>
+                <Link to="/panchangam" className="dashboard-card__link">
+                    {t("dashboard.today.viewAll")}
+                </Link>
             </div>
 
             {snapshotState.status === "loading" && (
@@ -333,13 +256,6 @@ function TodayPanchangamCard({ snapshotState, t }) {
                             {moon?.pada?.number ? ` - ${moon.pada.number}` : ""}
                         </span>
                     </div>
-
-                    <div className="today-panchangam-grid__item today-panchangam-grid__item--wide">
-                        <span className="today-panchangam-grid__label">{t("dashboard.today.nakshatraDuration")}</span>
-                        <span className="today-panchangam-grid__value today-panchangam-grid__value--range">
-                            {data.nakshatraStart} → {data.nakshatraEnd}
-                        </span>
-                    </div>
                 </div>
             )}
         </Card>
@@ -347,15 +263,6 @@ function TodayPanchangamCard({ snapshotState, t }) {
 
 }
 
-// recentSlot is rendered under the Gochara table, in the same
-// right-hand column — not because they're topically related, but
-// because the left column (Panchangam + Kundali chart) runs
-// noticeably taller than the table alone, and a two-column grid
-// with mismatched column heights just leaves the shorter column's
-// bottom half as dead background space above whatever comes next.
-// Continuing the right column downward with more content is the
-// direct fix — an empty two-column grid isn't "organised" just
-// because it's a grid.
 function TodayPanel({ recentSlot }) {
 
     const { t } = useTranslation();
@@ -368,11 +275,11 @@ function TodayPanel({ recentSlot }) {
                 <div className="today-panel__column">
                     <TodayPanchangamCard snapshotState={snapshotState} t={t} />
                     <GocharaKundaliCard snapshotState={snapshotState} t={t} />
+                    {recentSlot}
                 </div>
 
                 <div className="today-panel__column">
                     <GocharaSummaryCard snapshotState={snapshotState} t={t} />
-                    {recentSlot}
                 </div>
             </div>
         </div>

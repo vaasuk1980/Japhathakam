@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 
 import useForm from "../../form/state/useForm";
 
@@ -14,12 +14,22 @@ function DynamicFormContent({
     formId,
     hideSubmitButton = false,
     footer,
+    onValuesChange,
 }) {
 
     const {
         state,
         actions,
     } = useForm();
+
+    // Live mirror of the form's own internal values, for a caller
+    // that needs "whatever is currently typed" without waiting for
+    // an explicit Submit — e.g. Save Changes shouldn't silently save
+    // stale data just because the user didn't also re-click Generate
+    // Kundali after editing a field.
+    useEffect(() => {
+        onValuesChange?.(state.values);
+    }, [state.values, onValuesChange]);
 
     const handleSubmit = useCallback(
         (event) => {

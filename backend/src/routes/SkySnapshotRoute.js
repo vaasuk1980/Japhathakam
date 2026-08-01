@@ -7,6 +7,7 @@ import DerivedGrahaEngine from "../astrology/engines/DerivedGrahaEngine.js";
 import JanmaLagnaEngine from "../astrology/engines/JanmaLagnaEngine.js";
 import SunTimingEngine from "../astrology/engines/SunTimingEngine.js";
 import PanchangamEngine from "../astrology/engines/PanchangamEngine.js";
+import RashiTransitEngine from "../astrology/engines/RashiTransitEngine.js";
 import LongitudeFormatter from "../presentation/formatters/LongitudeFormatter.js";
 import DateTimeFormatter from "../presentation/formatters/DateTimeFormatter.js";
 
@@ -92,11 +93,26 @@ export default function SkySnapshotRoute() {
             const classicalPositions = PlanetPositionEngine.calculate(birthContext);
             const derivedPositions = DerivedGrahaEngine.calculate(classicalPositions);
 
+            // How long each Graha has been in, and how long it has left in,
+            // its current Rashi — not meaningful for the Lagna itself (it
+            // moves through a Rashi in ~2 hours), so this is Graha-only.
             const planetPositions = [...classicalPositions, ...derivedPositions].map(
-                (position) => ({
-                    ...position,
-                    formattedLongitude: LongitudeFormatter.format(position.longitude),
-                })
+                (position) => {
+
+                    const { enteredJd, leavesJd } = RashiTransitEngine.calculateBoundaries(
+                        position.planet,
+                        position.longitude,
+                        birthContext.julianDay
+                    );
+
+                    return {
+                        ...position,
+                        formattedLongitude: LongitudeFormatter.format(position.longitude),
+                        rashiEntered: DateTimeFormatter.formatLocal(enteredJd, timezone),
+                        rashiLeaves: DateTimeFormatter.formatLocal(leavesJd, timezone),
+                    };
+
+                }
             );
 
             const sunTiming = SunTimingEngine.calculate({

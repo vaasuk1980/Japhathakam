@@ -2,6 +2,8 @@ import {
   LayoutDashboard,
   UserRound,
   Library,
+  CalendarDays,
+  Clock,
   Settings,
 } from "lucide-react";
 
@@ -23,6 +25,18 @@ const menuItems = Object.freeze([
     labelKey: "sidebar.horoscopeLibrary",
     icon: Library,
     path: "/horoscope-library",
+  },
+  {
+    id: 3,
+    labelKey: "sidebar.panchangam",
+    icon: CalendarDays,
+    path: "/panchangam",
+  },
+  {
+    id: 4,
+    labelKey: "sidebar.muhurtham",
+    icon: Clock,
+    path: "/muhurtham",
   },
   {
     id: 8,

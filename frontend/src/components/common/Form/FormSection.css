@@ -3,7 +3,7 @@
    Enterprise Foundation v1.1
 ========================================================== */
 
-.jp-form-section {
+.jpfs-section {
     display: flex;
     flex-direction: column;
 
@@ -12,7 +12,7 @@
     width: 100%;
 }
 
-.jp-form-section__title {
+.jpfs-section__title {
     margin: 0;
 
     font-size: 1.25rem;
@@ -22,7 +22,7 @@
     color: var(--jp-color-text-primary);
 }
 
-.jp-form-section__content {
+.jpfs-section__content {
     display: flex;
     flex-direction: column;
 

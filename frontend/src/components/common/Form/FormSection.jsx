@@ -8,7 +8,7 @@ function FormSection({
     ...props
 }) {
     const sectionClassName = [
-        "jp-form-section",
+        "jpfs-section",
         className
     ]
         .filter(Boolean)
@@ -21,12 +21,12 @@ function FormSection({
             {...props}
         >
             {title && (
-                <h2 className="jp-form-section__title">
+                <h2 className="jpfs-section__title">
                     {title}
                 </h2>
             )}
 
-            <div className="jp-form-section__content">
+            <div className="jpfs-section__content">
                 {children}
             </div>
         </section>

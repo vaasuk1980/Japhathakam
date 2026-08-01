@@ -83,3 +83,21 @@
 .pp-table td.pp-graha-punya {
     color: #16a34a;
 }
+
+/* Retrograde marker — a small superscript "R" right after the
+   graha's name, same treatment as the Kundali chart's own
+   .graha-symbol__retrograde (see KundaliChart.css), so a Graha
+   reads identically whether it's in a chart cell or this table.
+   Inherits the cell's own color (default/Papa/Punya) rather than
+   a fixed one. It's a real link (see PlanetaryPositionsTable.jsx)
+   to the Panchangam page's current retrograde row for this Graha. */
+.pp-graha-retrograde {
+    vertical-align: super;
+    font-size: 0.6em;
+    font-weight: 700;
+    margin-left: 2px;
+
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}

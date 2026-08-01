@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { Link } from "react-router-dom";
 
 import "./PlanetaryPositionsTable.css";
 
@@ -83,9 +84,10 @@ function buildRows(kundaliDocument) {
             // The Lagna always defines the 1st house (Tanu bhava).
             bhava: BHAVA_LABELS[0],
             // The Lagna is a reference point, not a graha — it is
-            // never Punya/Papa classified.
+            // never Punya/Papa classified, and never retrograde.
             isPapa: false,
             isPunya: false,
+            isRetrograde: false,
         });
     }
 
@@ -104,6 +106,7 @@ function buildRows(kundaliDocument) {
                 // classification the Kundali chart colors by.
                 isPapa: graha.nature === "PAPA",
                 isPunya: graha.nature === "PUNYA",
+                isRetrograde: graha.isRetrograde,
             });
         });
     });
@@ -152,6 +155,15 @@ function PlanetaryPositionsTable({ kundaliDocument }) {
                                             : undefined
                                 }>
                                     {row.name}
+                                    {row.isRetrograde && (
+                                        <Link
+                                            to={`/panchangam?graha=${row.en}`}
+                                            className="pp-graha-retrograde"
+                                            title="ప్రస్తుత వక్రి కాలం చూడండి · View current retrograde period"
+                                        >
+                                            R
+                                        </Link>
+                                    )}
                                 </td>
                                 <td className="mono">{row.deg}</td>
                                 <td>{row.nak}</td>

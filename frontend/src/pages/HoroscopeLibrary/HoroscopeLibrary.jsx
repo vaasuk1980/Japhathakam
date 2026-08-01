@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import { Star } from "lucide-react";
 
 import PersonService from "../../services/PersonService";
 import formatDateDDMMYYYY from "../../utils/date/formatDateDDMMYYYY";
@@ -7,12 +8,10 @@ import { useTranslation } from "../../i18n/I18nContext";
 
 import Card from "../../components/common/Card";
 import Button from "../../components/common/Button";
-import StatCard from "../../components/common/StatCard";
 
 import "./HoroscopeLibrary.css";
 
 const PAGE_SIZE = 10;
-const DAY_MS = 24 * 60 * 60 * 1000;
 
 const CSV_COLUMNS = [
     "firstName", "lastName", "gender",
@@ -20,17 +19,10 @@ const CSV_COLUMNS = [
     "createdAt",
 ];
 
-function isSameLocalMonth(isoString, reference) {
-
-    const date = new Date(isoString);
-
-    return (
-        date.getFullYear() === reference.getFullYear() &&
-        date.getMonth() === reference.getMonth()
-    );
-
-}
-
+// "favourite" is its own explicit sort choice (favourites first, most
+// recently added within each group) rather than something silently
+// applied under every other sort — otherwise "Name (A-Z)" wouldn't
+// actually be alphabetical, which is more surprising than helpful.
 function sortPersons(persons, sortKey) {
 
     const sorted = [...persons];
@@ -42,6 +34,12 @@ function sortPersons(persons, sortKey) {
     }
     else if (sortKey === "dob") {
         sorted.sort((a, b) => a.dateOfBirth.localeCompare(b.dateOfBirth));
+    }
+    else if (sortKey === "favourite") {
+        sorted.sort((a, b) =>
+            Number(Boolean(b.isFavourite)) - Number(Boolean(a.isFavourite)) ||
+            new Date(b.createdAt) - new Date(a.createdAt)
+        );
     }
     else {
         sorted.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -141,6 +139,43 @@ function HoroscopeLibrary() {
 
     };
 
+    // Optimistic — flips the star immediately, then rolls back on
+    // failure, since waiting on the network for something this small
+    // and frequent (a single click, possibly several per session)
+    // would make the UI feel laggy for no real benefit.
+    const handleToggleFavourite = async (person) => {
+
+        const nextIsFavourite = !person.isFavourite;
+
+        setRequestState((previous) => ({
+            ...previous,
+            persons: previous.persons.map((candidate) =>
+                candidate.id === person.id
+                    ? { ...candidate, isFavourite: nextIsFavourite }
+                    : candidate
+            ),
+        }));
+
+        try {
+            await PersonService.setFavourite(person.id, nextIsFavourite);
+        }
+        catch (error) {
+
+            setRequestState((previous) => ({
+                ...previous,
+                persons: previous.persons.map((candidate) =>
+                    candidate.id === person.id
+                        ? { ...candidate, isFavourite: person.isFavourite }
+                        : candidate
+                ),
+            }));
+
+            window.alert(error.message);
+
+        }
+
+    };
+
     const filteredSorted = useMemo(() => {
 
         const query = search.trim().toLowerCase();
@@ -156,23 +191,6 @@ function HoroscopeLibrary() {
         return sortPersons(filtered, sortKey);
 
     }, [requestState.persons, search, sortKey]);
-
-    const stats = useMemo(() => {
-
-        const now = new Date();
-        const weekAgo = new Date(now.getTime() - 7 * DAY_MS);
-
-        return {
-            total: requestState.persons.length,
-            addedThisMonth: requestState.persons.filter((person) =>
-                isSameLocalMonth(person.createdAt, now)
-            ).length,
-            addedThisWeek: requestState.persons.filter(
-                (person) => new Date(person.createdAt) >= weekAgo
-            ).length,
-        };
-
-    }, [requestState.persons]);
 
     const totalPages = Math.max(1, Math.ceil(filteredSorted.length / PAGE_SIZE));
     const currentPage = Math.min(page, totalPages);
@@ -217,18 +235,6 @@ function HoroscopeLibrary() {
 
             {requestState.status === "success" && (
                 <>
-                    <div className="horoscope-library__stats">
-                        <StatCard label={t("horoscopeLibrary.stats.total")} value={stats.total} />
-                        <StatCard
-                            label={t("horoscopeLibrary.stats.addedThisMonth")}
-                            value={stats.addedThisMonth}
-                        />
-                        <StatCard
-                            label={t("horoscopeLibrary.stats.addedThisWeek")}
-                            value={stats.addedThisWeek}
-                        />
-                    </div>
-
                     <Card className="horoscope-library__card" padding="medium" shadow="medium">
 
                         <div className="horoscope-library__toolbar">
@@ -244,6 +250,7 @@ function HoroscopeLibrary() {
                                 {t("horoscopeLibrary.sort.label")}
                                 <select value={sortKey} onChange={handleSortChange}>
                                     <option value="recent">{t("horoscopeLibrary.sort.recent")}</option>
+                                    <option value="favourite">{t("horoscopeLibrary.sort.favourite")}</option>
                                     <option value="nameAsc">{t("horoscopeLibrary.sort.nameAsc")}</option>
                                     <option value="dob">{t("horoscopeLibrary.sort.dob")}</option>
                                 </select>
@@ -269,6 +276,7 @@ function HoroscopeLibrary() {
                                     <table className="horoscope-library__table">
                                         <thead>
                                             <tr>
+                                                <th className="horoscope-library__favourite-col" />
                                                 <th>{t("horoscopeLibrary.colName")}</th>
                                                 <th>{t("horoscopeLibrary.colDob")}</th>
                                                 <th>{t("horoscopeLibrary.colPlace")}</th>
@@ -279,11 +287,34 @@ function HoroscopeLibrary() {
                                         <tbody>
                                             {pageItems.map((person) => (
                                                 <tr key={person.id}>
+                                                    <td className="horoscope-library__favourite-col">
+                                                        <button
+                                                            type="button"
+                                                            className="horoscope-library__favourite-toggle"
+                                                            onClick={() => handleToggleFavourite(person)}
+                                                            aria-pressed={Boolean(person.isFavourite)}
+                                                            title={
+                                                                person.isFavourite
+                                                                    ? t("horoscopeLibrary.unfavourite")
+                                                                    : t("horoscopeLibrary.favourite")
+                                                            }
+                                                        >
+                                                            <Star
+                                                                size={18}
+                                                                fill={person.isFavourite ? "currentColor" : "none"}
+                                                            />
+                                                        </button>
+                                                    </td>
                                                     <td>
-                                                        <span className="horoscope-library__avatar">
-                                                            {person.firstName?.[0]?.toUpperCase()}
-                                                        </span>
-                                                        {person.firstName} {person.lastName}
+                                                        <Link
+                                                            to={`/person-details?id=${person.id}`}
+                                                            className="horoscope-library__name-link"
+                                                        >
+                                                            <span className="horoscope-library__avatar">
+                                                                {person.firstName?.[0]?.toUpperCase()}
+                                                            </span>
+                                                            {person.firstName} {person.lastName}
+                                                        </Link>
                                                     </td>
                                                     <td>{formatDateDDMMYYYY(person.dateOfBirth)} {person.timeOfBirth}</td>
                                                     <td>{person.placeOfBirth}</td>

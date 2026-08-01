@@ -100,6 +100,24 @@ class PersonService {
 
     }
 
+    async setFavourite(id, isFavourite) {
+
+        const response = await fetch(`${this.baseUrl}/${id}/favourite`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ isFavourite }),
+        });
+
+        const body = await response.json();
+
+        if (!response.ok) {
+            throw new Error(body.message || "Failed to update favourite.");
+        }
+
+        return body.person;
+
+    }
+
     async remove(id) {
 
         const response = await fetch(`${this.baseUrl}/${id}`, {

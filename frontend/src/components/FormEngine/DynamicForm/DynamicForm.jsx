@@ -14,6 +14,7 @@ function DynamicForm({
     formId,
     hideSubmitButton = false,
     footer,
+    onValuesChange,
 }) {
 
     const initialState = useMemo(
@@ -31,6 +32,7 @@ function DynamicForm({
                 formId={formId}
                 hideSubmitButton={hideSubmitButton}
                 footer={footer}
+                onValuesChange={onValuesChange}
             />
 
         </FormStateProvider>

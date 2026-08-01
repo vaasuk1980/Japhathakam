@@ -19,7 +19,7 @@ export default function PlaceAutocomplete({
   const field = useField(name);
   const { state, actions } = useForm();
 
-  const { value, error, touched, onChange, onBlur } = field;
+  const { value, error, touched, disabled, onChange, onBlur } = field;
 
   const [isOpen, setIsOpen] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
@@ -182,6 +182,7 @@ export default function PlaceAutocomplete({
           type="text"
           value={value}
           placeholder={placeholder}
+          disabled={disabled}
           aria-invalid={hasError}
           aria-describedby={helperId}
           onChange={handleInputChange}
@@ -214,15 +215,17 @@ export default function PlaceAutocomplete({
           <div className="jp-place-autocomplete__error">{searchError}</div>
         )}
 
-        <button
-          type="button"
-          className="jp-place-autocomplete__manual-toggle"
-          onClick={handleToggleManual}
-        >
-          {isManual
-            ? "↺ Use place search instead"
-            : "Can't find it? Enter manually"}
-        </button>
+        {!disabled && (
+          <button
+            type="button"
+            className="jp-place-autocomplete__manual-toggle"
+            onClick={handleToggleManual}
+          >
+            {isManual
+              ? "↺ Use place search instead"
+              : "Can't find it? Enter manually"}
+          </button>
+        )}
 
         {isManual && (
           <p className="jp-place-autocomplete__manual-hint">

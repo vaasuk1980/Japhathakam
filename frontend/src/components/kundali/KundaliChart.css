@@ -59,13 +59,19 @@
 
     position: relative;
 
-    padding: 10px;
+    /* Same cqw-relative treatment as every text size below (see
+       .sthana-number) — a fixed 10px/6px here doesn't shrink when
+       the chart does, so at a small width (e.g. the Dashboard's
+       400px Gochara card) this padding/gap became a much bigger
+       share of each cell's height, pushing the whole 4x4 grid
+       past aspect-ratio's 1:1 and visibly taller than wide. */
+    padding: clamp(4px, 1.43cqw, 10px);
 
     border: 1px solid #999;
     box-sizing: border-box;
 
     background-color: #ffffff;
-    gap: 6px;
+    gap: clamp(2px, 0.86cqw, 6px);
 }
 
 .kundali-center {
@@ -94,10 +100,10 @@
     bottom: 4px;
 
     /* Scales with the chart's own width (see .kundali-chart's
-       container-type) — 3.33cqw = 23px at the chart's own 700px
+       container-type) — 2.6cqw = 18px at the chart's own 700px
        max, shrinking proportionally instead of staying fixed
        while the chart around it gets smaller. */
-    font-size: clamp(8px, 3.33cqw, 23px);
+    font-size: clamp(7px, 2.6cqw, 18px);
     font-weight: 700;
 }
 
@@ -244,6 +250,29 @@
 
 .graha-symbol--punya {
     color: #16a34a;
+}
+
+/* Retrograde marker — a small superscript "R" beside the graha's
+   own short label, not a full "(R)" suffix, since cells already
+   run tight on width with 2+ grahas sharing a Rashi. Inherits the
+   parent's color (default/Papa/Punya) rather than a fixed one, so
+   it reads as part of the same label, not a separate flag. It's a
+   real link (see GrahaBadge.jsx) to the Panchangam page's current
+   retrograde row for this Graha, so it needs its own cursor
+   affordance rather than inheriting <a>'s browser default styling
+   wholesale — no underline, so it reads as part of the graha's own
+   label rather than a separate hyperlink. */
+.graha-symbol__retrograde {
+    display: inline;
+    vertical-align: super;
+
+    font-size: 0.55em;
+    font-weight: 700;
+    margin-left: 1px;
+
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .astronomical-places-panel {

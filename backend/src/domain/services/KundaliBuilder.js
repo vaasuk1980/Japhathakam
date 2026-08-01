@@ -153,7 +153,9 @@ class KundaliBuilder {
 
                 pada: planetPosition.pada,
 
-                nature: natureByGraha[planetPosition.planet] ?? null
+                nature: natureByGraha[planetPosition.planet] ?? null,
+
+                isRetrograde: planetPosition.isRetrograde
 
             });
 

@@ -15,6 +15,7 @@ export { default as FormError } from "./FormError";
 /* Action Components */
 
 export { default as Button } from "./Button";
+export { default as ConfirmDialog } from "./ConfirmDialog";
 
 /* Display Components */
 

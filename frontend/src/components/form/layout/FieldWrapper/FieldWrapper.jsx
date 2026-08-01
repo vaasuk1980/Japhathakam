@@ -59,16 +59,18 @@ export default function FieldWrapper({
                 {children}
             </div>
 
-            <div
-                id={helperId}
-                className={`jp-field-wrapper__helper ${
-                    hasError
-                        ? "jp-field-wrapper__helper--error"
-                        : ""
-                }`}
-            >
-                {hasError ? error : helperText}
-            </div>
+            {(hasError ? error : helperText) && (
+                <div
+                    id={helperId}
+                    className={`jp-field-wrapper__helper ${
+                        hasError
+                            ? "jp-field-wrapper__helper--error"
+                            : ""
+                    }`}
+                >
+                    {hasError ? error : helperText}
+                </div>
+            )}
         </div>
     );
 }

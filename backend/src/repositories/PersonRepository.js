@@ -129,6 +129,35 @@ class PersonRepository {
 
     }
 
+    // Distinct from update() for the same reason touchOpened() is —
+    // toggling a favourite star in the Library list is a UI-only
+    // preference, not an edit to the horoscope's own data, so it
+    // shouldn't bump updatedAt ("last edited").
+    async setFavourite(id, isFavourite) {
+
+        const persons = await this.readAll();
+
+        const index = persons.findIndex(
+            (person) => person.id === id
+        );
+
+        if (index === -1) {
+            return null;
+        }
+
+        const updated = {
+            ...persons[index],
+            isFavourite,
+        };
+
+        persons[index] = updated;
+
+        await this.writeAll(persons);
+
+        return updated;
+
+    }
+
     async remove(id) {
 
         const persons = await this.readAll();

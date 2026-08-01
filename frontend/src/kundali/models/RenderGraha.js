@@ -38,6 +38,7 @@ class RenderGraha {
         pada,
 
         nature = null,
+        isRetrograde = false,
 
         x = 0,
         y = 0
@@ -99,6 +100,12 @@ class RenderGraha {
          * "PUNYA" | "PAPA" | null (Lagna is never classified).
          */
         this.nature = nature;
+
+        /**
+         * True only for Mercury/Venus/Mars/Jupiter/Saturn when
+         * actually moving backward at this moment.
+         */
+        this.isRetrograde = isRetrograde;
 
         /**
          * Final render coordinates.

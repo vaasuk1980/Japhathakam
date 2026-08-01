@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import { PADA_ROW_STEP_CQW } from "../../kundali/constants/RenderConstants";
 
 function GrahaBadge({ graha }) {
@@ -36,9 +38,23 @@ function GrahaBadge({ graha }) {
         <span
             className={className}
             style={style}
-            title={graha.name}
+            title={graha.isRetrograde ? `${graha.name} (Retrograde)` : graha.name}
         >
             {graha.displayName}
+            {graha.isRetrograde && (
+                // Jumps to this Graha's current retrograde episode on the
+                // Panchangam page's Rashi-transit table — stopPropagation
+                // so a click here doesn't also trigger whatever the parent
+                // chart cell/tooltip does with clicks.
+                <Link
+                    to={`/panchangam?graha=${graha.name}`}
+                    className="graha-symbol__retrograde"
+                    onClick={(event) => event.stopPropagation()}
+                    title="ప్రస్తుత వక్రి కాలం చూడండి · View current retrograde period"
+                >
+                    R
+                </Link>
+            )}
         </span>
     );
 

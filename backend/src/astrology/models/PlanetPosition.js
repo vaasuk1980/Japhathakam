@@ -1,3 +1,5 @@
+import GrahasWithVariableDirection from "../constants/GrahasWithVariableDirection.js";
+
 class PlanetPosition {
 
     constructor({
@@ -34,6 +36,14 @@ class PlanetPosition {
 
         this.nakshatra = nakshatra;
         this.pada = pada;
+
+        // Only the 5 classical planets whose direction actually
+        // varies are ever marked retrograde — Rahu/Ketu/Bhumi/Mitra/
+        // Chitra always carry a negative-signed speed (they mirror a
+        // node or the Sun), so flagging them here would just restate
+        // a constant fact rather than a finding.
+        this.isRetrograde =
+            GrahasWithVariableDirection.has(planet) && longitudeSpeed < 0;
 
         Object.freeze(this);
 

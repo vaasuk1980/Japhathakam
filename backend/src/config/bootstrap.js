@@ -9,6 +9,9 @@ import PersonRoute
 import SkySnapshotRoute
     from "../routes/SkySnapshotRoute.js";
 
+import RashiTransitSummaryRoute
+    from "../routes/RashiTransitSummaryRoute.js";
+
 export default function bootstrap(app) {
 
     const {
@@ -42,6 +45,14 @@ export default function bootstrap(app) {
         "/api/sky-snapshot",
 
         SkySnapshotRoute()
+
+    );
+
+    app.use(
+
+        "/api/rashi-transit-summary",
+
+        RashiTransitSummaryRoute()
 
     );
 

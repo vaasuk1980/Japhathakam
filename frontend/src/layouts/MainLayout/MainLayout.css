@@ -36,15 +36,17 @@
     min-height: 0;
 }
 
-/* Caps how wide cards/forms stretch on large monitors — otherwise
-   a field like First Name balloons to 500px+ with nothing in it
-   on any screen wider than ~1650px, since .jp-form-section and
-   friends fill 100% of this container's own width. */
-.page-content > * {
-    max-width: var(--content-max-width);
-    margin-left: auto;
-    margin-right: auto;
-}
+/* No blanket max-width here — .jp-form-section, HoroscopeReport,
+   the Dashboard's card grid, and the Panchangam tables all already
+   fill 100% of this container's own width by design (see each
+   component's own CSS), and individual form INPUTS already have
+   their own per-field-type max-width (see FieldRenderer.css) so
+   they don't balloon on a wide screen regardless of the section
+   card's width. Capping every page's content here on top of that
+   was leaving 300px+ of dead margin on each side on a 2560px
+   monitor for no benefit. A page that specifically wants a capped,
+   document-like width (e.g. SitaraJatakam) sets its own max-width
+   on its own root class instead. */
 
 /* ==========================================================
    Mobile drawer

@@ -24,12 +24,6 @@
     color: var(--jp-color-text-secondary);
 }
 
-.horoscope-library__stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: var(--spacing-md);
-}
-
 /* ==========================================================
    Toolbar
    ========================================================== */
@@ -115,6 +109,37 @@
     border-bottom: none;
 }
 
+.horoscope-library__favourite-col {
+    width: 1%;
+    white-space: nowrap;
+}
+
+.horoscope-library__favourite-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 4px;
+
+    background: none;
+    border: none;
+    outline: none;
+
+    color: var(--jp-color-text-muted);
+    cursor: pointer;
+}
+
+/* Filled (see the Star icon's fill prop in HoroscopeLibrary.jsx) —
+   amber rather than the app's blue primary, since this is a
+   personal marker/highlight, not a navigational action. */
+.horoscope-library__favourite-toggle[aria-pressed="true"] {
+    color: #f59e0b;
+}
+
+.horoscope-library__favourite-toggle:hover {
+    color: #f59e0b;
+}
+
 .horoscope-library__avatar {
     display: inline-flex;
     align-items: center;
@@ -130,6 +155,22 @@
 
     background: var(--jp-color-primary);
     border-radius: var(--radius-pill);
+}
+
+/* The name itself opens the same record the "View" action does —
+   default color matches ordinary table text (not link-blue), since
+   a whole row of blue names would compete with the real actions
+   column, but it still underlines on hover as a clickable cue. */
+.horoscope-library__name-link {
+    display: inline-flex;
+    align-items: center;
+
+    color: var(--jp-color-text-primary);
+    text-decoration: none;
+}
+
+.horoscope-library__name-link:hover {
+    text-decoration: underline;
 }
 
 .horoscope-library__actions {

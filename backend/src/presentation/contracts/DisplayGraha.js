@@ -32,7 +32,8 @@ class DisplayGraha {
         nakshatra,
         pada,
 
-        nature = null
+        nature = null,
+        isRetrograde = false
 
     }) {
 
@@ -51,6 +52,11 @@ class DisplayGraha {
         // for the Lagna itself, which is not a graha and is
         // never classified.
         this.nature = nature;
+
+        // Only ever true for Mercury/Venus/Mars/Jupiter/Saturn (see
+        // GrahasWithVariableDirection) — false for the Lagna itself
+        // (not a physical body) and for every other graha.
+        this.isRetrograde = isRetrograde;
 
         Object.freeze(this);
 

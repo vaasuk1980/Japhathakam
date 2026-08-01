@@ -179,7 +179,8 @@ class RegionAssignmentPolicy {
             nakshatra: graha.nakshatra,
             pada: graha.pada,
 
-            nature: graha.nature
+            nature: graha.nature,
+            isRetrograde: graha.isRetrograde
 
         });
 
