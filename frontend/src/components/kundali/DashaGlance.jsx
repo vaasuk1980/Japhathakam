@@ -4,14 +4,14 @@ import { TOTAL_DASHA_YEARS } from "../../kundali/constants/DashaConstants";
 import { DASHA_GRAHA_NAMES } from "../../kundali/constants/DashaGrahaNames";
 import isCurrentPeriod from "../../utils/dasha/isCurrentPeriod";
 import localDateParts from "../../utils/timezone/localDateParts";
-import formatDateDDMMYYYY from "../../utils/date/formatDateDDMMYYYY";
 import resolveCurrentDashaChain from "../../utils/dasha/resolveCurrentDashaChain";
 import resolveGrahaNature from "../../utils/dasha/resolveGrahaNature";
+import translateDurationDisplay from "../../utils/dasha/translateDurationDisplay";
+import { useTranslation } from "../../i18n/I18nContext";
 
 import "./DashaGlance.css";
 
 const MS_PER_DAY = 86400000;
-const PX_PER_YEAR = 14;
 const TICK_STEP_YEARS = 10;
 
 // Keeps the progress bar/remaining-days figures fresh without a
@@ -29,6 +29,7 @@ const CURRENT_LEVEL_ROWS = [
 
 function DashaGlance({ dasha, timezone, natureByGraha }) {
 
+    const { language } = useTranslation();
     const [now, setNow] = useState(() => Date.now());
 
     useEffect(() => {
@@ -85,10 +86,7 @@ function DashaGlance({ dasha, timezone, natureByGraha }) {
                 </div>
 
                 <div className="dasha-glance__scroll">
-                    <div
-                        className="dasha-glance__track"
-                        style={{ width: `${TOTAL_DASHA_YEARS * PX_PER_YEAR}px` }}
-                    >
+                    <div className="dasha-glance__track">
                         {dasha.mahadashas.map((period) => {
 
                             const nature = resolveGrahaNature(period.graha, natureByGraha);
@@ -100,7 +98,7 @@ function DashaGlance({ dasha, timezone, natureByGraha }) {
                                         "dasha-glance__segment" +
                                         (isCurrentPeriod(period, now) ? " dasha-glance__segment--current" : "")
                                     }
-                                    style={{ flexBasis: `${period.durationYears * PX_PER_YEAR}px` }}
+                                    style={{ flexBasis: `${(period.durationYears / TOTAL_DASHA_YEARS) * 100}%` }}
                                 >
                                     <span className={
                                         "dasha-glance__segment-graha" +
@@ -108,11 +106,13 @@ function DashaGlance({ dasha, timezone, natureByGraha }) {
                                     }>
                                         {period.displayName}
                                     </span>
-                                    <span className="dasha-glance__segment-duration">{period.durationDisplay}</span>
+                                    <span className="dasha-glance__segment-duration">
+                                        {translateDurationDisplay(period.durationDisplay, language)}
+                                    </span>
                                     <span className="dasha-glance__segment-dates">
-                                        {formatDateDDMMYYYY(period.startEpochMs)}
-                                        <br />
-                                        {formatDateDDMMYYYY(period.endEpochMs)}
+                                        {localDateParts(period.startEpochMs, timezone).year}
+                                        {" → "}
+                                        {localDateParts(period.endEpochMs, timezone).year}
                                     </span>
                                 </div>
                             );
@@ -120,10 +120,7 @@ function DashaGlance({ dasha, timezone, natureByGraha }) {
                         })}
                     </div>
 
-                    <div
-                        className="dasha-glance__axis"
-                        style={{ width: `${TOTAL_DASHA_YEARS * PX_PER_YEAR}px` }}
-                    >
+                    <div className="dasha-glance__axis">
                         {ticks.map((tick, index) => {
 
                             // Centering every label on its tick position

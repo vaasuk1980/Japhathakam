@@ -74,7 +74,11 @@
 .report-invocation__shloka {
     margin-top: var(--spacing-sm);
 
-    font-size: var(--font-size-sm);
+    /* Bumped from var(--font-size-sm) (18px) — kept modest since
+       page 1's content already ends exactly at the Janma Lagna
+       Kundali (see print.css); a larger jump here risks pushing
+       that onto page 2. */
+    font-size: 20px;
     font-style: italic;
     line-height: 1.6;
     color: var(--jp-color-text-secondary);

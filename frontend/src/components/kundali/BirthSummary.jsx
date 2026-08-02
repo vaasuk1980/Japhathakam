@@ -55,20 +55,22 @@ function BirthSummary({ kundaliDocument, dateOfBirth, timeOfBirth, gender }) {
     }
 
     const birthPhrase = BIRTH_PHRASE_BY_GENDER[gender] ?? BIRTH_PHRASE_BY_GENDER.other;
-    const ayanaLocative = AYANA_LOCATIVE[facts.ayana] ?? facts.ayana;
+    const ayanaTe = facts.ayana?.te ?? "—";
+    const ayanaLocative = AYANA_LOCATIVE[ayanaTe] ?? ayanaTe;
+    const pakshaTe = facts.tithi?.paksha?.te ?? "—";
     const pakshaLocative = facts.tithi
-        ? (PAKSHA_LOCATIVE[facts.tithi.paksha] ?? facts.tithi.paksha)
+        ? (PAKSHA_LOCATIVE[pakshaTe] ?? pakshaTe)
         : "—";
 
     return (
         <p className="birth-summary">
             స్వస్తి శ్రీ చాంద్రమానే{" "}
-            <b>{facts.samvatsaraName ?? "—"}</b> నామ సంవత్సరే, <b>{ayanaLocative}</b>,{" "}
-            <b>{sandhiStem(facts.masam)}</b> మాసే, <b>{pakshaLocative}</b>,{" "}
-            <b>{facts.tithi?.name ?? "—"}</b> తిథి, <b>{facts.nakshatra?.teluguName ?? "—"}</b>{" "}
+            <b>{facts.samvatsaraName?.te ?? "—"}</b> నామ సంవత్సరే, <b>{ayanaLocative}</b>,{" "}
+            <b>{sandhiStem(facts.masam?.te ?? "—")}</b> మాసే, <b>{pakshaLocative}</b>,{" "}
+            <b>{facts.tithi?.name?.te ?? "—"}</b> తిథి, <b>{facts.nakshatra?.teluguName ?? "—"}</b>{" "}
             నక్షత్ర <b>{facts.pada}</b>వ చరణంలో జరుగుచున్న శుభ సమయమున{" "}
             <b>{facts.lagnaRasi ? sandhiStem(facts.lagnaRasi.tel) : "—"}</b> లగ్నమున {birthPhrase}.
-            అనగా <b>{facts.vara}</b>, <b>{formatDateDDMMYYYY(dateOfBirth)}</b>,{" "}
+            అనగా <b>{facts.vara?.te ?? "—"}</b>, <b>{formatDateDDMMYYYY(dateOfBirth)}</b>,{" "}
             <b>{timeOfBirth || "—"}</b> గంటలకు జననము.
         </p>
     );

@@ -28,7 +28,10 @@
        Telugu text falls through to the Telugu-scoped "JIMS" font,
        so the numbers visibly didn't match the rest of the sentence. */
     font-family: var(--font-family);
-    font-size: var(--font-size-md);
+    /* 20px, not var(--font-size-md) (18px) — Birth Details' body
+       text runs one size larger than the rest of the app's shared
+       body tier by direct request. */
+    font-size: 20px;
     line-height: 1.8;
     color: var(--jp-color-text-primary);
 }

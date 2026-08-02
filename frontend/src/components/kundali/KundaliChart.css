@@ -56,7 +56,7 @@
        values, etc. in here were already hand-tuned via their own
        cqw clamp()s, and re-scaling their digits on top of that
        would throw those numbers off again. */
-    font-family: "JIMS", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "JIMS", "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .kundali-cell {

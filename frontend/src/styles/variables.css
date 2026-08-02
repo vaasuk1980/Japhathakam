@@ -162,11 +162,16 @@
      ======================================================== */
 
   /* JIMS is scoped to the Telugu block only (see fonts.css'
-     unicode-range) — English/Latin text still renders in
-     Segoe UI exactly as before. */
+     unicode-range) — English/Latin text renders in Inter.
+     Segoe UI Numerals stays ahead of Inter so digits keep using
+     the size-adjusted Segoe UI face (matched to JIMS' Telugu
+     glyph height) instead of Inter's own digit glyphs. Segoe UI
+     remains as the final fallback for any glyph outside Inter's
+     Latin subset. */
   --font-family:
     "JIMS",
     "Segoe UI Numerals",
+    "Inter",
     "Segoe UI",
     Tahoma,
     Geneva,

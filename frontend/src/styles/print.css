@@ -101,6 +101,19 @@
         page-break-inside: auto;
     }
 
+    /* HoroscopeReport.css forces every section's own margin to 0 and
+       relies on the flex container's `gap` for spacing between them
+       — but block layout (just above) has no gap mechanism, so
+       without this the Kundali panel prints touching the Planetary
+       Positions table right above it with zero gap. Scoped to just
+       this one join, not every section — confirmed safe for the
+       report's page count (still 5 pages after this specific
+       change; a since-reverted, unrelated fix elsewhere was the
+       actual cause of an earlier page-count regression). */
+    .kundali-workspace-section {
+        margin-top: var(--spacing-xs) !important;
+    }
+
     /* The masthead's identity line now has a print-only copy in
        ReportInvocation (just below the guru blessing), and its
        Save PDF button never printed anyway — so the whole thing
@@ -163,11 +176,47 @@
         background: none !important;
     }
 
+    /* KundaliWorkspace.css's @container query (for the on-screen
+       narrow/stacked layout, width <= 1250px) also sets margin-right:
+       -24px on this title, sized for the screen layout's 24px
+       padding — print's page width is well under that breakpoint
+       too, so it fires here too, left uncorrected (only margin-left
+       is re-tuned for print's tighter 8px padding). That leftover
+       -24px does make this title bleed slightly past its own
+       section's right edge rather than landing flush — a real
+       quirk, but correcting it (matching margin-right to -8px like
+       margin-left) shifts the page-break math enough to bump one of
+       Dasha Full Breakdown's dozen break-inside:avoid mini-tables
+       onto a blank new page, confirmed directly (5 pages -> 6).
+       Left as-is; Dasha Full Breakdown's title below is matched to
+       THIS actual rendered width instead, not the theoretically
+       clean one. */
     .janma-kundali-panel .kundali-panel__title {
         font-size: 14px !important;
         padding: 4px 8px !important;
         margin-top: -8px !important;
         margin-left: -8px !important;
+    }
+
+    /* Mirrors Janma Kundali's title's actual rendered width exactly
+       — including its margin-right: -24px quirk (see the comment
+       above) — rather than the theoretically clean -8px, since that
+       leftover value is what Janma is actually left with. Matching
+       the real number, not the "correct" one, is what makes the two
+       title bars measure the same width as each other.
+       DashaFullBreakdown.css's own base padding (24px, unlike
+       Janma's print-tuned 8px) is overridden here too, since the
+       bleed math depends on it matching. */
+    .dasha-full-breakdown {
+        padding: 8px !important;
+    }
+
+    .dasha-full-breakdown__title {
+        font-size: 14px !important;
+        padding: 4px 8px !important;
+        margin-top: -8px !important;
+        margin-left: -8px !important;
+        margin-right: -24px !important;
     }
 
     /* The Dasha tree's column widths assume screen space (up to

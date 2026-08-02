@@ -1,4 +1,5 @@
 import { computeTithi, computeVara, computeAyana } from "./panchangamMath";
+import { translateMasa, translateSamvatsara } from "../constants/PanchangamNameTranslations";
 
 /* ==========================================================
    Derives the Panchangam facts (tithi, ayana, vara, lagna rasi,
@@ -46,7 +47,7 @@ export default function computeBirthFacts(kundaliDocument, dateOfBirth) {
         ? computeTithi(sun.longitude, moon.longitude)
         : null;
 
-    const ayana = sun ? computeAyana(sun.longitude) : "—";
+    const ayana = sun ? computeAyana(sun.longitude) : null;
     const vara = computeVara(dateOfBirth);
 
     const lagnaRasi = lagna
@@ -55,9 +56,7 @@ export default function computeBirthFacts(kundaliDocument, dateOfBirth) {
 
     const panchangam = kundaliDocument?.panchangam;
 
-    const masam = panchangam
-        ? `${panchangam.masaIsLeap ? "అధిక " : ""}${panchangam.masaName}`
-        : "—";
+    const masam = translateMasa(panchangam?.masaName, panchangam?.masaIsLeap);
 
     return {
         sun,
@@ -70,7 +69,7 @@ export default function computeBirthFacts(kundaliDocument, dateOfBirth) {
         lagnaRasi,
         nakshatra: moon?.nakshatra ?? null,
         pada: moon?.pada ?? "—",
-        samvatsaraName: panchangam?.samvatsaraName ?? null,
+        samvatsaraName: translateSamvatsara(panchangam?.samvatsaraName),
         nakshatraStart: panchangam?.nakshatraStart ?? null,
         nakshatraEnd: panchangam?.nakshatraEnd ?? null,
     };

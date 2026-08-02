@@ -1,5 +1,6 @@
 import useSkySnapshot from "../../hooks/useSkySnapshot";
 import { computeTithi, computeVara, computeAyana } from "../../kundali/utils/panchangamMath";
+import { translateMasa, translateSamvatsara } from "../../kundali/constants/PanchangamNameTranslations";
 import { useSavedLocation } from "../../location/LocationContext";
 import { useTranslation } from "../../i18n/I18nContext";
 
@@ -13,14 +14,15 @@ function TodayPanchangamDetails() {
     const { location } = useSavedLocation();
     const snapshotState = useSkySnapshot(location);
     const data = snapshotState.data;
+    const pick = (bilingual) => (bilingual ? (language === "te" ? bilingual.te : bilingual.en) : null);
 
     const sun = data?.planetPositions?.find((position) => position.planet === "SUN");
     const moon = data?.planetPositions?.find((position) => position.planet === "MOON");
 
     const tithi = sun && moon ? computeTithi(sun.longitude, moon.longitude) : null;
-    const vara = data ? computeVara(data.date) : null;
-    const ayanam = sun ? computeAyana(sun.longitude) : null;
-    const masam = data ? `${data.masaIsLeap ? "అధిక " : ""}${data.masaName}` : null;
+    const vara = data ? pick(computeVara(data.date)) : null;
+    const ayanam = sun ? pick(computeAyana(sun.longitude)) : null;
+    const masam = data ? pick(translateMasa(data.masaName, data.masaIsLeap)) : null;
 
     return (
         <section className="rt-table-section">
@@ -43,7 +45,9 @@ function TodayPanchangamDetails() {
 
                     <div className="rt-panchangam-grid__item">
                         <span className="rt-panchangam-grid__label">{t("dashboard.today.samvatsaram")}</span>
-                        <span className="rt-panchangam-grid__value">{data.samvatsaraName}</span>
+                        <span className="rt-panchangam-grid__value">
+                            {pick(translateSamvatsara(data.samvatsaraName)) ?? "—"}
+                        </span>
                     </div>
 
                     <div className="rt-panchangam-grid__item">
@@ -54,7 +58,7 @@ function TodayPanchangamDetails() {
                     <div className="rt-panchangam-grid__item">
                         <span className="rt-panchangam-grid__label">{t("dashboard.today.tithi")}</span>
                         <span className="rt-panchangam-grid__value">
-                            {tithi ? `${tithi.paksha} · ${tithi.name}` : "—"}
+                            {tithi ? `${pick(tithi.paksha)} · ${pick(tithi.name)}` : "—"}
                         </span>
                     </div>
 

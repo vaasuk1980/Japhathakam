@@ -7,9 +7,9 @@ import { useTranslation } from "../../i18n/I18nContext";
 import "./PanchangamDetails.css";
 
 const GENDER_LABELS = {
-    male: "Male",
-    female: "Female",
-    other: "Transgender",
+    male: { en: "Male", te: "పురుషుడు" },
+    female: { en: "Female", te: "స్త్రీ" },
+    other: { en: "Transgender", te: "లింగమార్పిడి" },
 };
 
 function PanchangamDetails({ kundaliDocument, dateOfBirth, timeOfBirth, gender }) {
@@ -19,33 +19,38 @@ function PanchangamDetails({ kundaliDocument, dateOfBirth, timeOfBirth, gender }
     const rows = useMemo(() => {
 
         const facts = computeBirthFacts(kundaliDocument, dateOfBirth);
+        const pick = (bilingual) => (bilingual ? (language === "te" ? bilingual.te : bilingual.en) : "—");
 
         const lagnamu = facts.lagnaRasi
             ? (language === "te" ? facts.lagnaRasi.tel : facts.lagnaRasi.en)
             : "—";
 
         const nakshatram = facts.nakshatra
-            ? (language === "te" ? facts.nakshatra.teluguName : facts.nakshatra.englishName)
+            ? `${language === "te" ? facts.nakshatra.teluguName : facts.nakshatra.englishName}-${facts.pada ?? "—"}`
             : "—";
 
+        const genderLabel = GENDER_LABELS[gender]
+            ? pick(GENDER_LABELS[gender])
+            : (gender ?? "—");
+
         return [
-            { label: "DOB", value: formatDateDDMMYYYY(dateOfBirth) },
-            { label: "TOB", value: timeOfBirth || "—" },
-            { label: "Nakshatra Start", value: facts.nakshatraStart ?? "—" },
-            { label: "Nakshtra End", value: facts.nakshatraEnd ?? "—" },
-            { label: "Year", value: facts.samvatsaraName ?? "—" },
-            { label: "Ayan", value: facts.ayana },
-            { label: "Masam", value: facts.masam },
-            { label: "Paksham", value: facts.tithi?.paksha ?? "—" },
-            { label: "Thidhi", value: facts.tithi?.name ?? "—" },
-            { label: "Nakshatram", value: nakshatram ?? "—" },
-            { label: "Lagnamu", value: lagnamu },
-            { label: "Day", value: facts.vara },
-            { label: "సమయము", value: timeOfBirth || "—" },
-            { label: "Gender", value: GENDER_LABELS[gender] ?? gender ?? "—" },
+            { label: t("kundali.panchangamGrid.dob"), value: formatDateDDMMYYYY(dateOfBirth) },
+            { label: t("kundali.panchangamGrid.tob"), value: timeOfBirth || "—" },
+            { label: t("kundali.panchangamGrid.nakshatraStart"), value: facts.nakshatraStart ?? "—" },
+            { label: t("kundali.panchangamGrid.nakshatraEnd"), value: facts.nakshatraEnd ?? "—" },
+            { label: t("kundali.panchangamGrid.year"), value: pick(facts.samvatsaraName) },
+            { label: t("kundali.panchangamGrid.ayan"), value: pick(facts.ayana) },
+            { label: t("kundali.panchangamGrid.masam"), value: pick(facts.masam) },
+            { label: t("kundali.panchangamGrid.paksham"), value: pick(facts.tithi?.paksha) },
+            { label: t("kundali.panchangamGrid.thidhi"), value: pick(facts.tithi?.name) },
+            { label: t("kundali.panchangamGrid.nakshatram"), value: nakshatram ?? "—" },
+            { label: t("kundali.panchangamGrid.lagnamu"), value: lagnamu },
+            { label: t("kundali.panchangamGrid.day"), value: pick(facts.vara) },
+            { label: t("kundali.panchangamGrid.time"), value: timeOfBirth || "—" },
+            { label: t("kundali.panchangamGrid.gender"), value: genderLabel },
         ];
 
-    }, [kundaliDocument, dateOfBirth, timeOfBirth, gender, language]);
+    }, [kundaliDocument, dateOfBirth, timeOfBirth, gender, language, t]);
 
     return (
         <section className="pd-table-section">

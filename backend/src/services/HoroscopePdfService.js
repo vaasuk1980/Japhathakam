@@ -2,7 +2,11 @@ import puppeteer from "puppeteer";
 
 import PersonRepository from "../repositories/PersonRepository.js";
 
-const FRONTEND_ORIGIN = "http://localhost:5175";
+// Configurable — Vite's dev port isn't stable (it falls back to the
+// next free port whenever 5173 is already taken by another instance),
+// and a hardcoded value here silently breaks Puppeteer's navigate as
+// soon as the two drift apart. Override via FRONTEND_ORIGIN in .env.
+const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN ?? "http://localhost:5173";
 
 // Printable content width for A4 with 12mm side margins: 210mm -
 // 2*12mm = 186mm, at 96 CSS px/in.
@@ -158,7 +162,7 @@ class HoroscopePdfService {
                 <div style="font-size:13px; font-weight:700; color:#2952cc; margin-top:1px;">శ్రీ శ్రీ శ్రీ ఆచార్య ప్రబోధానంద యోగీశ్వరులవారి దివ్య ఆశీస్సులతో</div>
                 <div style="margin-top:2px; padding-bottom:4px; border-bottom:1.5px solid #2952cc;">
                     <div style="font-family: Georgia, 'Times New Roman', serif; font-size:19px; font-weight:700; letter-spacing:0.3px; color:#1a1a1a;">${name}</div>
-                    <div style="font-size:11px; color:#555;">${facts}</div>
+                    <div style="font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size:11px; color:#555;">${facts}</div>
                 </div>
             `;
 

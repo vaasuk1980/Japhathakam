@@ -51,10 +51,14 @@ const RASI_NAMES = [
     { tel: "మీనం", en: "Pisces" },
 ];
 
+// Matches backend/src/astrology/constants/Sthanas.js's teluguName
+// for each Sthana exactly — this table used to keep its own,
+// independently-drifted set of names (e.g. "సహజం"/"కర్మ" instead of
+// the canonical "సోదర"/"రాజ్య" for Sthanas 3 and 10).
 const BHAVA_LABELS = [
-    "1-తనువు", "2-ధనం", "3-సహజం", "4-మాతృ",
+    "1-తనువు", "2-ధనం", "3-సోదర", "4-మాతృ",
     "5-విద్యా", "6-శత్రు", "7-కళత్ర", "8-ఆయు",
-    "9-భాగ్య", "10-కర్మ", "11-లాభ", "12-వ్యయ",
+    "9-భాగ్య", "10-రాజ్య", "11-లాభ", "12-వ్యయ",
 ];
 
 function rasiForLongitude(longitude) {
@@ -163,11 +167,12 @@ function PlanetaryPositionsTable({ kundaliDocument }) {
                             <tr key={row.key}>
                                 <td className="mono">{row.serial ?? ""}</td>
                                 <td className={
-                                    row.isPapa
-                                        ? "pp-graha-papa"
+                                    "pp-graha-name" +
+                                    (row.isPapa
+                                        ? " pp-graha-papa"
                                         : row.isPunya
-                                            ? "pp-graha-punya"
-                                            : undefined
+                                            ? " pp-graha-punya"
+                                            : "")
                                 }>
                                     {row.name}
                                     {row.isRetrograde && (

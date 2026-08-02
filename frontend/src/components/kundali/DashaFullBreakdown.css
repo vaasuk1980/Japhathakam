@@ -21,7 +21,10 @@
 }
 
 .dasha-full-breakdown__title {
-    margin: calc(-1 * var(--spacing-lg)) calc(-1 * var(--spacing-lg)) var(--spacing-md);
+    /* Inset within the card's own padding, not bled to its edges
+       (the negative-margin bleed every other section title uses) —
+       narrower on purpose. */
+    margin: 0 0 var(--spacing-xs);
 
     padding: var(--spacing-sm) var(--spacing-lg);
 
@@ -31,7 +34,7 @@
     color: var(--jp-color-text-primary);
 
     background: var(--jp-color-heading-fill);
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    border-radius: var(--radius-lg);
 }
 
 .dasha-full-breakdown__subheading {
@@ -132,4 +135,15 @@
 
 .mono {
     font-variant-numeric: tabular-nums;
+}
+
+/* Scoped to this component's own tables (not the shared bare .mono
+   rule above, which other pages' tables also use) — these cells are
+   all-English digits/units, so opt out of the app-wide digit
+   size-adjust (fonts.css' "Segoe UI Numerals" face, scoped for
+   Telugu-adjacent digits) so numbers render at the same size as
+   their own unit letters. */
+.dasha-full-breakdown__summary td.mono,
+.dasha-full-breakdown__mahadasha-table td.mono {
+    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }

@@ -62,19 +62,30 @@
 .dasha-panel__header-row,
 .dasha-row {
     display: grid;
-    grid-template-columns: 14px 60px 380px 260px 130px;
+    /* Graha widened from 60px — DashaPeriodRow now shows the full
+       Telugu name (DASHA_GRAHA_NAMES, e.g. "చంద్ర") rather than
+       GrahaDisplayMapper's short abbreviation, and full names run
+       noticeably wider. Range/Age/Duration sized to keep every row
+       on one line, not wrap (see .dasha-row__range/__age/__duration
+       below for the wrap-safety net that's only a fallback for
+       anything wider than this). Telugu unit words (సం/నె/ది — see
+       translateDurationDisplay) run noticeably wider than "y"/"m"/"d",
+       so these need real headroom for the worst real case: a
+       triple-digit age near the end of the 120-year Dasha cycle,
+       e.g. "107 సం 4 నె 13 ది → 117 సం 4 నె 14 ది". */
+    grid-template-columns: 14px 120px 460px 480px 220px;
     align-items: center;
     column-gap: var(--spacing-sm);
 }
 
 .dasha-panel__header-row {
-    min-width: 886px;
+    min-width: 1340px;
 
     padding: 6px 12px;
 
     border-bottom: 2px solid var(--jp-color-primary);
 
-    font-size: 18px;
+    font-size: 20px;
     font-weight: var(--font-semibold);
     text-transform: uppercase;
     letter-spacing: 0.04em;
@@ -103,13 +114,13 @@
 
     /* Extra breathing room from Age — the standard column-gap alone
        reads as almost touching Age's own content, since Age's text
-       ("37y 10m 4d → 47y 10m 4d" style) often runs close to its own
+       ("37 y 10 m 4 d → 47 y 10 m 4 d" style) often runs close to its own
        column's right edge. */
     margin-left: var(--spacing-md);
 }
 
 .dasha-panel__tree {
-    min-width: 886px;
+    min-width: 1340px;
 
     border: 1px solid var(--jp-color-border);
     border-top: none;
@@ -127,7 +138,7 @@
     background: var(--jp-color-surface);
 
     font-family: var(--font-family);
-    font-size: 18px;
+    font-size: 20px;
     color: var(--jp-color-text-primary);
     text-align: left;
     cursor: pointer;
@@ -169,14 +180,35 @@
 
 .dasha-row__graha {
     font-weight: var(--font-semibold);
+
+    min-width: 0;
+    overflow-wrap: break-word;
 }
 
+/* Range/Age/Duration digits opt out of the app-wide digit size-adjust
+   (fonts.css' "Segoe UI Numerals" face, scoped for Telugu-adjacent
+   digits) so numbers render at the same size as their own unit
+   letters/words instead of ~10% smaller, matching the fix already
+   applied to the Horoscope Report masthead. Duration/Age's unit
+   letters become Telugu words in Telugu mode (see
+   translateDurationDisplay) — noticeably wider than "y"/"m"/"d", and
+   each grid row is its own independent grid (for header/row column
+   alignment — see the shared grid-template-columns above), so a
+   fixed column here can't grow to fit an unusually wide value the
+   way a single shared table would. min-width: 0 (overriding grid's
+   own default of auto, which floors a track at its content's widest
+   unbreakable run) + allowing wrap is what actually prevents that
+   overflowing into the next column instead of just widening this
+   one — a hard column-width guess alone can't cover every language
+   x every possible age/duration digit-count combination. */
 .dasha-row__range {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: var(--spacing-sm);
 
-    white-space: nowrap;
+    min-width: 0;
+    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     font-variant-numeric: tabular-nums;
     color: var(--jp-color-text-secondary);
 }
@@ -189,7 +221,9 @@
     text-align: left;
     margin-left: var(--spacing-md);
 
-    white-space: nowrap;
+    min-width: 0;
+    overflow-wrap: break-word;
+    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     font-variant-numeric: tabular-nums;
     color: var(--jp-color-text-secondary);
 }
@@ -199,11 +233,13 @@
    period's own length) and from the Start/End calendar dates. */
 .dasha-row__age {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: flex-start;
     gap: var(--spacing-sm);
 
-    white-space: nowrap;
+    min-width: 0;
+    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     font-variant-numeric: tabular-nums;
     color: var(--jp-color-text-secondary);
 }

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import useSkySnapshot from "../../hooks/useSkySnapshot";
 import { computeTithi, computeVara, computeAyana } from "../../kundali/utils/panchangamMath";
+import { translateMasa, translateSamvatsara } from "../../kundali/constants/PanchangamNameTranslations";
 import { DASHA_GRAHA_NAMES } from "../../kundali/constants/DashaGrahaNames";
 import { CHART_GRAHA_SYMBOLS } from "../../kundali/constants/ChartGrahaSymbols";
 import KundaliRenderEngine from "../../kundali/engines/KundaliRenderEngine";
@@ -186,14 +187,15 @@ function TodayPanchangamCard({ snapshotState, t }) {
 
     const { language } = useTranslation();
     const data = snapshotState.data;
+    const pick = (bilingual) => (bilingual ? (language === "te" ? bilingual.te : bilingual.en) : null);
 
     const sun = data?.planetPositions?.find((position) => position.planet === "SUN");
     const moon = data?.planetPositions?.find((position) => position.planet === "MOON");
 
     const tithi = sun && moon ? computeTithi(sun.longitude, moon.longitude) : null;
-    const vara = data ? computeVara(data.date) : null;
-    const ayanam = sun ? computeAyana(sun.longitude) : null;
-    const masam = data ? `${data.masaIsLeap ? "అధిక " : ""}${data.masaName}` : null;
+    const vara = data ? pick(computeVara(data.date)) : null;
+    const ayanam = sun ? pick(computeAyana(sun.longitude)) : null;
+    const masam = data ? pick(translateMasa(data.masaName, data.masaIsLeap)) : null;
 
     return (
         <Card className="dashboard-card today-card" padding="medium" shadow="medium">
@@ -221,7 +223,9 @@ function TodayPanchangamCard({ snapshotState, t }) {
 
                     <div className="today-panchangam-grid__item">
                         <span className="today-panchangam-grid__label">{t("dashboard.today.samvatsaram")}</span>
-                        <span className="today-panchangam-grid__value">{data.samvatsaraName}</span>
+                        <span className="today-panchangam-grid__value">
+                            {pick(translateSamvatsara(data.samvatsaraName)) ?? "—"}
+                        </span>
                     </div>
 
                     <div className="today-panchangam-grid__item">
@@ -232,7 +236,7 @@ function TodayPanchangamCard({ snapshotState, t }) {
                     <div className="today-panchangam-grid__item">
                         <span className="today-panchangam-grid__label">{t("dashboard.today.tithi")}</span>
                         <span className="today-panchangam-grid__value">
-                            {tithi ? `${tithi.paksha} · ${tithi.name}` : "—"}
+                            {tithi ? `${pick(tithi.paksha)} · ${pick(tithi.name)}` : "—"}
                         </span>
                     </div>
 

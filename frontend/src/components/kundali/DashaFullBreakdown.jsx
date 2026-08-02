@@ -2,6 +2,8 @@ import { DASHA_GRAHA_NAMES } from "../../kundali/constants/DashaGrahaNames";
 import resolveAgeAtEpoch from "../../utils/age/resolveAgeAtEpoch";
 import formatAgeYMD from "../../utils/age/formatAgeYMD";
 import formatDateDDMMYYYY from "../../utils/date/formatDateDDMMYYYY";
+import translateDurationDisplay from "../../utils/dasha/translateDurationDisplay";
+import { useTranslation } from "../../i18n/I18nContext";
 
 import "./DashaFullBreakdown.css";
 
@@ -38,14 +40,17 @@ function pairUp(items) {
  */
 function DashaFullBreakdown({ dasha, timezone }) {
 
+    const { language } = useTranslation();
+
     if (!dasha || !Array.isArray(dasha.mahadashas) || dasha.mahadashas.length === 0) {
         return null;
     }
 
     const birthEpochMs = dasha.mahadashas[0].startEpochMs;
 
-    const ageAt = (epochMs) => formatAgeYMD(
-        resolveAgeAtEpoch(birthEpochMs, epochMs, timezone)
+    const ageAt = (epochMs) => translateDurationDisplay(
+        formatAgeYMD(resolveAgeAtEpoch(birthEpochMs, epochMs, timezone)),
+        language
     );
 
     return (
@@ -68,7 +73,7 @@ function DashaFullBreakdown({ dasha, timezone }) {
                     {dasha.mahadashas.map((mahadasha) => (
                         <tr key={`${mahadasha.graha}-${mahadasha.startEpochMs}`}>
                             <td>{grahaName(mahadasha.graha)}</td>
-                            <td className="mono">{mahadasha.durationDisplay}</td>
+                            <td className="mono">{translateDurationDisplay(mahadasha.durationDisplay, language)}</td>
                             <td className="mono">{ageAt(mahadasha.endEpochMs)}</td>
                             <td className="mono">{formatDateDDMMYYYY(mahadasha.endEpochMs)}</td>
                         </tr>

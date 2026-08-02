@@ -40,7 +40,7 @@
     width: 100%;
     border-collapse: collapse;
 
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .pp-table th {
@@ -49,7 +49,7 @@
     border-bottom: 2px solid var(--jp-color-primary);
 
     font-family: var(--font-family);
-    font-size: 18px;
+    font-size: 20px;
     font-weight: var(--font-semibold);
     text-align: left;
     text-transform: uppercase;
@@ -73,6 +73,10 @@
     background: var(--jp-color-background);
 }
 
+.pp-graha-name {
+    font-weight: var(--font-bold);
+}
+
 /* Punya/Papa (Tritha Siddhantha) — same colors used for Punya/
    Papa Grahas in the Kundali chart (see KundaliChart.css); the
    Lagna keeps the table's default text color above. */
@@ -85,16 +89,17 @@
 }
 
 /* Retrograde marker — a small superscript "R" right after the
-   graha's name, same treatment as the Kundali chart's own
-   .graha-symbol__retrograde (see KundaliChart.css), so a Graha
-   reads identically whether it's in a chart cell or this table.
-   Inherits the cell's own color (default/Papa/Punya) rather than
-   a fixed one. It's a real link (see PlanetaryPositionsTable.jsx)
-   to the Panchangam page's current retrograde row for this Graha. */
+   graha's name. Inherits the cell's own color (default/Papa/Punya)
+   rather than a fixed one. It's a real link (see
+   PlanetaryPositionsTable.jsx) to the Panchangam page's current
+   retrograde row for this Graha.
+   Explicitly normal weight (not inherited) — the graha name
+   (.pp-graha-name) is bold, and the marker stays visually distinct
+   from it rather than blending in as equally emphasized text. */
 .pp-graha-retrograde {
     vertical-align: super;
     font-size: 0.6em;
-    font-weight: 700;
+    font-weight: var(--font-normal);
     margin-left: 2px;
 
     color: inherit;

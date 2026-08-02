@@ -43,36 +43,46 @@
     margin: 0;
 
     font-family: var(--font-family);
-    font-size: 18px;
+    font-size: 20px;
     font-weight: var(--font-semibold);
     color: var(--jp-color-text-primary);
 }
 
+/* Mixes Telugu text with a digit count ("... {TOTAL_DASHA_YEARS}
+   సంవత్సరాలు") — keep JIMS for the Telugu glyphs, but drop "Segoe UI
+   Numerals" (inserting Inter ahead of it) so the digit isn't
+   rendered ~10% smaller than everything around it. */
 .dasha-glance__timeline-total {
-    font-size: 18px;
+    font-size: 20px;
+    font-family: "JIMS", "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     color: var(--jp-color-text-secondary);
 }
 
+/* No horizontal scroll — the whole 120-year cycle must always fit
+   the available width (a real single-page constraint, especially in
+   the printed report), so the track/segments below are percentage-
+   sized against this container instead of a fixed px-per-year scale. */
 .dasha-glance__scroll {
-    overflow-x: auto;
+    overflow: hidden;
 }
 
 .dasha-glance__track {
     display: flex;
     align-items: stretch;
+    width: 100%;
 }
 
 .dasha-glance__segment {
     flex: none;
 
-    /* Duration-proportional flex-basis is set inline per segment —
-       but the birth Mahadasha's segment is only a partial "balance"
-       (see DashaEngine.buildMahadashas), sometimes just a few
-       months, which at this scale is narrower than its own graha/
-       duration/date-range text needs. A floor keeps that text
-       inside its own box instead of overflowing into the scroll
-       container's clipped left edge. */
-    min-width: 90px;
+    /* No min-width floor (a fixed px floor here is exactly what used
+       to force the track wider than its container, requiring the
+       scrollbar this is meant to avoid) — min-width: 0 overrides
+       flexbox's own default (auto), which would otherwise keep a
+       segment at least as wide as its longest unbreakable text run.
+       Narrow segments (a short Mahadasha, or the birth Mahadasha's
+       partial "balance") wrap their text across more lines instead. */
+    min-width: 0;
 
     display: flex;
     flex-direction: column;
@@ -93,20 +103,32 @@
 }
 
 .dasha-glance__segment-graha {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: var(--font-semibold);
     color: var(--jp-color-text-primary);
+
+    text-align: center;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
+/* All-English content (digits + y/m/d/h unit letters, or a plain
+   year range) — opt out of the app-wide digit size-adjust (fonts.css'
+   "Segoe UI Numerals" face, scoped for Telugu-adjacent digits) so
+   numbers render at the same size as their own unit letters. */
 .dasha-glance__segment-duration {
-    font-size: 13px;
+    font-size: 18px;
+    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     color: var(--jp-color-text-secondary);
+
+    text-align: center;
 }
 
 .dasha-glance__segment-dates {
-    font-size: 12px;
+    font-size: 16px;
     line-height: 1.35;
     text-align: center;
+    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     color: var(--jp-color-text-muted);
 
     font-variant-numeric: tabular-nums;
@@ -117,6 +139,7 @@
 
     height: 20px;
     margin-top: var(--spacing-xs);
+    width: 100%;
 
     border-top: 1px solid var(--jp-color-border);
 }
@@ -125,7 +148,8 @@
     position: absolute;
     top: 4px;
 
-    font-size: 11px;
+    font-size: 14px;
+    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     color: var(--jp-color-text-muted);
     white-space: nowrap;
 }
@@ -162,12 +186,12 @@
 }
 
 .dasha-glance__current-label {
-    font-size: 18px;
+    font-size: 20px;
     color: var(--jp-color-text-secondary);
 }
 
 .dasha-glance__current-value {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: var(--font-semibold);
     color: var(--jp-color-primary);
 }
@@ -186,10 +210,15 @@
     color: #16a34a;
 }
 
+/* Mixes a Telugu graha name/phrase with a digit percentage — keep
+   JIMS for the Telugu glyphs, but drop "Segoe UI Numerals" (Inter
+   ahead of it instead) so the percentage isn't ~10% smaller than
+   the surrounding text. */
 .dasha-glance__progress-label {
     margin-bottom: var(--spacing-xs);
 
-    font-size: 18px;
+    font-size: 20px;
+    font-family: "JIMS", "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     color: var(--jp-color-text-primary);
 }
 
@@ -208,10 +237,15 @@
     border-radius: var(--radius-pill);
 }
 
+/* Mixes Telugu text with a digit day-count — keep JIMS for the
+   Telugu glyphs, but drop "Segoe UI Numerals" (Inter ahead of it
+   instead) so the number isn't ~10% smaller than the surrounding
+   text. */
 .dasha-glance__progress-remaining {
     margin-top: var(--spacing-xs);
 
-    font-size: 13px;
+    font-size: 18px;
+    font-family: "JIMS", "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     color: var(--jp-color-text-secondary);
 }
 

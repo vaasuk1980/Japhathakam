@@ -36,16 +36,16 @@ class DashaDurationFormatter {
 
         const parts = [];
 
-        if (years > 0) parts.push(`${years}y`);
-        if (months > 0) parts.push(`${months}m`);
+        if (years > 0) parts.push(`${years} y`);
+        if (months > 0) parts.push(`${months} m`);
 
         if (days > 0) {
-            parts.push(`${days}d`);
+            parts.push(`${days} d`);
         } else if (parts.length === 0) {
             // Sub-day period — "0d" would hide how long it actually
             // is, so fall back to hours instead.
             const hours = Math.max(1, Math.round(remainingAfterMonths * 24));
-            parts.push(`${hours}h`);
+            parts.push(`${hours} h`);
         }
 
         return parts.join(" ");
