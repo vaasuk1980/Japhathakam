@@ -280,5 +280,14 @@
 @media (max-width: 767px) {
   :root {
     --header-height: 64px;
+
+    /* Page/section/card titles (xl/xxl) were unscaled from desktop,
+       so a 32px page-title or 24px card-title — sized for a
+       1440px-wide screen — ate a disproportionate share of a
+       ~390px phone width and wrapped awkwardly. Body/data text
+       (xs–lg) stays at its uniform 18px; only the two heading
+       tiers step down here. */
+    --font-size-xl: 20px;
+    --font-size-xxl: 24px;
   }
 }
