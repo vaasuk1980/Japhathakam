@@ -28,10 +28,12 @@ export default function Select({
         required,
     });
 
+    // label/helperText/required are stripped here (not spread onto
+    // the native <select>) — FieldWrapper below already renders them.
     const {
-        label: fieldLabel,
-        helperText: controlHelperText,
-        required: controlRequired,
+        label: _label,
+        helperText: _helperText,
+        required: _required,
         ...selectProps
     } = controlProps;
 

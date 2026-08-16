@@ -13,8 +13,6 @@
  * ============================================================================
  */
 
-import RenderPadaGroup from "../models/RenderPadaGroup";
-
 class PadaGroupingPolicy {
 
     apply(region) {

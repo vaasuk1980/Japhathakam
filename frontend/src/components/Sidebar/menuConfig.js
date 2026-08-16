@@ -2,6 +2,7 @@ import {
   LayoutDashboard,
   UserRound,
   Library,
+  GitCompare,
   CalendarDays,
   Clock,
   Settings,
@@ -25,6 +26,12 @@ const menuItems = Object.freeze([
     labelKey: "sidebar.horoscopeLibrary",
     icon: Library,
     path: "/horoscope-library",
+  },
+  {
+    id: 10,
+    labelKey: "sidebar.compareKundalis",
+    icon: GitCompare,
+    path: "/compare-kundalis",
   },
   {
     id: 3,

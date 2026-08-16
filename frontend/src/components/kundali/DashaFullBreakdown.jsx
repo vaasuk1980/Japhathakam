@@ -1,4 +1,4 @@
-import { DASHA_GRAHA_NAMES } from "../../kundali/constants/DashaGrahaNames";
+import { grahaName } from "../../kundali/constants/DashaGrahaNames";
 import resolveAgeAtEpoch from "../../utils/age/resolveAgeAtEpoch";
 import formatAgeYMD from "../../utils/age/formatAgeYMD";
 import formatDateDDMMYYYY from "../../utils/date/formatDateDDMMYYYY";
@@ -6,10 +6,6 @@ import translateDurationDisplay from "../../utils/dasha/translateDurationDisplay
 import { useTranslation } from "../../i18n/I18nContext";
 
 import "./DashaFullBreakdown.css";
-
-function grahaName(code) {
-    return DASHA_GRAHA_NAMES[code] ?? code;
-}
 
 // Chrome's print engine doesn't fragment CSS Grid containers across
 // page breaks — a grid that doesn't fit the remaining page gets
@@ -40,7 +36,7 @@ function pairUp(items) {
  */
 function DashaFullBreakdown({ dasha, timezone }) {
 
-    const { language } = useTranslation();
+    const { t, language } = useTranslation();
 
     if (!dasha || !Array.isArray(dasha.mahadashas) || dasha.mahadashas.length === 0) {
         return null;
@@ -56,23 +52,23 @@ function DashaFullBreakdown({ dasha, timezone }) {
     return (
         <section className="dasha-full-breakdown">
 
-            <h2 className="dasha-full-breakdown__title">దశాచారం</h2>
+            <h2 className="dasha-full-breakdown__title">{t("kundali.dashaTitle")}</h2>
 
-            <h3 className="dasha-full-breakdown__subheading">మహాదశ</h3>
+            <h3 className="dasha-full-breakdown__subheading">{t("kundali.dashaBreakdown.mahadasha")}</h3>
 
             <table className="dasha-full-breakdown__summary">
                 <thead>
                     <tr>
-                        <th>మహాదశ</th>
-                        <th>వ్యవధి</th>
-                        <th>ముగింపు వయస్సు</th>
-                        <th>ముగింపు తేదీ</th>
+                        <th>{t("kundali.dashaBreakdown.mahadasha")}</th>
+                        <th>{t("kundali.dashaBreakdown.colDuration")}</th>
+                        <th>{t("kundali.dashaBreakdown.colEndAge")}</th>
+                        <th>{t("kundali.dashaBreakdown.colEndDate")}</th>
                     </tr>
                 </thead>
                 <tbody>
                     {dasha.mahadashas.map((mahadasha) => (
                         <tr key={`${mahadasha.graha}-${mahadasha.startEpochMs}`}>
-                            <td>{grahaName(mahadasha.graha)}</td>
+                            <td>{grahaName(mahadasha.graha, language)}</td>
                             <td className="mono">{translateDurationDisplay(mahadasha.durationDisplay, language)}</td>
                             <td className="mono">{ageAt(mahadasha.endEpochMs)}</td>
                             <td className="mono">{formatDateDDMMYYYY(mahadasha.endEpochMs)}</td>
@@ -81,7 +77,9 @@ function DashaFullBreakdown({ dasha, timezone }) {
                 </tbody>
             </table>
 
-            <h3 className="dasha-full-breakdown__subheading dasha-full-breakdown__subheading--antardasha">అంతర్దశ</h3>
+            <h3 className="dasha-full-breakdown__subheading dasha-full-breakdown__subheading--antardasha">
+                {t("kundali.dashaBreakdown.antardasha")}
+            </h3>
 
             <div className="dasha-full-breakdown__grid">
                 {pairUp(dasha.mahadashas).map((pair) => (
@@ -96,19 +94,21 @@ function DashaFullBreakdown({ dasha, timezone }) {
                             >
                                 <thead>
                                     <tr>
-                                        <th colSpan={3}>{grahaName(mahadasha.graha)} దశ</th>
+                                        <th colSpan={3}>
+                                            {t("kundali.dashaBreakdown.mahadashaTableCaption", { graha: grahaName(mahadasha.graha, language) })}
+                                        </th>
                                     </tr>
                                     <tr>
-                                        <th>భుక్తి</th>
-                                        <th>వయస్సు</th>
-                                        <th>తేదీ</th>
+                                        <th>{t("kundali.dashaBreakdown.colBhukti")}</th>
+                                        <th>{t("kundali.dashaBreakdown.colAge")}</th>
+                                        <th>{t("kundali.dashaBreakdown.colDate")}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {(mahadasha.children || []).map((antardasha) => (
                                         <tr key={`${antardasha.graha}-${antardasha.startEpochMs}`}>
                                             <td>
-                                                {grahaName(mahadasha.graha)}/{grahaName(antardasha.graha)}
+                                                {grahaName(mahadasha.graha, language)}/{grahaName(antardasha.graha, language)}
                                             </td>
                                             <td className="mono">{ageAt(antardasha.startEpochMs)}</td>
                                             <td className="mono">{formatDateDDMMYYYY(antardasha.endEpochMs)}</td>

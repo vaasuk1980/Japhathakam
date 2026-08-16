@@ -1,9 +1,11 @@
 import KundaliChart from "./KundaliChart";
+import { useTranslation } from "../../i18n/I18nContext";
 
 function JanmaKundaliPanel({ chart }) {
+  const { t } = useTranslation();
   return (
     <section className="janma-kundali-panel kundali-panel">
-      <h2 className="kundali-panel__title">జన్మ కుండలి</h2>
+      <h2 className="kundali-panel__title">{t("kundali.janmaKundaliTitle")}</h2>
 
       {/* Empty placeholder occupying the same grid row as
           GocharaKundaliPanel's controls, so both charts below

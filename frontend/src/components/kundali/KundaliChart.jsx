@@ -1,6 +1,7 @@
 import "./KundaliChart.css";
 
 import KundaliCell from "./KundaliCell";
+import { useTranslation } from "../../i18n/I18nContext";
 
 // Which outer edge of the chart each fixed grid cell sits on —
 // used to place its sign/lord label outside the grid, along
@@ -13,6 +14,9 @@ const EDGE_BY_STHANA = {
 };
 
 function KundaliChart({ chart }) {
+
+    const { language } = useTranslation();
+
     if (!chart || !chart.cells) {
         return null;
     }
@@ -36,7 +40,7 @@ function KundaliChart({ chart }) {
                 "ఆత్మ" sits genuinely centered rather than confined to
                 whichever of the four sub-cells happened to hold it. */}
             <div className="kundali-center">
-                <span className="kundali-center__label">ఆత్మ</span>
+                <span className="kundali-center__label">{language === "en" ? "Atma" : "ఆత్మ"}</span>
             </div>
 
             {layout.map((sthanaNumber) => {

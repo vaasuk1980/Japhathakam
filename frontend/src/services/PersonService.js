@@ -121,9 +121,9 @@ class PersonService {
     // Returns the PDF as a Blob — the response isn't JSON on
     // success (it's the raw PDF), only on failure, so this can't
     // reuse the `body.message` pattern the other methods share.
-    async downloadPdf(id) {
+    async downloadPdf(id, language) {
 
-        const response = await fetch(`${this.baseUrl}/${id}/pdf`);
+        const response = await fetch(`${this.baseUrl}/${id}/pdf?lang=${encodeURIComponent(language)}`);
 
         if (!response.ok) {
 

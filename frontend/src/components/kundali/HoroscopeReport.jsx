@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import ReportInvocation from "./ReportInvocation";
 import PanchangamDetails from "./PanchangamDetails";
@@ -49,8 +49,45 @@ function buildNatureByGraha(kundaliDocument) {
  */
 function HoroscopeReport({ values, kundaliDocument, renderLayout, personId }) {
 
-    const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+    // Which language's PDF is currently being generated, if any — not
+    // a plain boolean, since either of the two Save PDF buttons can
+    // trigger this and only the one actually clicked should show its
+    // own "Generating…" state.
+    const [generatingLanguage, setGeneratingLanguage] = useState(null);
     const [pdfError, setPdfError] = useState(null);
+
+    const reportRef = useRef(null);
+    const mastheadRef = useRef(null);
+
+    // Publishes the masthead's actual rendered height as a CSS custom
+    // property (rather than a guessed pixel value) so every section
+    // title below can pin its own `top` right under it — stays correct
+    // across a language switch (the Telugu name/facts line can wrap
+    // differently) and window resizing, both of which change this
+    // height without necessarily unmounting anything.
+    useEffect(() => {
+
+        const mastheadEl = mastheadRef.current;
+        const reportEl = reportRef.current;
+
+        if (!mastheadEl || !reportEl) {
+            return undefined;
+        }
+
+        // ResizeObserver's own contentRect excludes padding/border —
+        // re-measuring via offsetHeight instead gets the full border-box
+        // height, i.e. the masthead's true occupied space (padding and
+        // its bottom border included), which is what section titles
+        // actually need to clear.
+        const observer = new ResizeObserver(() => {
+            reportEl.style.setProperty("--masthead-height", `${mastheadEl.offsetHeight}px`);
+        });
+
+        observer.observe(mastheadEl);
+
+        return () => observer.disconnect();
+
+    }, [values, kundaliDocument]);
 
     if (!values || !kundaliDocument) {
         return null;
@@ -74,10 +111,10 @@ function HoroscopeReport({ values, kundaliDocument, renderLayout, personId }) {
     // result in a new tab (the browser's own PDF viewer) restores
     // that preview step instead of silently downloading straight to
     // disk with no chance to look at it first.
-    const handleSavePdf = async () => {
+    const handleSavePdf = async (language) => {
 
         setPdfError(null);
-        setIsGeneratingPdf(true);
+        setGeneratingLanguage(language);
 
         // Opened synchronously, before the await below — browsers
         // only allow window.open() without a popup-blocker prompt
@@ -87,7 +124,7 @@ function HoroscopeReport({ values, kundaliDocument, renderLayout, personId }) {
 
         try {
 
-            const blob = await PersonService.downloadPdf(personId);
+            const blob = await PersonService.downloadPdf(personId, language);
             const url = URL.createObjectURL(blob);
 
             if (previewTab) {
@@ -97,7 +134,7 @@ function HoroscopeReport({ values, kundaliDocument, renderLayout, personId }) {
                 // instead of silently losing the generated PDF.
                 const link = document.createElement("a");
                 link.href = url;
-                link.download = `${fullName || "horoscope"}.pdf`;
+                link.download = `${fullName || "horoscope"}-${language}.pdf`;
                 link.click();
             }
 
@@ -105,7 +142,7 @@ function HoroscopeReport({ values, kundaliDocument, renderLayout, personId }) {
             previewTab?.close();
             setPdfError(error.message || "Failed to generate PDF.");
         } finally {
-            setIsGeneratingPdf(false);
+            setGeneratingLanguage(null);
         }
 
     };
@@ -121,9 +158,9 @@ function HoroscopeReport({ values, kundaliDocument, renderLayout, personId }) {
         : null;
 
     return (
-        <div className="horoscope-report">
+        <div className="horoscope-report" ref={reportRef}>
 
-            <div className="horoscope-report__masthead">
+            <div className="horoscope-report__masthead" ref={mastheadRef}>
                 <div className="horoscope-report__identity">
                     <div className="horoscope-report__name">{fullName || "—"}</div>
 
@@ -145,13 +182,22 @@ function HoroscopeReport({ values, kundaliDocument, renderLayout, personId }) {
                 </div>
 
                 <div className="horoscope-report__save-pdf">
-                    <Button
-                        variant="primary"
-                        onClick={handleSavePdf}
-                        disabled={isGeneratingPdf || !personId}
-                    >
-                        {isGeneratingPdf ? "Generating…" : "Save PDF"}
-                    </Button>
+                    <div className="horoscope-report__save-pdf-buttons">
+                        <Button
+                            variant="primary"
+                            onClick={() => handleSavePdf("te")}
+                            disabled={Boolean(generatingLanguage) || !personId}
+                        >
+                            {generatingLanguage === "te" ? "Generating…" : "Save PDF (Telugu)"}
+                        </Button>
+                        <Button
+                            variant="secondary"
+                            onClick={() => handleSavePdf("en")}
+                            disabled={Boolean(generatingLanguage) || !personId}
+                        >
+                            {generatingLanguage === "en" ? "Generating…" : "Save PDF (English)"}
+                        </Button>
+                    </div>
                     {pdfError && (
                         <div className="horoscope-report__pdf-error">{pdfError}</div>
                     )}
@@ -205,6 +251,8 @@ function HoroscopeReport({ values, kundaliDocument, renderLayout, personId }) {
                 dasha={kundaliDocument.dasha}
                 timezone={values.timezone}
                 natureByGraha={natureByGraha}
+                dateOfDeath={values.dateOfDeath}
+                timeOfDeath={values.timeOfDeath}
             />
 
             <DashaFullBreakdown

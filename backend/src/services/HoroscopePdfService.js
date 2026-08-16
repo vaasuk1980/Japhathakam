@@ -30,7 +30,7 @@ function escapeHtml(value) {
 
 class HoroscopePdfService {
 
-    async generate(personId) {
+    async generate(personId, language = "te") {
 
         const person = await PersonRepository.getById(personId);
 
@@ -46,8 +46,10 @@ class HoroscopePdfService {
 
             await page.emulateMediaType("print");
 
+            // Read by I18nContext's LanguageProvider on init — this fresh
+            // page has no localStorage of its own to carry a prior choice.
             await page.goto(
-                `${FRONTEND_ORIGIN}/person-details?id=${encodeURIComponent(personId)}`,
+                `${FRONTEND_ORIGIN}/person-details?id=${encodeURIComponent(personId)}&lang=${encodeURIComponent(language)}`,
                 { waitUntil: "networkidle0", timeout: 30000 }
             );
 

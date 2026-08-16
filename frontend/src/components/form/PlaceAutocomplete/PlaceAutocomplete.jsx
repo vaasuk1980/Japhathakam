@@ -4,10 +4,40 @@ import useField from "../state/useField";
 import FieldWrapper from "../layout/FieldWrapper";
 import GeocodingService from "../../../services/GeocodingService";
 import resolveUtcOffsetHours from "../../../utils/timezone/resolveUtcOffsetHours";
+import computeLocalMeanTimeOffset from "../../../utils/timezone/computeLocalMeanTimeOffset";
 
 import "./PlaceAutocomplete.css";
 
 const SEARCH_DEBOUNCE_MS = 350;
+
+// Most countries had adopted some form of unified standard time by
+// this point (India's own last unification was 1947) — the Local
+// Mean Time hint below is only relevant, and only shown, for births
+// before it. A birth without a known/parseable year doesn't show it
+// either, rather than guessing.
+const PRE_STANDARD_TIME_CUTOFF_YEAR = 1950;
+
+function birthYearFrom(dateOfBirth) {
+
+    const year = Number(String(dateOfBirth || "").slice(0, 4));
+
+    return Number.isInteger(year) && year > 0 ? year : null;
+
+}
+
+// "+4:38" / "-0:22" style — matches how the Time Zone Offset field's
+// own placeholder ("e.g. 5.5 for IST") talks about offsets, just
+// resolved to whole minutes for readability.
+function formatOffsetHoursAsClock(offsetHours) {
+
+    const sign = offsetHours < 0 ? "-" : "+";
+    const totalMinutes = Math.round(Math.abs(offsetHours) * 60);
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+
+    return `${sign}${hours}:${String(minutes).padStart(2, "0")}`;
+
+}
 
 export default function PlaceAutocomplete({
   name,
@@ -26,6 +56,21 @@ export default function PlaceAutocomplete({
   const [isSearching, setIsSearching] = useState(false);
   const [searchError, setSearchError] = useState(null);
   const [isManual, setIsManual] = useState(false);
+  const [useLmt, setUseLmt] = useState(false);
+
+  // Longitude comes off the field as a string (native <input
+  // type="number"> onChange always hands back event.target.value —
+  // see useField.js), so it's coerced once here rather than in every
+  // place that needs it as a real number.
+  const longitudeValue = Number(state.values.longitude);
+  const lmtOffset = Number.isNaN(longitudeValue)
+    ? null
+    : computeLocalMeanTimeOffset(longitudeValue);
+
+  const birthYear = birthYearFrom(state.values.dateOfBirth);
+  const showLmtHint = lmtOffset !== null
+    && birthYear !== null
+    && birthYear < PRE_STANDARD_TIME_CUTOFF_YEAR;
 
   // Remembered so the offset can be recomputed (DST-correctly) if
   // the birth date/time changes after a place has already been
@@ -113,6 +158,7 @@ export default function PlaceAutocomplete({
     );
 
     setIsManual(false);
+    setUseLmt(false);
     setIsOpen(false);
     setSuggestions([]);
 
@@ -120,10 +166,14 @@ export default function PlaceAutocomplete({
 
   // A place's UTC offset depends on the birth date (DST) — if the
   // date/time changes after a place was already selected, keep the
-  // offset in sync rather than leaving a stale value in place.
+  // offset in sync rather than leaving a stale value in place. Not
+  // relevant once Local Mean Time is in use — that's a pure function
+  // of longitude (see computeLocalMeanTimeOffset), constant regardless
+  // of date, so there's nothing to recompute, and doing so anyway
+  // would silently overwrite the user's LMT choice back to zone time.
   useEffect(() => {
 
-    if (!selectedTimezoneId.current || isManual) {
+    if (!selectedTimezoneId.current || isManual || useLmt) {
       return;
     }
 
@@ -139,11 +189,31 @@ export default function PlaceAutocomplete({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.values.dateOfBirth, state.values.timeOfBirth]);
 
+  // Standard time zones didn't exist everywhere before the 20th
+  // century (and where they did, adoption dates vary by country) — a
+  // historical birth is often more accurately read using the birth
+  // place's own Local Mean Time instead of a modern civil zone offset
+  // retroactively applied to it. Opt-in rather than automatic: which
+  // one is "correct" depends on the era and the astrologer's own
+  // convention, not something safe to guess from the date alone.
+  function handleUseLocalMeanTime() {
+
+    if (lmtOffset === null) {
+      return;
+    }
+
+    setUseLmt(true);
+    actions.setReadOnly("timezone", false);
+    actions.setValue("timezone", lmtOffset);
+
+  }
+
   function handleToggleManual() {
 
     const next = !isManual;
 
     setIsManual(next);
+    setUseLmt(false);
     setIsOpen(false);
     setSuggestions([]);
     setSearchError(null);
@@ -233,6 +303,31 @@ export default function PlaceAutocomplete({
             and Time Zone Offset below yourself (e.g. from Google Maps —
             the offset is the UTC offset that actually applied on the
             birth date, e.g. 5.5 for IST).
+          </p>
+        )}
+
+        {showLmtHint && (
+          <p className="jp-place-autocomplete__lmt-hint">
+            {useLmt ? (
+              <>
+                Using this place's Local Mean Time offset
+                {" "}({formatOffsetHoursAsClock(lmtOffset)}) instead of the zone offset.
+              </>
+            ) : (
+              <>
+                Standard time zones didn't exist everywhere before the 20th
+                century — for older births, this place's Local Mean Time
+                offset ({formatOffsetHoursAsClock(lmtOffset)}) is sometimes
+                more accurate than the zone offset above.{" "}
+                <button
+                  type="button"
+                  className="jp-place-autocomplete__lmt-toggle"
+                  onClick={handleUseLocalMeanTime}
+                >
+                  Use Local Mean Time
+                </button>
+              </>
+            )}
           </p>
         )}
       </div>

@@ -2,6 +2,7 @@ import { useMemo } from "react";
 
 import DashaPeriodRow from "./DashaPeriodRow";
 import DashaGlance from "./DashaGlance";
+import DeathDashaCheck from "./DeathDashaCheck";
 import isCurrentPeriod from "../../utils/dasha/isCurrentPeriod";
 import { useTranslation } from "../../i18n/I18nContext";
 
@@ -17,7 +18,7 @@ import "./DashaPanel.css";
  * DashaSubdivisionEngine). The Mahadasha currently running (if any)
  * opens by default so the person can see where they are at a glance.
  */
-function DashaPanel({ dasha, timezone, natureByGraha }) {
+function DashaPanel({ dasha, timezone, natureByGraha, dateOfDeath, timeOfDeath }) {
 
     const { t } = useTranslation();
 
@@ -50,12 +51,21 @@ function DashaPanel({ dasha, timezone, natureByGraha }) {
 
             <DashaGlance dasha={dasha} timezone={timezone} natureByGraha={natureByGraha} />
 
+            <DeathDashaCheck
+                dasha={dasha}
+                timezone={timezone}
+                natureByGraha={natureByGraha}
+                birthEpochMs={birthEpochMs}
+                dateOfDeath={dateOfDeath}
+                timeOfDeath={timeOfDeath}
+            />
+
             <div className="dasha-panel__scroll">
                 <div className="dasha-panel__header-row">
-                    <span className="dasha-panel__header-graha">గ్రహం</span>
-                    <span className="dasha-panel__header-range">ప్రారంభం → ముగింపు</span>
-                    <span className="dasha-panel__header-age">వయస్సు (ప్రారంభం → ముగింపు)</span>
-                    <span className="dasha-panel__header-duration">వ్యవధి</span>
+                    <span className="dasha-panel__header-graha">{t("kundali.planetaryPositions.colGraha")}</span>
+                    <span className="dasha-panel__header-range">{t("kundali.dashaTree.colRange")}</span>
+                    <span className="dasha-panel__header-age">{t("kundali.dashaTree.colAge")}</span>
+                    <span className="dasha-panel__header-duration">{t("kundali.dashaBreakdown.colDuration")}</span>
                 </div>
 
                 <div className="dasha-panel__tree">

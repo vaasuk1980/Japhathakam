@@ -1,12 +1,25 @@
 import { Link } from "react-router-dom";
 
 import { PADA_ROW_STEP_CQW } from "../../kundali/constants/RenderConstants";
+import { GRAHA_SHORT_NAMES_EN } from "../../kundali/constants/GrahaShortNames";
+import { useTranslation } from "../../i18n/I18nContext";
 
 function GrahaBadge({ graha }) {
+
+    const { language } = useTranslation();
 
     if (!graha) {
         return null;
     }
+
+    // graha.name doubles as the plain graha code here (e.g. "MERCURY"
+    // — see KundaliAssembler.js on the backend, where code and name
+    // are both set from the same placement.graha value), which is
+    // what the English short-form lookup is keyed by. displayName
+    // (Telugu) stays the source for every other language.
+    const label = language === "en"
+        ? (GRAHA_SHORT_NAMES_EN[graha.name] ?? graha.displayName)
+        : graha.displayName;
 
     const isAspect = graha.relationship !== "OCCUPANT";
 
@@ -40,7 +53,7 @@ function GrahaBadge({ graha }) {
             style={style}
             title={graha.isRetrograde ? `${graha.name} (Retrograde)` : graha.name}
         >
-            {graha.displayName}
+            {label}
             {graha.isRetrograde && (
                 // Jumps to this Graha's current retrograde episode on the
                 // Panchangam page's Rashi-transit table — stopPropagation

@@ -2,15 +2,24 @@ import { useMemo } from "react";
 
 import computeBirthFacts from "../../kundali/utils/computeBirthFacts";
 import formatDateDDMMYYYY from "../../utils/date/formatDateDDMMYYYY";
+import { useTranslation } from "../../i18n/I18nContext";
 
 import "./BirthSummary.css";
 
-// Gender-aware phrasing for the birth announcement — always Telugu,
-// independent of the app's language toggle (see HoroscopeReport.jsx).
+// Gender-aware phrasing for the birth announcement — this sentence's
+// language follows Save PDF's own Telugu/English choice (see
+// HoroscopeReport.jsx), unlike the report's traditional invocation
+// block, which stays Telugu regardless.
 const BIRTH_PHRASE_BY_GENDER = {
     male: "పుత్రరత్న జననము",
     female: "పుత్రికా జననము",
     other: "శిశు జననము",
+};
+
+const BIRTH_PHRASE_BY_GENDER_EN = {
+    male: "the birth of a son",
+    female: "the birth of a daughter",
+    other: "the birth of a child",
 };
 
 // Ayana/Paksha read in their nominative form ("ఉత్తరాయణం", "కృష్ణ
@@ -45,6 +54,8 @@ function sandhiStem(word) {
  */
 function BirthSummary({ kundaliDocument, dateOfBirth, timeOfBirth, gender }) {
 
+    const { language } = useTranslation();
+
     const facts = useMemo(
         () => computeBirthFacts(kundaliDocument, dateOfBirth),
         [kundaliDocument, dateOfBirth]
@@ -52,6 +63,25 @@ function BirthSummary({ kundaliDocument, dateOfBirth, timeOfBirth, gender }) {
 
     if (!facts.samvatsaraName && !facts.lagnaRasi) {
         return null;
+    }
+
+    if (language === "en") {
+
+        const birthPhrase = BIRTH_PHRASE_BY_GENDER_EN[gender] ?? BIRTH_PHRASE_BY_GENDER_EN.other;
+
+        return (
+            <p className="birth-summary">
+                Swasti Sri, in the Chandramana year named{" "}
+                <b>{facts.samvatsaraName?.en ?? "—"}</b>, during <b>{facts.ayana?.en ?? "—"}</b>,{" "}
+                in the month of <b>{facts.masam?.en ?? "—"}</b>, <b>{facts.tithi?.paksha?.en ?? "—"}</b>,{" "}
+                on <b>{facts.tithi?.name?.en ?? "—"}</b> Tithi, in the <b>{facts.pada}</b>{" "}
+                pada of <b>{facts.nakshatra?.englishName ?? "—"}</b> Nakshatra, at this auspicious moment{" "}
+                in <b>{facts.lagnaRasi?.en ?? "—"}</b> Lagna — {birthPhrase}.
+                That is, on <b>{facts.vara?.en ?? "—"}</b>, <b>{formatDateDDMMYYYY(dateOfBirth)}</b>,{" "}
+                at <b>{timeOfBirth || "—"}</b> hours.
+            </p>
+        );
+
     }
 
     const birthPhrase = BIRTH_PHRASE_BY_GENDER[gender] ?? BIRTH_PHRASE_BY_GENDER.other;

@@ -1,12 +1,23 @@
 /**
  * Zodiac sign names (Mesha-first, index 0-11), used to label
  * each Kundali cell with the sign it actually represents for
- * a given chart.
+ * a given chart. {en, te} rather than a plain string — the
+ * chart's language follows Save PDF's own Telugu/English choice
+ * (see KundaliCell.jsx, which picks by language at render time).
  */
 export const RASI_NAMES = [
-    "మేషం", "వృషభం", "మిథునం", "కర్కాటకం",
-    "సింహం", "కన్య", "తుల", "వృశ్చికం",
-    "ధనుస్సు", "మకరం", "కుంభం", "మీనం",
+    { te: "మేషం", en: "Aries" },
+    { te: "వృషభం", en: "Taurus" },
+    { te: "మిథునం", en: "Gemini" },
+    { te: "కర్కాటకం", en: "Cancer" },
+    { te: "సింహం", en: "Leo" },
+    { te: "కన్య", en: "Virgo" },
+    { te: "తుల", en: "Libra" },
+    { te: "వృశ్చికం", en: "Scorpio" },
+    { te: "ధనుస్సు", en: "Sagittarius" },
+    { te: "మకరం", en: "Capricorn" },
+    { te: "కుంభం", en: "Aquarius" },
+    { te: "మీనం", en: "Pisces" },
 ];
 
 /**
@@ -16,9 +27,18 @@ export const RASI_NAMES = [
  * upagrahas in place of the usual shared dual-lordships).
  */
 export const SIGN_LORDS = [
-    "కుజ", "మిత్ర", "చిత్ర", "చంద్ర",
-    "రవి", "బుధ", "శుక్ర", "భూమి",
-    "కేతు", "రాహు", "శని", "గురు",
+    { te: "కుజ", en: "Mars" },
+    { te: "మిత్ర", en: "Mitra" },
+    { te: "చిత్ర", en: "Chitra" },
+    { te: "చంద్ర", en: "Moon" },
+    { te: "రవి", en: "Sun" },
+    { te: "బుధ", en: "Mercury" },
+    { te: "శుక్ర", en: "Venus" },
+    { te: "భూమి", en: "Bhumi" },
+    { te: "కేతు", en: "Ketu" },
+    { te: "రాహు", en: "Rahu" },
+    { te: "శని", en: "Saturn" },
+    { te: "గురు", en: "Jupiter" },
 ];
 
 /**

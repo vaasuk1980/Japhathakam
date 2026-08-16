@@ -36,6 +36,16 @@ export function LanguageProvider({ children }) {
 
     const [language, setLanguageState] = useState(() => {
 
+        // A fresh Puppeteer page (Save PDF's server-side render) has no
+        // localStorage of its own to read a prior choice from — this is
+        // how it's told which language to render in. Also a generically
+        // useful override for the app at large, not just print.
+        const fromQuery = new URLSearchParams(window.location.search).get("lang");
+
+        if (fromQuery && translations[fromQuery]) {
+            return fromQuery;
+        }
+
         const stored = window.localStorage.getItem(STORAGE_KEY);
 
         return stored && translations[stored] ? stored : DEFAULT_LANGUAGE;

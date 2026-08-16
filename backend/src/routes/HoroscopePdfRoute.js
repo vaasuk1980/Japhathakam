@@ -9,7 +9,8 @@ export default function HoroscopePdfRoute() {
     router.get("/:id/pdf", async (req, res, next) => {
         try {
 
-            const pdfBuffer = await HoroscopePdfService.generate(req.params.id);
+            const language = req.query.lang === "en" ? "en" : "te";
+            const pdfBuffer = await HoroscopePdfService.generate(req.params.id, language);
 
             if (!pdfBuffer) {
                 return res.status(404).json({ message: "Person not found." });

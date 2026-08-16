@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { FilePlus2, Library, CalendarDays, Clock } from "lucide-react";
+import { FilePlus2, Library, GitCompare, CalendarDays, Clock } from "lucide-react";
 
 import PersonService from "../../services/PersonService";
 import getGreetingKey from "../../utils/greeting/getGreetingKey";
@@ -18,10 +18,17 @@ const RECENT_COUNT = 5;
 // Curated, not derived from the sidebar menu — this is the astrology
 // work-hub row (Sprint 8.19 spec), a deliberately different set from
 // general app navigation. Add a destination here only once its page
-// is real (see Dasa Calculator / Compare Horoscopes, still stubs).
+// is real (see Dasa Calculator, still a stub).
 const QUICK_ACTIONS = [
-    { labelKey: "dashboard.quickActions.newHoroscope", path: "/new-horoscope", icon: FilePlus2 },
+    // PersonDetails (no ?id=) IS the "new horoscope" flow — full
+    // form, Save creates the person and redirects to its own
+    // /person-details?id=, then renders the complete report. The
+    // separate /new-horoscope page (removed) was an early-sprint
+    // stub that only previewed a bare Kundali chart and never saved
+    // anything, left behind once this became the real flow.
+    { labelKey: "dashboard.quickActions.newHoroscope", path: "/person-details", icon: FilePlus2 },
     { labelKey: "dashboard.quickActions.horoscopeLibrary", path: "/horoscope-library", icon: Library },
+    { labelKey: "dashboard.quickActions.compareKundalis", path: "/compare-kundalis", icon: GitCompare },
     { labelKey: "dashboard.quickActions.panchangam", path: "/panchangam", icon: CalendarDays },
     { labelKey: "dashboard.quickActions.muhurtham", path: "/muhurtham", icon: Clock },
 ];

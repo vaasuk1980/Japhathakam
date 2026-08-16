@@ -5,6 +5,7 @@ import GocharaControls from "./GocharaControls";
 
 import GenerateKundaliService from "../../services/GenerateKundaliService";
 import KundaliRenderEngine from "../../kundali/engines/KundaliRenderEngine";
+import { useTranslation } from "../../i18n/I18nContext";
 
 /**
  * Self-contained Gochara (transit) panel: owns its own date/time/
@@ -15,6 +16,7 @@ import KundaliRenderEngine from "../../kundali/engines/KundaliRenderEngine";
  */
 function GocharaKundaliPanel({ birthDetails }) {
 
+    const { t } = useTranslation();
     const [renderLayout, setRenderLayout] = useState(null);
     const [error, setError] = useState(null);
 
@@ -61,7 +63,7 @@ function GocharaKundaliPanel({ birthDetails }) {
 
     return (
         <section className="gochara-kundali-panel kundali-panel">
-            <h2 className="kundali-panel__title">గోచార కుండలి</h2>
+            <h2 className="kundali-panel__title">{t("kundali.gocharaKundaliTitle")}</h2>
 
             <div className="kundali-panel__controls">
                 <GocharaControls

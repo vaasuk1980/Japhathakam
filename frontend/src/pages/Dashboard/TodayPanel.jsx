@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import useSkySnapshot from "../../hooks/useSkySnapshot";
 import { computeTithi, computeVara, computeAyana } from "../../kundali/utils/panchangamMath";
 import { translateMasa, translateSamvatsara } from "../../kundali/constants/PanchangamNameTranslations";
-import { DASHA_GRAHA_NAMES } from "../../kundali/constants/DashaGrahaNames";
+import { grahaName } from "../../kundali/constants/DashaGrahaNames";
 import { CHART_GRAHA_SYMBOLS } from "../../kundali/constants/ChartGrahaSymbols";
 import KundaliRenderEngine from "../../kundali/engines/KundaliRenderEngine";
 import { useSavedLocation } from "../../location/LocationContext";
@@ -52,17 +52,17 @@ function GocharaSummaryCard({ snapshotState, t }) {
                     <table className="today-gochara-table">
                         <thead>
                             <tr>
-                                <th>గ్రహం</th>
-                                <th>అంశలు</th>
-                                <th>నక్షత్రం - పాదం</th>
-                                <th>లగ్నం</th>
-                                <th>ప్రవేశం → నిష్క్రమణ</th>
+                                <th>{t("kundali.planetaryPositions.colGraha")}</th>
+                                <th>{t("kundali.planetaryPositions.colDegree")}</th>
+                                <th>{t("dashboard.today.nakshatraPada")}</th>
+                                <th>{t("kundali.planetaryPositions.colLagna")}</th>
+                                <th>{t("dashboard.today.gochara.colTransit")}</th>
                             </tr>
                         </thead>
                         <tbody>
                             {lagna && (
                                 <tr>
-                                    <td className="today-gochara-table__graha">లగ్నం</td>
+                                    <td className="today-gochara-table__graha">{t("kundali.planetaryPositions.colLagna")}</td>
                                     <td className="mono">{lagna.formattedLongitude}</td>
                                     <td>
                                         {(language === "te" ? lagna.nakshatra?.teluguName : lagna.nakshatra?.englishName) ?? "—"}
@@ -79,7 +79,7 @@ function GocharaSummaryCard({ snapshotState, t }) {
                             {ordered.map((position) => (
                                 <tr key={position.planet}>
                                     <td className="today-gochara-table__graha">
-                                        {DASHA_GRAHA_NAMES[position.planet] ?? position.planet}
+                                        {grahaName(position.planet, language)}
                                         {position.isRetrograde && (
                                             <Link
                                                 to={`/panchangam?graha=${position.planet}`}

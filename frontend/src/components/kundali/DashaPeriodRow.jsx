@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import DashaSubdivisionEngine from "../../kundali/engines/DashaSubdivisionEngine";
 import { DASHA_LEVEL_LABELS } from "../../kundali/constants/DashaConstants";
-import { DASHA_GRAHA_NAMES } from "../../kundali/constants/DashaGrahaNames";
+import { grahaName } from "../../kundali/constants/DashaGrahaNames";
 import isCurrentPeriod from "../../utils/dasha/isCurrentPeriod";
 import resolveAgeAtEpoch from "../../utils/age/resolveAgeAtEpoch";
 import formatAgeYMD from "../../utils/age/formatAgeYMD";
@@ -88,7 +88,7 @@ function DashaPeriodRow({ period, depth, timezone, birthEpochMs, defaultExpanded
                 </span>
 
                 <span className={"dasha-row__graha" + (nature ? ` dasha-row__graha--${nature}` : "")}>
-                    {DASHA_GRAHA_NAMES[period.graha] ?? period.displayName}
+                    {grahaName(period.graha, language)}
                 </span>
 
                 <span className="dasha-row__range">

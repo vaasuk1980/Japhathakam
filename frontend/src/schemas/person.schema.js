@@ -131,6 +131,26 @@ const personSchema = {
                     readOnly: true,
                     gridSpan: 1,
                 },
+
+                {
+                    id: "dateOfDeath",
+                    label: "Date of Death",
+                    type: "date",
+
+                    required: false,
+                    helperText: "For deceased persons — used to show which Dasha was running at time of death.",
+
+                    min: "1800-01-01",
+                    max: new Date().toISOString().slice(0, 10),
+                },
+
+                {
+                    id: "timeOfDeath",
+                    label: "Time of Death",
+                    type: "time",
+
+                    required: false,
+                },
             ],
         },
     ],

@@ -80,8 +80,10 @@
        scrollbar this is meant to avoid) — min-width: 0 overrides
        flexbox's own default (auto), which would otherwise keep a
        segment at least as wide as its longest unbreakable text run.
-       Narrow segments (a short Mahadasha, or the birth Mahadasha's
-       partial "balance") wrap their text across more lines instead. */
+       A narrow segment (a short Mahadasha, or the birth Mahadasha's
+       partial "balance") instead progressively drops its own lines
+       below (see the @container rules further down) rather than
+       wrapping their text into illegible fragments. */
     min-width: 0;
 
     display: flex;
@@ -92,6 +94,13 @@
     padding: var(--spacing-sm) 6px 0;
 
     border-right: 1px solid var(--jp-color-border);
+
+    /* Lets the @container rules below react to THIS segment's own
+       rendered width (a direct function of its Mahadasha's share of
+       120 years) rather than a viewport breakpoint, which has no
+       relationship to any individual segment's width. */
+    container-type: inline-size;
+    container-name: dasha-segment;
 }
 
 .dasha-glance__segment:first-child {
@@ -132,6 +141,25 @@
     color: var(--jp-color-text-muted);
 
     font-variant-numeric: tabular-nums;
+}
+
+/* A short Mahadasha (or the birth Mahadasha's partial "balance")
+   renders as a sliver too narrow for three stacked lines — rather
+   than letting them wrap into illegible fragments, drop the least
+   essential line(s) first. The segment's own title attribute (see
+   DashaGlance.jsx) always carries the full graha/duration/date-range
+   text regardless of what's hidden here, so nothing is truly lost,
+   just deferred to a hover/tap. */
+@container dasha-segment (max-width: 46px) {
+    .dasha-glance__segment-dates {
+        display: none;
+    }
+}
+
+@container dasha-segment (max-width: 28px) {
+    .dasha-glance__segment-duration {
+        display: none;
+    }
 }
 
 .dasha-glance__axis {

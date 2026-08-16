@@ -123,6 +123,17 @@
         display: none !important;
     }
 
+    /* Each section title pins under the masthead on screen (see
+       PanchangamDetails.css's .pd-table-title) — purely a screen
+       scroll affordance, reset back to normal flow here so it can't
+       affect the PDF's own pagination. */
+    .pd-table-title,
+    .pp-table-title,
+    .dasha-panel__title,
+    .kundali-panel__title {
+        position: static !important;
+    }
+
     /* Gochara is "right now", not a fact about the person — leaves
        no reason to sit in a saved PDF. Janma takes the full width
        left behind instead of sharing a column it no longer needs. */
@@ -246,20 +257,15 @@
         break-inside: avoid;
     }
 
-    /* The printed report is always Telugu, regardless of the
-       on-screen language toggle (see PlanetaryPositionsTable.jsx/
-       .css) — matters for more than just fidelity to the
-       reference: the English nakshatra/rasi names ("Purva
-       Bhadrapada", "Sagittarius", ...) are long enough to wrap
-       inside the table's print-width columns, which inflates the
-       table's height and pushes later sections onto extra pages. */
-    .report-lang-te {
-        display: inline !important;
-    }
-
-    .report-lang-en {
-        display: none !important;
-    }
+    /* Which of .report-lang-te/.report-lang-en actually shows for
+       print now follows the same .pp-table--lang-{en,te} class the
+       on-screen view already toggles by (see
+       PlanetaryPositionsTable.jsx/.css) — Save PDF passes the
+       chosen language in as ?lang=, read by I18nContext on load (see
+       HoroscopePdfService.js). English names ("Purva Bhadrapada",
+       "Sagittarius", ...) run longer than Telugu's, so the English
+       print layout needs its own font-size/column tuning below to
+       still fit its page budget — the Telugu one is unchanged. */
 
     /* Compact row height so the table is more likely to share
        page 1 with the header content and the Kundali chart above

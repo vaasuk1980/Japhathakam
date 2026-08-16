@@ -1,0 +1,25 @@
+/* ==========================================================
+   Death Dasha Check
+   ----------------------------------------------------------
+   Reuses DashaGlance.css's .dasha-glance__current-* classes for
+   the card/title/grid (see DeathDashaCheck.jsx) — only the two
+   lines specific to this card (the date/age line, the approximate/
+   before-birth notes) need their own rules here.
+   ========================================================== */
+
+.death-dasha-check__meta {
+    margin: 0 0 var(--spacing-sm);
+
+    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 18px;
+    color: var(--jp-color-text-secondary);
+}
+
+.death-dasha-check__note {
+    margin: 0 0 var(--spacing-sm);
+
+    font-family: var(--font-family);
+    font-size: 16px;
+    font-style: italic;
+    color: var(--jp-color-text-muted);
+}

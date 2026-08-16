@@ -62,6 +62,16 @@
 
     background: var(--jp-color-heading-fill);
     color: var(--jp-color-text-primary);
+
+    /* Pins under the person-name masthead while this section is in
+       view, handing off to the next section's title — see
+       PanchangamDetails.css's .pd-table-title for the full
+       explanation. Reset for print in print.css. */
+    position: sticky;
+    /* See PanchangamDetails.css's .pd-table-title for why
+       --page-padding is subtracted back out here. */
+    top: calc(var(--masthead-height, 64px) - var(--page-padding));
+    z-index: 4;
 }
 
 .janma-kundali-panel .kundali-panel__title {

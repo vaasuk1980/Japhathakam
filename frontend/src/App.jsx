@@ -4,8 +4,8 @@ import MainLayout from "./layouts/MainLayout/MainLayout";
 
 import Dashboard from "./pages/Dashboard/Dashboard";
 import PersonDetails from "./pages/PersonDetails/PersonDetails";
-import NewHoroscope from "./pages/NewHoroscope/NewHoroscope";
 import HoroscopeLibrary from "./pages/HoroscopeLibrary/HoroscopeLibrary";
+import CompareKundalis from "./pages/CompareKundalis/CompareKundalis";
 import Panchangam from "./pages/Panchangam/Panchangam";
 import Muhurtham from "./pages/Muhurtham/Muhurtham";
 import Settings from "./pages/Settings/Settings";
@@ -21,8 +21,8 @@ function App() {
 
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/person-details" element={<PersonDetails />} />
-                    <Route path="/new-horoscope" element={<NewHoroscope />} />
                     <Route path="/horoscope-library" element={<HoroscopeLibrary />} />
+                    <Route path="/compare-kundalis" element={<CompareKundalis />} />
                     <Route path="/panchangam" element={<Panchangam />} />
                     <Route path="/muhurtham" element={<Muhurtham />} />
                     <Route path="/component-showcase" element={<ComponentShowcase />} />

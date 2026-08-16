@@ -36,6 +36,22 @@ const GRAHA_TELUGU_NAMES = {
     CHITRA: "చిత్ర",
 };
 
+const GRAHA_ENGLISH_NAMES = {
+    LAGNA: "Lagna",
+    SUN: "Sun",
+    MOON: "Moon",
+    MARS: "Mars",
+    MERCURY: "Mercury",
+    JUPITER: "Jupiter",
+    VENUS: "Venus",
+    SATURN: "Saturn",
+    RAHU: "Rahu",
+    KETU: "Ketu",
+    BHUMI: "Bhumi",
+    MITRA: "Mitra",
+    CHITRA: "Chitra",
+};
+
 const RASI_NAMES = [
     { tel: "మేషం", en: "Aries" },
     { tel: "వృషభం", en: "Taurus" },
@@ -51,14 +67,23 @@ const RASI_NAMES = [
     { tel: "మీనం", en: "Pisces" },
 ];
 
-// Matches backend/src/astrology/constants/Sthanas.js's teluguName
-// for each Sthana exactly — this table used to keep its own,
-// independently-drifted set of names (e.g. "సహజం"/"కర్మ" instead of
-// the canonical "సోదర"/"రాజ్య" for Sthanas 3 and 10).
+// Matches backend/src/astrology/constants/Sthanas.js's englishName/
+// teluguName for each Sthana exactly — this table used to keep its
+// own, independently-drifted set of Telugu names (e.g. "సహజం"/"కర్మ"
+// instead of the canonical "సోదర"/"రాజ్య" for Sthanas 3 and 10).
 const BHAVA_LABELS = [
-    "1-తనువు", "2-ధనం", "3-సోదర", "4-మాతృ",
-    "5-విద్యా", "6-శత్రు", "7-కళత్ర", "8-ఆయు",
-    "9-భాగ్య", "10-రాజ్య", "11-లాభ", "12-వ్యయ",
+    { en: "1-Tanu", te: "1-తనువు" },
+    { en: "2-Dhana", te: "2-ధనం" },
+    { en: "3-Sodara", te: "3-సోదర" },
+    { en: "4-Matru", te: "4-మాతృ" },
+    { en: "5-Vidya", te: "5-విద్యా" },
+    { en: "6-Shatru", te: "6-శత్రు" },
+    { en: "7-Kalatra", te: "7-కళత్ర" },
+    { en: "8-Ayu", te: "8-ఆయు" },
+    { en: "9-Bhagya", te: "9-భాగ్య" },
+    { en: "10-Rajya", te: "10-రాజ్య" },
+    { en: "11-Labha", te: "11-లాభ" },
+    { en: "12-Vyaya", te: "12-వ్యయ" },
 ];
 
 function rasiForLongitude(longitude) {
@@ -66,13 +91,15 @@ function rasiForLongitude(longitude) {
     return RASI_NAMES[Math.floor(normalized / 30)];
 }
 
-function buildRows(kundaliDocument) {
+function buildRows(kundaliDocument, language) {
 
     const cells = kundaliDocument?.janmaChart?.cells;
 
     if (!Array.isArray(cells)) {
         return [];
     }
+
+    const grahaNamesByCode = language === "te" ? GRAHA_TELUGU_NAMES : GRAHA_ENGLISH_NAMES;
 
     const rows = [];
 
@@ -81,7 +108,7 @@ function buildRows(kundaliDocument) {
     if (lagna) {
         rows.push({
             key: lagna.id,
-            name: GRAHA_TELUGU_NAMES[lagna.code] ?? lagna.displayName,
+            name: grahaNamesByCode[lagna.code] ?? lagna.displayName,
             en: lagna.code,
             deg: lagna.formattedLongitude,
             nak: lagna.nakshatra,
@@ -103,13 +130,13 @@ function buildRows(kundaliDocument) {
         (cell.grahas || []).forEach((graha) => {
             rows.push({
                 key: graha.id,
-                name: GRAHA_TELUGU_NAMES[graha.code] ?? graha.displayName,
+                name: grahaNamesByCode[graha.code] ?? graha.displayName,
                 en: graha.code,
                 deg: graha.formattedLongitude,
                 nak: graha.nakshatra,
                 pada: graha.pada ?? "—",
                 rasi: rasiForLongitude(graha.longitude),
-                bhava: BHAVA_LABELS[cell.sthana - 1] ?? "—",
+                bhava: BHAVA_LABELS[cell.sthana - 1]?.[language] ?? "—",
                 // Punya/Papa (Tritha Siddhantha) — same
                 // classification the Kundali chart colors by.
                 isPapa: graha.nature === "PAPA",
@@ -137,8 +164,8 @@ function PlanetaryPositionsTable({ kundaliDocument }) {
     const { t, language } = useTranslation();
 
     const rows = useMemo(
-        () => buildRows(kundaliDocument),
-        [kundaliDocument]
+        () => buildRows(kundaliDocument, language),
+        [kundaliDocument, language]
     );
 
     if (rows.length === 0) {
@@ -153,13 +180,13 @@ function PlanetaryPositionsTable({ kundaliDocument }) {
                 <table className={`pp-table pp-table--lang-${language}`}>
                     <thead>
                         <tr>
-                            <th>సం.</th>
-                            <th>గ్రహం</th>
-                            <th>అంశలు</th>
-                            <th>నక్షత్రం</th>
-                            <th>పాదం</th>
-                            <th>లగ్నం</th>
-                            <th>భావం</th>
+                            <th>{t("kundali.planetaryPositions.colNo")}</th>
+                            <th>{t("kundali.planetaryPositions.colGraha")}</th>
+                            <th>{t("kundali.planetaryPositions.colDegree")}</th>
+                            <th>{t("kundali.planetaryPositions.colNakshatra")}</th>
+                            <th>{t("kundali.planetaryPositions.colPada")}</th>
+                            <th>{t("kundali.planetaryPositions.colLagna")}</th>
+                            <th>{t("kundali.planetaryPositions.colBhava")}</th>
                         </tr>
                     </thead>
                     <tbody>

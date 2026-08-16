@@ -1,6 +1,9 @@
 import PadaGridView from "./PadaGridView";
+import { useTranslation } from "../../i18n/I18nContext";
 
 function KundaliCell({ cell, edge }) {
+
+    const { language } = useTranslation();
 
     if (!cell) {
         return <div className="kundali-cell" />;
@@ -10,15 +13,18 @@ function KundaliCell({ cell, edge }) {
         "kundali-cell" +
         (cell.isJanmaLagna ? " kundali-cell--lagna" : "");
 
+    const rasiLabel = cell.rasi?.[language] ?? cell.rasi?.te;
+    const lordLabel = cell.lord?.[language] ?? cell.lord?.te;
+
     return (
 
         <div className={cellClassName}>
 
-            {cell.rasi && (
+            {rasiLabel && (
                 <div className={`rasi-label rasi-label--${edge}`}>
-                    {cell.rasi}
-                    {cell.lord && (
-                        <span className="rasi-label__lord"> ({cell.lord})</span>
+                    {rasiLabel}
+                    {lordLabel && (
+                        <span className="rasi-label__lord"> ({lordLabel})</span>
                     )}
                 </div>
             )}

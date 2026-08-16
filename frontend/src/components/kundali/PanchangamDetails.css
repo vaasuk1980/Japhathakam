@@ -22,6 +22,25 @@
 
     padding: var(--spacing-sm) var(--spacing-lg);
 
+    /* Pins directly under the person-name masthead (see
+       HoroscopeReport.jsx, which measures the masthead's real
+       rendered height into this custom property) while this
+       section is in view — sticky elements only stick while their
+       own containing box is on screen, so this hands off to the
+       next section's title automatically as you scroll past. Reset
+       to static for print (see print.css) — this is a screen-only
+       affordance, not part of the paginated report. */
+    position: sticky;
+    /* Sticky offsets measure from this scroll container's own
+       PADDING edge, but the masthead cancels that same padding via
+       its own negative top offset (see HoroscopeReport.css) — so
+       matching its true bottom edge means subtracting --page-padding
+       back out here, confirmed by direct measurement (without this,
+       a --page-padding-sized gap opens up between the pinned
+       masthead and this title once it's actually stuck). */
+    top: calc(var(--masthead-height, 64px) - var(--page-padding));
+    z-index: 4;
+
     font-family: Georgia, "Times New Roman", var(--font-family), serif;
     font-size: var(--font-size-xl);
     font-weight: var(--font-semibold);

@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 
 import RashiTransitSummaryService from "../../services/RashiTransitSummaryService";
 import resolveUtcOffsetHours from "../../utils/timezone/resolveUtcOffsetHours";
+import { translateSamvatsara } from "../../kundali/constants/PanchangamNameTranslations";
 import { useSavedLocation } from "../../location/LocationContext";
 import { useTranslation } from "../../i18n/I18nContext";
 
@@ -138,12 +139,12 @@ function GrahaTransitTable({ graha, transitions, highlightNowMs }) {
                         <thead>
                             <tr>
                                 <th>{t("panchangam.lagnaColumn")}</th>
-                                <th>ప్రవేశం</th>
-                                <th>నిష్క్రమణ</th>
-                                <th>వ్యవధి</th>
-                                {showsVakri && <th>గమనం</th>}
-                                {showsVakri && <th>వక్రి ప్రారంభం</th>}
-                                {showsVakri && <th>వక్రి ముగింపు</th>}
+                                <th>{t("panchangam.transitTable.colEntry")}</th>
+                                <th>{t("panchangam.transitTable.colExit")}</th>
+                                <th>{t("kundali.dashaBreakdown.colDuration")}</th>
+                                {showsVakri && <th>{t("panchangam.transitTable.colMotion")}</th>}
+                                {showsVakri && <th>{t("panchangam.transitTable.colRetrogradeStart")}</th>}
+                                {showsVakri && <th>{t("panchangam.transitTable.colRetrogradeEnd")}</th>}
                             </tr>
                         </thead>
                         <tbody>
@@ -158,19 +159,19 @@ function GrahaTransitTable({ graha, transitions, highlightNowMs }) {
                                     <td className="mono">{row.leaves}</td>
                                     <td className="mono">{row.durationDisplay}</td>
                                     {showsVakri && (
-                                        <td>{row.vakri ? "వక్రి" : "మార్గి"}</td>
+                                        <td>{row.vakri ? t("panchangam.transitTable.retrograde") : t("panchangam.transitTable.direct")}</td>
                                     )}
                                     {showsVakri && (
                                         <td className="mono">
                                             {row.vakri
-                                                ? (row.vakri.start ?? "ప్రవేశానికి ముందు")
+                                                ? (row.vakri.start ?? t("panchangam.transitTable.beforeEntry"))
                                                 : "—"}
                                         </td>
                                     )}
                                     {showsVakri && (
                                         <td className="mono">
                                             {row.vakri
-                                                ? (row.vakri.end ?? "కొనసాగుతోంది")
+                                                ? (row.vakri.end ?? t("panchangam.transitTable.ongoing"))
                                                 : "—"}
                                         </td>
                                     )}
@@ -187,7 +188,7 @@ function GrahaTransitTable({ graha, transitions, highlightNowMs }) {
 
 function Panchangam() {
 
-    const { t } = useTranslation();
+    const { t, language } = useTranslation();
     const { location } = useSavedLocation();
     const [searchParams] = useSearchParams();
 
@@ -208,6 +209,12 @@ function Panchangam() {
 
     const summaryState = useRashiTransitSummary(year, timezone);
     const data = summaryState.data;
+
+    const samvatsaraName = data
+        ? (language === "te"
+            ? translateSamvatsara(data.samvatsaraName)?.te
+            : translateSamvatsara(data.samvatsaraName)?.en)
+        : null;
 
     return (
         <div className="rt-page">
@@ -239,7 +246,8 @@ function Panchangam() {
 
                 {summaryState.status === "success" && data && (
                     <p className="rt-controls__status">
-                        {data.samvatsaraName} సంవత్సరం &nbsp;·&nbsp; {data.ugadiStart} → {data.ugadiEnd}
+                        {t("panchangam.yearWindowLabel", { samvatsara: samvatsaraName })}
+                        &nbsp;·&nbsp; {data.ugadiStart} → {data.ugadiEnd}
                     </p>
                 )}
             </Card>
