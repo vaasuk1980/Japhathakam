@@ -1,47 +1,47 @@
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 
-import DashaPeriodRow from "./DashaPeriodRow";
-import DashaGlance from "./DashaGlance";
+import DashaRunning from "./DashaRunning";
+import DashaTimeline from "./DashaTimeline";
+import DashaExplorer from "./DashaExplorer";
 import DeathDashaCheck from "./DeathDashaCheck";
-import isCurrentPeriod from "../../utils/dasha/isCurrentPeriod";
+import resolveCurrentDashaChain from "../../utils/dasha/resolveCurrentDashaChain";
 import { useTranslation } from "../../i18n/I18nContext";
 
 import "./DashaPanel.css";
 
+// Dasha periods are years/months long, so once a minute is plenty.
+const REFRESH_MS = 60000;
+
 /**
- * దశ (Dasha) panel — Trāitha Siddhānta Dasha System v1.0.
+ * Dasacharam — Trāitha Siddhānta Dasha System v1.0, on screen.
  *
- * Shows the person's full 12-Mahadasha timeline as an expandable
- * tree: Mahadasha -> Antardasha (both computed server-side) ->
- * Pratyantardasha -> Sukshmadasha -> Pranadasha (computed on demand
- * in the browser as each row is expanded — see DashaPeriodRow /
- * DashaSubdivisionEngine). The Mahadasha currently running (if any)
- * opens by default so the person can see where they are at a glance.
+ * Three stacked views of the same data: what is running right now
+ * (DashaRunning), the whole lifetime to scale (DashaTimeline), and
+ * a drill-down through every level down to Pranadasha
+ * (DashaExplorer). Screen-only: the printed/PDF report uses
+ * DashaFullBreakdown's tables instead (see print.css).
  */
 function DashaPanel({ dasha, timezone, natureByGraha, dateOfDeath, timeOfDeath }) {
 
     const { t } = useTranslation();
+    const [now, setNow] = useState(() => Date.now());
 
-    const activeMahadashaGraha = useMemo(() => {
+    useEffect(() => {
 
-        if (!dasha?.mahadashas) {
-            return null;
-        }
+        const timer = setInterval(() => setNow(Date.now()), REFRESH_MS);
+        return () => clearInterval(timer);
 
-        const active = dasha.mahadashas.find((mahadasha) => isCurrentPeriod(mahadasha));
-
-        return active?.graha ?? null;
-
-    }, [dasha]);
+    }, []);
 
     if (!dasha || !Array.isArray(dasha.mahadashas) || dasha.mahadashas.length === 0) {
         return null;
     }
 
-    // The birth Mahadasha always starts exactly at the birth
-    // moment (see DashaEngine.buildMahadashas) — reused here as
-    // the reference point for the Age column instead of asking
-    // the caller to also pass dateOfBirth/timeOfBirth separately.
+    const chain = resolveCurrentDashaChain(dasha, timezone, now);
+
+    // The birth Mahadasha always starts exactly at the birth moment
+    // (see DashaEngine.buildMahadashas) — the reference point for
+    // ages, instead of asking callers to pass the birth date again.
     const birthEpochMs = dasha.mahadashas[0].startEpochMs;
 
     return (
@@ -49,7 +49,19 @@ function DashaPanel({ dasha, timezone, natureByGraha, dateOfDeath, timeOfDeath }
 
             <h2 className="dasha-panel__title">{t("kundali.dashaTitle")}</h2>
 
-            <DashaGlance dasha={dasha} timezone={timezone} natureByGraha={natureByGraha} />
+            <DashaRunning
+                chain={chain}
+                timezone={timezone}
+                natureByGraha={natureByGraha}
+                now={now}
+            />
+
+            <DashaTimeline
+                dasha={dasha}
+                timezone={timezone}
+                natureByGraha={natureByGraha}
+                now={now}
+            />
 
             <DeathDashaCheck
                 dasha={dasha}
@@ -60,28 +72,13 @@ function DashaPanel({ dasha, timezone, natureByGraha, dateOfDeath, timeOfDeath }
                 timeOfDeath={timeOfDeath}
             />
 
-            <div className="dasha-panel__scroll">
-                <div className="dasha-panel__header-row">
-                    <span className="dasha-panel__header-graha">{t("kundali.planetaryPositions.colGraha")}</span>
-                    <span className="dasha-panel__header-range">{t("kundali.dashaTree.colRange")}</span>
-                    <span className="dasha-panel__header-age">{t("kundali.dashaTree.colAge")}</span>
-                    <span className="dasha-panel__header-duration">{t("kundali.dashaBreakdown.colDuration")}</span>
-                </div>
-
-                <div className="dasha-panel__tree">
-                    {dasha.mahadashas.map((mahadasha) => (
-                        <DashaPeriodRow
-                            key={`${mahadasha.graha}-${mahadasha.startEpochMs}`}
-                            period={mahadasha}
-                            depth={0}
-                            timezone={timezone}
-                            birthEpochMs={birthEpochMs}
-                            defaultExpanded={mahadasha.graha === activeMahadashaGraha}
-                            natureByGraha={natureByGraha}
-                        />
-                    ))}
-                </div>
-            </div>
+            <DashaExplorer
+                dasha={dasha}
+                chain={chain}
+                timezone={timezone}
+                natureByGraha={natureByGraha}
+                now={now}
+            />
 
         </section>
     );

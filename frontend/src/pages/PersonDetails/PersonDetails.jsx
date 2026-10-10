@@ -11,6 +11,8 @@ import KundaliRenderEngine from "../../kundali/engines/KundaliRenderEngine";
 import HoroscopeReport from "../../components/kundali/HoroscopeReport";
 import Button from "../../components/common/Button";
 import ConfirmDialog from "../../components/common/ConfirmDialog";
+import Sheet from "../../components/common/Sheet/Sheet";
+import { useTranslation } from "../../i18n/I18nContext";
 
 import "./PersonDetails.css";
 
@@ -48,8 +50,17 @@ function withDefaults(schema, person, forceDisabled) {
 
 }
 
+// The fields that define the chart — used to tell whether closing the
+// edit sheet left the on-screen report out of sync with the saved record.
+const CHART_FIELDS = [
+    "firstName", "lastName", "gender", "dateOfBirth", "timeOfBirth",
+    "placeOfBirth", "latitude", "longitude", "timezone",
+    "dateOfDeath", "timeOfDeath",
+];
+
 function PersonDetails() {
 
+    const { t } = useTranslation();
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
 
@@ -340,6 +351,29 @@ function PersonDetails() {
     // destructive on its own, only Save/Delete/Reset are.
     const requestEdit = () => setIsEditMode(true);
 
+    // Closing the sheet without saving discards the edit. If the user
+    // had already previewed the edited values (Generate Kundali), put
+    // the report back to the saved record so the page never shows a
+    // chart that doesn't match what is stored.
+    const closeEdit = () => {
+
+        setIsEditMode(false);
+        setLiveValues(null);
+
+        const previewed = requestState.values;
+
+        if (loadedPerson && previewed) {
+            const differs = CHART_FIELDS.some(
+                (field) => (previewed[field] ?? "") !== (loadedPerson[field] ?? "")
+            );
+
+            if (differs) {
+                generateKundali(loadedPerson);
+            }
+        }
+
+    };
+
     const cancelConfirm = () => setConfirmAction(null);
 
     const personForDisplayName = liveValues ?? requestState.values ?? loadedPerson;
@@ -388,95 +422,124 @@ function PersonDetails() {
         );
     }
 
+    // A saved person is shown as the report with a profile header; the
+    // form only appears (inline) for a brand-new entry, or in the Edit
+    // sheet for a saved one.
+    const isSavedPerson = Boolean(personId);
+
+    const personForm = (
+        <DynamicForm
+            key={`${personId ?? "new"}-${isEditMode}`}
+            schema={schema}
+            onSubmit={handleGenerate}
+            onValuesChange={setLiveValues}
+            formId={PERSON_FORM_ID}
+            hideSubmitButton
+            footer={(
+                <>
+                    <div className="person-actions">
+                        <Button
+                            type="submit"
+                            form={PERSON_FORM_ID}
+                            variant="primary"
+                            disabled={requestState.status === "loading"}
+                        >
+                            {requestState.status === "loading"
+                                ? "Generating..."
+                                : "Generate Kundali"}
+                        </Button>
+
+                        {/* Edit and Save Changes occupy the same slot — a
+                            saved person opens read-only (see fieldsAreReadOnly)
+                            showing Edit; clicking it unlocks the fields and
+                            swaps this in for Save Changes. */}
+                        {personId && !isEditMode && (
+                            <Button
+                                variant="secondary"
+                                onClick={requestEdit}
+                            >
+                                Edit
+                            </Button>
+                        )}
+
+                        {requestState.status === "success" && (!personId || isEditMode) && (
+                            <Button
+                                variant="secondary"
+                                onClick={requestSave}
+                                disabled={saveState.status === "saving"}
+                            >
+                                {saveState.status === "saving"
+                                    ? "Saving..."
+                                    : personId ? "Save Changes" : "Save"}
+                            </Button>
+                        )}
+
+                        {personId && (
+                            <Button
+                                variant="secondary"
+                                onClick={requestReset}
+                            >
+                                Reset
+                            </Button>
+                        )}
+
+                        {personId && (
+                            <Button
+                                variant="danger"
+                                onClick={requestDelete}
+                                disabled={deleteState.status === "deleting"}
+                            >
+                                {deleteState.status === "deleting" ? "Deleting..." : "Delete"}
+                            </Button>
+                        )}
+
+                        {saveState.status === "saved" && (
+                            <span className="person-actions__status">Successfully saved changes</span>
+                        )}
+                    </div>
+
+                    {requestState.status === "error" && (
+                        <div className="person-actions__error">{requestState.error}</div>
+                    )}
+
+                    {saveState.status === "error" && (
+                        <div className="person-actions__error">{saveState.error}</div>
+                    )}
+
+                    {deleteState.status === "error" && (
+                        <div className="person-actions__error">{deleteState.error}</div>
+                    )}
+                </>
+            )}
+        />
+    );
+
     return (
         <div>
 
-            <h1 className="page-title person-details__title no-print">Person Details</h1>
+            {!isSavedPerson && (
+                <>
+                    <h1 className="page-title person-details__title no-print">Person Details</h1>
 
-            <DynamicForm
-                key={`${personId ?? "new"}-${isEditMode}`}
-                schema={schema}
-                onSubmit={handleGenerate}
-                onValuesChange={setLiveValues}
-                formId={PERSON_FORM_ID}
-                hideSubmitButton
-                footer={(
-                    <>
-                        <div className="person-actions">
-                            <Button
-                                type="submit"
-                                form={PERSON_FORM_ID}
-                                variant="primary"
-                                disabled={requestState.status === "loading"}
-                            >
-                                {requestState.status === "loading"
-                                    ? "Generating..."
-                                    : "Generate Kundali"}
-                            </Button>
+                    {personForm}
+                </>
+            )}
 
-                            {/* Edit and Save Changes occupy the same slot — a
-                                saved person opens read-only (see fieldsAreReadOnly)
-                                showing Edit; clicking it unlocks the fields and
-                                swaps this in for Save Changes. */}
-                            {personId && !isEditMode && (
-                                <Button
-                                    variant="secondary"
-                                    onClick={requestEdit}
-                                >
-                                    Edit
-                                </Button>
-                            )}
+            {isSavedPerson && (
+                <>
+                    {saveState.status === "saved" && (
+                        <div className="person-details__banner">{t("personDetails.saved")}</div>
+                    )}
 
-                            {requestState.status === "success" && (!personId || isEditMode) && (
-                                <Button
-                                    variant="secondary"
-                                    onClick={requestSave}
-                                    disabled={saveState.status === "saving"}
-                                >
-                                    {saveState.status === "saving"
-                                        ? "Saving..."
-                                        : personId ? "Save Changes" : "Save"}
-                                </Button>
-                            )}
+                    {requestState.status === "loading" && (
+                        <div className="person-details__status">{t("personDetails.generating")}</div>
+                    )}
 
-                            {personId && (
-                                <Button
-                                    variant="secondary"
-                                    onClick={requestReset}
-                                >
-                                    Reset
-                                </Button>
-                            )}
-
-                            {personId && (
-                                <Button
-                                    variant="danger"
-                                    onClick={requestDelete}
-                                    disabled={deleteState.status === "deleting"}
-                                >
-                                    {deleteState.status === "deleting" ? "Deleting..." : "Delete"}
-                                </Button>
-                            )}
-
-                            {saveState.status === "saved" && (
-                                <span className="person-actions__status">Successfully saved changes</span>
-                            )}
-                        </div>
-
-                        {requestState.status === "error" && (
-                            <div className="person-actions__error">{requestState.error}</div>
-                        )}
-
-                        {saveState.status === "error" && (
-                            <div className="person-actions__error">{saveState.error}</div>
-                        )}
-
-                        {deleteState.status === "error" && (
-                            <div className="person-actions__error">{deleteState.error}</div>
-                        )}
-                    </>
-                )}
-            />
+                    {requestState.status === "error" && (
+                        <div className="person-actions__error">{requestState.error}</div>
+                    )}
+                </>
+            )}
 
             {requestState.status === "success" && (
                 <HoroscopeReport
@@ -484,7 +547,14 @@ function PersonDetails() {
                     kundaliDocument={requestState.kundaliDocument}
                     renderLayout={requestState.renderLayout}
                     personId={personId}
+                    onEdit={isSavedPerson ? requestEdit : undefined}
                 />
+            )}
+
+            {isSavedPerson && isEditMode && (
+                <Sheet title={t("kundali.reportNav.editTitle")} onClose={closeEdit}>
+                    {personForm}
+                </Sheet>
             )}
 
             <ConfirmDialog

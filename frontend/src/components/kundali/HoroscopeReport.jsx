@@ -12,6 +12,12 @@ import resolveAgeAtEpoch from "../../utils/age/resolveAgeAtEpoch";
 import formatAgeYMD from "../../utils/age/formatAgeYMD";
 import Button from "../common/Button";
 import PersonService from "../../services/PersonService";
+import ReportJumpBar from "./ReportJumpBar";
+import NatureMark from "./NatureMark";
+import { grahaName } from "../../kundali/constants/DashaGrahaNames";
+import { rasiForLongitude } from "../../kundali/constants/RasiNames";
+import resolveCurrentDashaChain from "../../utils/dasha/resolveCurrentDashaChain";
+import { useTranslation } from "../../i18n/I18nContext";
 
 import "./HoroscopeReport.css";
 
@@ -47,7 +53,9 @@ function buildNatureByGraha(kundaliDocument) {
  * internal logic/title, this component only supplies the shared
  * page frame and section order.
  */
-function HoroscopeReport({ values, kundaliDocument, renderLayout, personId }) {
+function HoroscopeReport({ values, kundaliDocument, renderLayout, personId, onEdit }) {
+
+    const { t, language } = useTranslation();
 
     // Which language's PDF is currently being generated, if any — not
     // a plain boolean, since either of the two Save PDF buttons can
@@ -58,6 +66,7 @@ function HoroscopeReport({ values, kundaliDocument, renderLayout, personId }) {
 
     const reportRef = useRef(null);
     const mastheadRef = useRef(null);
+    const jumpBarRef = useRef(null);
 
     // Publishes the masthead's actual rendered height as a CSS custom
     // property (rather than a guessed pixel value) so every section
@@ -79,11 +88,24 @@ function HoroscopeReport({ values, kundaliDocument, renderLayout, personId }) {
         // height, i.e. the masthead's true occupied space (padding and
         // its bottom border included), which is what section titles
         // actually need to clear.
-        const observer = new ResizeObserver(() => {
-            reportEl.style.setProperty("--masthead-height", `${mastheadEl.offsetHeight}px`);
-        });
+        const jumpBarEl = jumpBarRef.current;
+
+        // The jump bar pins right under the masthead, so section
+        // titles must clear BOTH — their combined height is what is
+        // published.
+        const publish = () => {
+            const total = mastheadEl.offsetHeight + (jumpBarEl ? jumpBarEl.offsetHeight : 0);
+            reportEl.style.setProperty("--masthead-height", `${total}px`);
+            reportEl.style.setProperty("--jumpbar-top", `${mastheadEl.offsetHeight}px`);
+        };
+
+        const observer = new ResizeObserver(publish);
 
         observer.observe(mastheadEl);
+
+        if (jumpBarEl) {
+            observer.observe(jumpBarEl);
+        }
 
         return () => observer.disconnect();
 
@@ -98,6 +120,27 @@ function HoroscopeReport({ values, kundaliDocument, renderLayout, personId }) {
         .join(" ");
 
     const natureByGraha = buildNatureByGraha(kundaliDocument);
+
+    // At-a-glance facts for the profile header.
+    const lagna = kundaliDocument.janmaChart?.lagna;
+    const lagnaRasi = lagna ? rasiForLongitude(lagna.longitude) : null;
+
+    let moon = null;
+
+    (kundaliDocument.janmaChart?.cells ?? []).forEach((cell) => {
+        (cell.grahas || []).forEach((graha) => {
+            if (graha.code === "MOON") {
+                moon = graha;
+            }
+        });
+    });
+
+    const moonRasi = moon ? rasiForLongitude(moon.longitude) : null;
+    const pick = (rasi) => (rasi ? (language === "te" ? rasi.tel : rasi.en) : null);
+
+    const runningChain = resolveCurrentDashaChain(kundaliDocument.dasha, values.timezone);
+    const runningMaha = runningChain?.mahadasha;
+    const runningAntar = runningChain?.antardasha;
 
     // The PDF is generated server-side (Puppeteer — see
     // backend/src/services/HoroscopePdfService.js) rather than via
@@ -183,6 +226,11 @@ function HoroscopeReport({ values, kundaliDocument, renderLayout, personId }) {
 
                 <div className="horoscope-report__save-pdf">
                     <div className="horoscope-report__save-pdf-buttons">
+                        {onEdit && (
+                            <Button variant="secondary" onClick={onEdit}>
+                                {t("kundali.reportNav.edit")}
+                            </Button>
+                        )}
                         <Button
                             variant="primary"
                             onClick={() => handleSavePdf("te")}
@@ -203,6 +251,50 @@ function HoroscopeReport({ values, kundaliDocument, renderLayout, personId }) {
                     )}
                 </div>
             </div>
+
+            <div className="horoscope-report__keyfacts no-print">
+                {lagnaRasi && (
+                    <div className="keyfact">
+                        <span className="keyfact__label">{t("kundali.reportNav.lagna")}</span>
+                        <span className="keyfact__value">{pick(lagnaRasi)}</span>
+                    </div>
+                )}
+
+                {moonRasi && (
+                    <div className="keyfact">
+                        <span className="keyfact__label">{t("kundali.reportNav.moon")}</span>
+                        <span className="keyfact__value">
+                            {pick(moonRasi)}
+                            {moon?.nakshatra && (
+                                <span className="keyfact__sub">
+                                    {" · "}
+                                    {language === "te" ? moon.nakshatra.teluguName : moon.nakshatra.englishName}
+                                    {moon.pada ? ` - ${moon.pada}` : ""}
+                                </span>
+                            )}
+                        </span>
+                    </div>
+                )}
+
+                {runningMaha && (
+                    <div className="keyfact keyfact--wide">
+                        <span className="keyfact__label">{t("kundali.reportNav.running")}</span>
+                        <span className="keyfact__value">
+                            <NatureMark nature={(natureByGraha[runningMaha.graha] ?? "").toLowerCase()} />
+                            {grahaName(runningMaha.graha, language)}
+                            {runningAntar && (
+                                <>
+                                    <span className="keyfact__sep">›</span>
+                                    <NatureMark nature={(natureByGraha[runningAntar.graha] ?? "").toLowerCase()} />
+                                    {grahaName(runningAntar.graha, language)}
+                                </>
+                            )}
+                        </span>
+                    </div>
+                )}
+            </div>
+
+            <ReportJumpBar reportRef={reportRef} barRef={jumpBarRef} />
 
             <PanchangamDetails
                 kundaliDocument={kundaliDocument}

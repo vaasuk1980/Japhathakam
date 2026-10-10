@@ -1,9 +1,7 @@
 /* ==========================================================
-   Dasha Panel — Trāitha Siddhānta Dasha System v1.0
+   Dasacharam (screen only — print uses DashaFullBreakdown)
    ----------------------------------------------------------
-   An expandable Mahadasha -> Antardasha -> Pratyantardasha ->
-   Sukshmadasha -> Pranadasha tree, styled with the shared
-   Japhathakam design tokens (see styles/variables.css).
+   Running-now card, to-scale lifetime timeline, drill-down list.
    ========================================================== */
 
 .dasha-panel {
@@ -14,22 +12,22 @@
     border-radius: var(--radius-lg);
 
     padding: var(--spacing-lg);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
 }
 
 .dasha-panel__title {
     /* Bleeds to the card's own edges (undoing its own padding/
        corner radius) so the fill reads as a full-width title bar. */
-    margin: calc(-1 * var(--spacing-lg)) calc(-1 * var(--spacing-lg)) var(--spacing-md);
+    margin: calc(-1 * var(--spacing-lg)) calc(-1 * var(--spacing-lg)) 0;
 
     padding: var(--spacing-sm) var(--spacing-lg);
 
     /* Pins under the person-name masthead while this section is in
-       view, handing off to the next section's title — see
-       PanchangamDetails.css's .pd-table-title for the full
-       explanation. Reset for print in print.css. */
+       view — see PanchangamDetails.css's .pd-table-title. */
     position: sticky;
-    /* See PanchangamDetails.css's .pd-table-title for why
-       --page-padding is subtracted back out here. */
     top: calc(var(--masthead-height, 64px) - var(--page-padding));
     z-index: 4;
 
@@ -42,218 +40,646 @@
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
-/* Punya/Papa (Tritha Siddhantha) — same classification and colors
-   as the Planetary Positions table and Kundali chart. */
-.dasha-row__graha--papa {
-    color: var(--jp-color-negative);
-}
+/* ---------- Shared: graha chips ---------- */
 
-.dasha-row__graha--punya {
-    color: var(--jp-color-success);
-}
-
-/* Header row + tree scroll together as one unit, so the column
-   headers stay aligned with the rows beneath them on screens too
-   narrow for every fixed-width column (graha/duration/age/badge —
-   see below) to fit without one of them getting crushed illegibly. */
-.dasha-panel__scroll {
-    overflow-x: auto;
-}
-
-/* Header and data rows share this exact column template (chevron
-   spacer / graha / date-range / age / duration) so they line up
-   pixel-for-pixel regardless of content — grid, rather than flex
-   + hand-matched widths, is what actually guarantees that; the
-   previous flex layout let header and row columns drift apart
-   (a stretchy date-range column plus an unused trailing badge
-   slot only on data rows) enough to visibly misalign. Age sits
-   directly after the date range now, left-aligned, instead of
-   being pushed to the far right past a stretchy gap. */
-.dasha-panel__header-row,
-.dasha-row {
-    display: grid;
-    /* Graha widened from 60px — DashaPeriodRow now shows the full
-       Telugu name (DASHA_GRAHA_NAMES, e.g. "చంద్ర") rather than
-       GrahaDisplayMapper's short abbreviation, and full names run
-       noticeably wider. Range/Age/Duration sized to keep every row
-       on one line, not wrap (see .dasha-row__range/__age/__duration
-       below for the wrap-safety net that's only a fallback for
-       anything wider than this). Telugu unit words (సం/నె/ది — see
-       translateDurationDisplay) run noticeably wider than "y"/"m"/"d",
-       so these need real headroom for the worst real case: a
-       triple-digit age near the end of the 120-year Dasha cycle,
-       e.g. "107 సం 4 నె 13 ది → 117 సం 4 నె 14 ది". */
-    grid-template-columns: 14px 120px 460px 480px 220px;
+.dasha-chip {
+    display: inline-flex;
     align-items: center;
-    column-gap: var(--spacing-sm);
+    gap: 6px;
+
+    padding: 4px 12px;
+
+    font-size: var(--font-size-md);
+    font-weight: var(--font-semibold);
+
+    color: var(--jp-color-text-primary);
+    background: var(--jp-color-background);
+    border-radius: var(--radius-pill);
 }
 
-.dasha-panel__header-row {
-    min-width: 1340px;
+.dasha-chip--punya {
+    color: var(--jp-color-success);
+    background: var(--jp-color-success-bg);
+}
 
-    padding: 6px 12px;
+.dasha-chip--papa {
+    color: var(--jp-color-negative);
+    background: var(--jp-color-danger-bg);
+}
 
-    border-bottom: 2px solid var(--jp-color-primary);
+/* ---------- Running now ---------- */
 
-    font-size: var(--font-size-report-label);
+.dasha-running {
+    padding: var(--spacing-md) var(--spacing-lg);
+
+    background: var(--jp-color-accent-soft);
+    border: 1px solid var(--jp-color-border);
+    border-left: 4px solid var(--jp-color-primary);
+    border-radius: var(--radius-md);
+}
+
+.dasha-running__header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.dasha-running__title {
+    margin: 0;
+
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-text-primary);
+}
+
+.dasha-running__live {
+    padding: 1px 8px;
+
+    font-size: var(--font-size-xs);
     font-weight: var(--font-semibold);
     text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--jp-color-report-label);
+    letter-spacing: 0.05em;
+
+    color: #fff;
+    background: var(--jp-color-primary);
+    border-radius: var(--radius-pill);
 }
 
-/* Empty first cell — spacer matching the chevron column in data
-   rows below, so "గ్రహం" lines up with the graha glyph, not the
-   chevron toggle. */
-.dasha-panel__header-graha {
-    grid-column: 2;
+.dasha-running__chain {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-xs) var(--spacing-sm);
+
+    margin: var(--spacing-md) 0;
 }
 
-.dasha-panel__header-range {
-    grid-column: 3;
+.dasha-running__chain .dasha-chip {
+    background: var(--jp-color-surface);
+    box-shadow: var(--shadow-sm);
 }
 
-.dasha-panel__header-age {
-    grid-column: 4;
-    text-align: left;
+.dasha-running__chain .dasha-chip--punya {
+    background: var(--jp-color-success-bg);
 }
 
-.dasha-panel__header-duration {
-    grid-column: 5;
-    text-align: left;
-
-    /* Extra breathing room from Age — the standard column-gap alone
-       reads as almost touching Age's own content, since Age's text
-       ("37 y 10 m 4 d → 47 y 10 m 4 d" style) often runs close to its own
-       column's right edge. */
-    margin-left: var(--spacing-md);
+.dasha-running__chain .dasha-chip--papa {
+    background: var(--jp-color-danger-bg);
 }
 
-.dasha-panel__tree {
-    min-width: 1340px;
+.dasha-running__sep {
+    color: var(--jp-color-text-muted);
+    font-size: var(--font-size-lg);
+}
 
-    border: 1px solid var(--jp-color-border);
-    border-top: none;
-    border-radius: 0 0 var(--radius-md) var(--radius-md);
+.dasha-running__levels {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.dasha-running__level {
+    display: grid;
+    grid-template-columns: 230px 120px minmax(0, 1.4fr) minmax(80px, 1fr) 150px;
+    align-items: center;
+    column-gap: var(--spacing-md);
+
+    padding: 8px 0;
+
+    border-top: 1px solid rgba(37, 99, 235, 0.14);
+}
+
+.dasha-running__level-label {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+
+    /* The stair: each level sits one step further in. */
+    padding-left: calc(var(--step, 0) * 22px);
+
+    font-size: var(--font-size-sm);
+    color: var(--jp-color-text-secondary);
+}
+
+/* Elbow connector from the level above. */
+.dasha-running__elbow {
+    position: absolute;
+    left: calc((var(--step, 0) - 1) * 22px + 9px);
+    top: -14px;
+
+    width: 12px;
+    height: 24px;
+
+    border-left: 2px solid var(--jp-color-border-strong);
+    border-bottom: 2px solid var(--jp-color-border-strong);
+    border-bottom-left-radius: 6px;
+}
+
+/* Neutral numbered level chip — level by position + number, never by hue. */
+.dasha-level-num {
+    flex: none;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 20px;
+    height: 20px;
+
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-semibold);
+    font-variant-numeric: tabular-nums;
+
+    color: var(--jp-color-text-secondary);
+    background: var(--jp-color-surface);
+    border: 1px solid var(--jp-color-border-strong);
+    border-radius: 50%;
+}
+
+/* Punya (filled circle) / Papa (diamond): nature without relying on colour. */
+.nature-mark {
+    flex: none;
+    display: inline-block;
+    position: relative;
+}
+
+/* Telugu (JIMS) has a tall line box with its ink sitting high in it,
+   so a mark centred on the line lands ~3-4px low next to the glyphs
+   (measured on the rendered pixels). Lift it by a fraction of the
+   font size so it scales with the text; Latin text is already within
+   half a pixel. */
+:lang(te) .nature-mark {
+    top: -0.26em;
+}
+
+:lang(te) .dasha-timeline__name .nature-mark {
+    top: -0.15em;
+}
+
+/* Larger (16px) names need a smaller fraction of the same lift. */
+:lang(te) .dasha-explorer__name .nature-mark {
+    top: -0.18em;
+}
+
+.nature-mark--punya {
+    width: 9px;
+    height: 9px;
+
+    background: var(--jp-color-success);
+    border-radius: 50%;
+}
+
+.nature-mark--papa {
+    width: 8px;
+    height: 8px;
+    margin: 0 1px;
+
+    background: var(--jp-color-negative);
+    transform: rotate(45deg);
+}
+
+.dasha-running__level-graha {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-text-primary);
+}
+
+.dasha-running__level-graha--punya { color: var(--jp-color-success); }
+.dasha-running__level-graha--papa  { color: var(--jp-color-negative); }
+
+.dasha-running__level-range {
+    font-size: var(--font-size-md);
+    color: var(--jp-color-text-primary);
+    font-variant-numeric: tabular-nums;
+}
+
+.dasha-running__level-bar,
+.dasha-explorer__bar {
+    display: block;
+    height: 6px;
+
+    background: rgba(37, 99, 235, 0.16);
+    border-radius: var(--radius-pill);
     overflow: hidden;
 }
 
-.dasha-row {
-    width: 100%;
+.dasha-running__level-bar > span,
+.dasha-explorer__bar > span {
+    display: block;
+    height: 100%;
 
-    padding: 8px 12px 8px 0;
+    background: var(--jp-color-primary);
+    border-radius: var(--radius-pill);
+}
 
-    border: none;
-    border-bottom: 1px solid var(--jp-color-border);
-    background: var(--jp-color-surface);
+.dasha-running__level-left {
+    font-size: var(--font-size-sm);
+    color: var(--jp-color-text-secondary);
+    text-align: right;
+}
 
-    font-family: var(--font-family);
-    font-size: var(--font-size-report);
+/* ---------- Lifetime timeline (to scale) ---------- */
+
+.dasha-timeline {
+    border: 1px solid var(--jp-color-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.dasha-timeline__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+
+    margin-bottom: var(--spacing-lg);
+}
+
+.dasha-timeline__title {
+    margin: 0;
+
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-semibold);
     color: var(--jp-color-text-primary);
-    text-align: left;
-    cursor: pointer;
-
-    transition: background var(--transition-fast);
 }
 
-.dasha-row-group:last-child > .dasha-row {
-    border-bottom: none;
+.dasha-timeline__total {
+    font-size: var(--font-size-sm);
+    color: var(--jp-color-text-muted);
 }
 
-.dasha-row:hover:not(.dasha-row--leaf) {
+.dasha-timeline__scroll {
+    overflow-x: auto;
+    padding-top: 22px; /* room for the "Today" label */
+}
+
+.dasha-timeline__canvas {
+    min-width: 860px;
+}
+
+.dasha-timeline__track {
+    position: relative;
+    display: flex;
+
+    height: 56px;
+}
+
+.dasha-timeline__block {
+    box-sizing: border-box;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+
+    overflow: hidden;
+
+    color: var(--jp-color-text-primary);
     background: var(--jp-color-background);
+    border-right: 2px solid var(--jp-color-surface);
 }
 
-.dasha-row--leaf {
+.dasha-timeline__block:first-child {
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
+}
+
+.dasha-timeline__block:last-child {
+    border-right: none;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.dasha-timeline__block--punya {
+    color: var(--jp-color-success);
+    background: var(--jp-color-success-bg);
+}
+
+.dasha-timeline__block--papa {
+    color: var(--jp-color-negative);
+    background: var(--jp-color-danger-bg);
+}
+
+.dasha-timeline__block--current {
+    outline: 2px solid var(--jp-color-primary);
+    outline-offset: -2px;
+}
+
+.dasha-timeline__name {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+
+    max-width: 100%;
+    padding: 0 4px;
+
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-semibold);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dasha-timeline__years {
+    font-size: var(--font-size-xs);
+    white-space: nowrap;
+    color: var(--jp-color-text-secondary);
+}
+
+.dasha-timeline__today {
+    position: absolute;
+    top: -6px;
+    bottom: -6px;
+    width: 2px;
+
+    background: var(--jp-color-primary);
+    transform: translateX(-1px);
+    pointer-events: none;
+}
+
+.dasha-timeline__today-label {
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    padding: 1px 8px;
+
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-semibold);
+    color: #fff;
+    background: var(--jp-color-primary);
+    border-radius: var(--radius-pill);
+}
+
+.dasha-timeline__axis {
+    position: relative;
+    height: 24px;
+    margin-top: var(--spacing-sm);
+
+    border-top: 1px solid var(--jp-color-border);
+}
+
+.dasha-timeline__tick {
+    position: absolute;
+    top: 4px;
+    transform: translateX(-50%);
+
+    font-size: var(--font-size-xs);
+    color: var(--jp-color-text-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.dasha-timeline__tick--start { transform: none; }
+.dasha-timeline__tick--end   { transform: translateX(-100%); }
+
+/* ---------- Drill-down explorer ---------- */
+
+.dasha-explorer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.dasha-explorer__levels {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+
+    padding: 2px;
+
+    background: var(--jp-color-border);
+    border-radius: 9px;
+    overflow-x: auto;
+}
+
+.dasha-explorer__level {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    min-height: 32px;
+    padding: 0 10px;
+
+    font-family: inherit;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-semibold);
+    white-space: nowrap;
+
+    color: var(--jp-color-text-secondary);
+    background: none;
+    border: 0;
+    border-radius: 7px;
+
+    cursor: pointer;
+}
+
+.dasha-explorer__level.is-active {
+    color: var(--jp-color-text-primary);
+    background: var(--jp-color-surface);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.dasha-explorer__level:disabled {
+    opacity: 0.4;
     cursor: default;
 }
 
-.dasha-row--current {
-    background: var(--jp-color-success-bg);
+.dasha-explorer__crumbs {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2px;
 }
 
-.dasha-row--current:hover {
-    background: var(--jp-color-success-bg);
-}
-
-.dasha-row__chevron {
+.dasha-explorer__crumb-wrap {
     display: inline-flex;
     align-items: center;
-
     color: var(--jp-color-text-muted);
-    transition: transform var(--transition-fast);
 }
 
-.dasha-row__chevron--open {
-    transform: rotate(90deg);
+.dasha-explorer__crumb {
+    padding: 2px 6px;
+
+    font-family: inherit;
+    font-size: var(--font-size-md);
+
+    color: var(--jp-color-primary);
+    background: none;
+    border: 0;
+    border-radius: var(--radius-sm);
+
+    cursor: pointer;
 }
 
-.dasha-row__graha {
+.dasha-explorer__crumb.is-current {
+    color: var(--jp-color-text-primary);
     font-weight: var(--font-semibold);
-
-    min-width: 0;
-    overflow-wrap: break-word;
+    cursor: default;
 }
 
-/* Range/Age/Duration digits opt out of the app-wide digit size-adjust
-   (fonts.css' "Segoe UI Numerals" face, scoped for Telugu-adjacent
-   digits) so numbers render at the same size as their own unit
-   letters/words instead of ~10% smaller, matching the fix already
-   applied to the Horoscope Report masthead. Duration/Age's unit
-   letters become Telugu words in Telugu mode (see
-   translateDurationDisplay) — noticeably wider than "y"/"m"/"d", and
-   each grid row is its own independent grid (for header/row column
-   alignment — see the shared grid-template-columns above), so a
-   fixed column here can't grow to fit an unusually wide value the
-   way a single shared table would. min-width: 0 (overriding grid's
-   own default of auto, which floors a track at its content's widest
-   unbreakable run) + allowing wrap is what actually prevents that
-   overflowing into the next column instead of just widening this
-   one — a hard column-width guess alone can't cover every language
-   x every possible age/duration digit-count combination. */
-.dasha-row__range {
+.dasha-explorer__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    border: 1px solid var(--jp-color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.dasha-explorer__list > li + li {
+    border-top: 1px solid var(--jp-color-border);
+}
+
+.dasha-explorer__row {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
-    gap: var(--spacing-sm);
+    gap: var(--spacing-md);
 
-    min-width: 0;
-    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    font-variant-numeric: tabular-nums;
-    color: var(--jp-color-text-secondary);
+    width: 100%;
+    min-height: 56px;
+    padding: 10px var(--spacing-md);
+
+    font-family: inherit;
+    text-align: left;
+
+    color: var(--jp-color-text-primary);
+    background: var(--jp-color-surface);
+    border: 0;
 }
 
-.dasha-row__arrow {
+button.dasha-explorer__row {
+    cursor: pointer;
+}
+
+button.dasha-explorer__row:hover {
+    background: var(--jp-color-hover);
+}
+
+.dasha-explorer__row.is-current {
+    background: var(--jp-color-accent-soft);
+    box-shadow: inset 3px 0 0 var(--jp-color-primary);
+}
+
+.dasha-explorer__main {
+    flex: 1;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.dasha-explorer__name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-semibold);
+}
+
+.dasha-explorer__badge {
+    padding: 0 8px;
+
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    color: #fff;
+    background: var(--jp-color-primary);
+    border-radius: var(--radius-pill);
+}
+
+.dasha-explorer__range {
+    font-size: var(--font-size-md);
+    color: var(--jp-color-text-secondary);
+    font-variant-numeric: tabular-nums;
+}
+
+.dasha-explorer__bar {
+    max-width: 280px;
+    margin-top: 2px;
+}
+
+.dasha-explorer__meta {
+    flex: none;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+}
+
+.dasha-explorer__duration {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-semibold);
+}
+
+.dasha-explorer__age {
+    font-size: var(--font-size-sm);
     color: var(--jp-color-text-muted);
 }
 
-.dasha-row__duration {
-    text-align: left;
-    margin-left: var(--spacing-md);
-
-    min-width: 0;
-    overflow-wrap: break-word;
-    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    font-variant-numeric: tabular-nums;
-    color: var(--jp-color-text-secondary);
+.dasha-explorer__chev {
+    flex: none;
+    color: var(--jp-color-text-muted);
 }
 
-/* Age (Prarabham -> Mugimpu) — the person's calendar-accurate age
-   at this period's start and end, distinct from Duration (the
-   period's own length) and from the Start/End calendar dates. */
-.dasha-row__age {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: flex-start;
-    gap: var(--spacing-sm);
+/* ---------- Phones ---------- */
 
-    min-width: 0;
-    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    font-variant-numeric: tabular-nums;
-    color: var(--jp-color-text-secondary);
-}
+@media (max-width: 767px) {
+    .dasha-running__level-label {
+        padding-left: calc(var(--step, 0) * 12px);
+    }
 
-.dasha-row-children {
-    background: var(--jp-color-background);
+    .dasha-running__elbow {
+        display: none;
+    }
+
+    .dasha-running__level {
+        grid-template-columns: 1fr auto;
+        row-gap: 4px;
+    }
+
+    .dasha-running__level-label {
+        grid-column: 1;
+    }
+
+    .dasha-running__level-graha {
+        grid-column: 2;
+        text-align: right;
+    }
+
+    .dasha-running__level-range {
+        grid-column: 1 / -1;
+    }
+
+    .dasha-running__level-bar {
+        grid-column: 1;
+    }
+
+    .dasha-running__level-left {
+        grid-column: 2;
+    }
+
+    .dasha-explorer__row {
+        gap: var(--spacing-sm);
+    }
+
+    .dasha-explorer__age {
+        display: none;
+    }
 }

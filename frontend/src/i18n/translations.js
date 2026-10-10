@@ -15,6 +15,10 @@ const en = {
         searchNoResults: "No matching horoscopes.",
         searchViewAll: "View all results for \"{{query}}\"",
     },
+    personDetails: {
+        saved: "Successfully saved changes",
+        generating: "Generating Kundali…",
+    },
     sidebar: {
         dashboard: "Dashboard",
         birthDetails: "Birth Details",
@@ -119,6 +123,7 @@ const en = {
         dashaTitle: "Dasacharam",
         panchangamDetailsTitle: "Panchangam Details",
         janmaKundaliTitle: "Janma Kundali",
+        birthMoment: "Birth moment",
         gocharaKundaliTitle: "Gochara Kundali",
         panchangamGrid: {
             dob: "DOB",
@@ -148,6 +153,27 @@ const en = {
         dashaTree: {
             colRange: "Start → End",
             colAge: "Age (Start → End)",
+        },
+        reportNav: {
+            label: "Report sections",
+            kundali: "Kundalis",
+            grahas: "Graha positions",
+            dasha: "Dasacharam",
+            panchangam: "Panchangam",
+            lagna: "Lagna",
+            moon: "Moon",
+            running: "Running Dasha",
+            edit: "Edit",
+            editTitle: "Edit birth details",
+        },
+        dashaUi: {
+            runningTitle: "Running now",
+            live: "Live",
+            running: "Running",
+            today: "Today",
+            all: "All Mahadashas",
+            left: "{{time}} left",
+            age: "Age {{from}}–{{to}}",
         },
         dashaGlance: {
             timelineTitle: "Mahadasha Cycle (from birth)",
@@ -227,6 +253,10 @@ const te = {
         searchPlaceholder: "పేరు లేదా జనన స్థలం ద్వారా వెతకండి…",
         searchNoResults: "సరిపోలే జాతకములు లేవు.",
         searchViewAll: "\"{{query}}\" కొరకు అన్ని ఫలితాలు చూడండి",
+    },
+    personDetails: {
+        saved: "మార్పులు విజయవంతంగా సేవ్ అయ్యాయి",
+        generating: "కుండలి తయారవుతోంది…",
     },
     sidebar: {
         dashboard: "డాష్‌బోర్డ్",
@@ -332,6 +362,7 @@ const te = {
         dashaTitle: "దశాచారం",
         panchangamDetailsTitle: "పంచాంగం",
         janmaKundaliTitle: "జన్మ కుండలి",
+        birthMoment: "జనన సమయం",
         gocharaKundaliTitle: "గోచార కుండలి",
         panchangamGrid: {
             dob: "పుట్టిన తేదీ",
@@ -361,6 +392,27 @@ const te = {
         dashaTree: {
             colRange: "ప్రారంభం → ముగింపు",
             colAge: "వయస్సు (ప్రారంభం → ముగింపు)",
+        },
+        reportNav: {
+            label: "నివేదిక విభాగాలు",
+            kundali: "కుండలులు",
+            grahas: "గ్రహ స్థితి",
+            dasha: "దశాచారం",
+            panchangam: "పంచాంగం",
+            lagna: "లగ్నం",
+            moon: "చంద్రుడు",
+            running: "ప్రస్తుత దశ",
+            edit: "సవరించు",
+            editTitle: "జనన వివరాలను సవరించండి",
+        },
+        dashaUi: {
+            runningTitle: "ఇప్పుడు జరుగుతున్నది",
+            live: "ప్రస్తుతం",
+            running: "జరుగుతోంది",
+            today: "ఈరోజు",
+            all: "అన్ని మహాదశలు",
+            left: "{{time}} మిగిలింది",
+            age: "వయస్సు {{from}}–{{to}}",
         },
         dashaGlance: {
             timelineTitle: "మహాదశా చక్రం (జనన సమయం నుండి)",

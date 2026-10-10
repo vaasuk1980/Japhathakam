@@ -143,3 +143,132 @@
         align-items: flex-start;
     }
 }
+
+/* ==========================================================
+   Profile header: key facts + jump bar (screen only — both carry
+   .no-print, and the reorder below lives in a screen media query,
+   so the PDF's DOM order and layout are untouched).
+   ========================================================== */
+
+.horoscope-report__keyfacts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: var(--spacing-sm);
+}
+
+.keyfact {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    padding: var(--spacing-sm) var(--spacing-md);
+
+    background: var(--jp-color-surface);
+    border: 1px solid var(--jp-color-border);
+    border-radius: var(--radius-md);
+}
+
+.keyfact--wide {
+    grid-column: span 2;
+}
+
+.keyfact__label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--jp-color-text-muted);
+}
+
+.keyfact__value {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-text-primary);
+}
+
+.keyfact__sub {
+    font-weight: var(--font-medium);
+    color: var(--jp-color-text-secondary);
+}
+
+.keyfact__sep {
+    color: var(--jp-color-text-muted);
+}
+
+.report-jumpbar {
+    position: sticky;
+    top: calc(var(--jumpbar-top, 64px) - var(--page-padding));
+    z-index: 5;
+
+    display: flex;
+    gap: var(--spacing-xs);
+
+    padding: var(--spacing-xs) 0;
+
+    background: var(--jp-color-background);
+    overflow-x: auto;
+}
+
+.report-jumpbar__item {
+    flex: none;
+
+    padding: 6px 14px;
+
+    font-family: inherit;
+    font-size: var(--font-size-md);
+    font-weight: var(--font-semibold);
+    white-space: nowrap;
+
+    color: var(--jp-color-text-secondary);
+    background: var(--jp-color-surface);
+    border: 1px solid var(--jp-color-border);
+    border-radius: var(--radius-pill);
+
+    cursor: pointer;
+}
+
+.report-jumpbar__item:hover {
+    color: var(--jp-color-text-primary);
+}
+
+.report-jumpbar__item.is-active {
+    color: #fff;
+    background: var(--jp-color-primary);
+    border-color: var(--jp-color-primary);
+}
+
+/* On screen only: reading order is Kundalis (Janma | Gochara) ->
+   Graha positions -> Dasacharam -> Panchangam (reference). Visual
+   reorder via flex `order`, so the DOM (and therefore the printed
+   report) keeps its original sequence. */
+@media screen {
+    /* No page heading above the report any more — its own masthead is
+       the title, so drop the extra top margin. */
+    .horoscope-report { margin-top: 0; }
+
+    .horoscope-report__masthead { order: -6; }
+    .horoscope-report__keyfacts { order: -5; }
+    .report-jumpbar { order: -4; }
+    .horoscope-report .kundali-workspace-section { order: -3; }
+    .horoscope-report .pp-table-section { order: -2; }
+    .horoscope-report .dasha-panel { order: -1; }
+
+    /* Jumping to a section lands it just below the pinned header. */
+    .horoscope-report .kundali-workspace-section,
+    .horoscope-report .pp-table-section,
+    .horoscope-report .dasha-panel,
+    .horoscope-report .pd-table-section {
+        scroll-margin-top: calc(var(--masthead-height, 64px) - var(--page-padding) + 8px);
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .keyfact--wide {
+        grid-column: auto;
+    }
+}

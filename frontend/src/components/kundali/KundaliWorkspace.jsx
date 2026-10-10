@@ -13,6 +13,7 @@ function KundaliWorkspace({ renderLayout, birthDetails }) {
 
                 <JanmaKundaliPanel
                     chart={renderLayout}
+                    birthDetails={birthDetails}
                 />
 
                 <GocharaKundaliPanel

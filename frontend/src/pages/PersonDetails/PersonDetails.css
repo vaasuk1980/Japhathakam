@@ -30,3 +30,21 @@
 .person-details__title {
     margin-bottom: var(--spacing-lg);
 }
+
+.person-details__banner {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-sm) var(--spacing-md);
+
+    font-size: var(--font-size-md);
+    font-weight: var(--font-medium);
+
+    color: var(--jp-color-success);
+    background: var(--jp-color-success-bg);
+    border-radius: var(--radius-md);
+}
+
+.person-details__status {
+    margin-top: var(--spacing-md);
+
+    color: var(--jp-color-text-secondary);
+}
