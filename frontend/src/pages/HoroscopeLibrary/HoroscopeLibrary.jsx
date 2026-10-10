@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { Star } from "lucide-react";
+import { Star, Library, SearchX } from "lucide-react";
 
 import PersonService from "../../services/PersonService";
 import formatDateDDMMYYYY from "../../utils/date/formatDateDDMMYYYY";
@@ -8,6 +8,8 @@ import { useTranslation } from "../../i18n/I18nContext";
 
 import Card from "../../components/common/Card";
 import Button from "../../components/common/Button";
+import EmptyState from "../../components/common/EmptyState/EmptyState";
+import { SkeletonTable } from "../../components/common/Skeleton/Skeleton";
 
 import "./HoroscopeLibrary.css";
 
@@ -226,7 +228,9 @@ function HoroscopeLibrary() {
             </div>
 
             {requestState.status === "loading" && (
-                <p className="horoscope-library__status">Loading…</p>
+                <Card className="horoscope-library__card" padding="medium" shadow="medium">
+                    <SkeletonTable rows={6} columns={5} />
+                </Card>
             )}
 
             {requestState.status === "error" && (
@@ -265,11 +269,25 @@ function HoroscopeLibrary() {
                         </div>
 
                         {filteredSorted.length === 0 ? (
-                            <p className="horoscope-library__empty">
-                                {requestState.persons.length === 0
-                                    ? t("horoscopeLibrary.emptyAll")
-                                    : t("horoscopeLibrary.empty")}
-                            </p>
+                            requestState.persons.length === 0 ? (
+                                <EmptyState
+                                    icon={Library}
+                                    message={t("horoscopeLibrary.emptyAll")}
+                                    action={{
+                                        label: t("horoscopeLibrary.newHoroscope"),
+                                        to: "/person-details",
+                                    }}
+                                />
+                            ) : (
+                                <EmptyState
+                                    icon={SearchX}
+                                    message={t("horoscopeLibrary.empty")}
+                                    action={{
+                                        label: t("horoscopeLibrary.clearSearch"),
+                                        onClick: () => setSearch(""),
+                                    }}
+                                />
+                            )
                         ) : (
                             <>
                                 <div className="horoscope-library__table-scroll">

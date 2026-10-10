@@ -28,7 +28,7 @@
 
     padding: var(--spacing-sm) var(--spacing-lg);
 
-    font-family: Georgia, "Times New Roman", var(--font-family), serif;
+    font-family: var(--font-family-heading);
     font-size: var(--font-size-xl);
     font-weight: var(--font-semibold);
     color: var(--jp-color-text-primary);
@@ -40,8 +40,8 @@
 .dasha-full-breakdown__subheading {
     margin: 0 0 6px;
 
-    font-family: Georgia, "Times New Roman", var(--font-family), serif;
-    font-size: 16px;
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-report-sm);
     font-weight: var(--font-semibold);
     color: var(--jp-color-primary);
 
@@ -122,7 +122,7 @@
 
 .dasha-full-breakdown__mahadasha-table thead tr:first-child th {
     background: var(--jp-color-heading-fill);
-    font-family: Georgia, "Times New Roman", var(--font-family), serif;
+    font-family: var(--font-family-heading);
     font-weight: var(--font-semibold);
     text-align: center;
 }
@@ -130,7 +130,7 @@
 .dasha-full-breakdown__mahadasha-table thead tr:last-child th {
     background: var(--jp-color-background);
     font-weight: var(--font-semibold);
-    color: var(--jp-color-primary);
+    color: var(--jp-color-report-label);
 }
 
 .mono {

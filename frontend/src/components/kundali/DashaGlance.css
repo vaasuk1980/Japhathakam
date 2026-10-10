@@ -43,7 +43,7 @@
     margin: 0;
 
     font-family: var(--font-family);
-    font-size: 20px;
+    font-size: var(--font-size-report);
     font-weight: var(--font-semibold);
     color: var(--jp-color-text-primary);
 }
@@ -53,7 +53,7 @@
    Numerals" (inserting Inter ahead of it) so the digit isn't
    rendered ~10% smaller than everything around it. */
 .dasha-glance__timeline-total {
-    font-size: 20px;
+    font-size: var(--font-size-report);
     font-family: "JIMS", "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     color: var(--jp-color-text-secondary);
 }
@@ -112,7 +112,7 @@
 }
 
 .dasha-glance__segment-graha {
-    font-size: 20px;
+    font-size: var(--font-size-report);
     font-weight: var(--font-semibold);
     color: var(--jp-color-text-primary);
 
@@ -126,7 +126,7 @@
    "Segoe UI Numerals" face, scoped for Telugu-adjacent digits) so
    numbers render at the same size as their own unit letters. */
 .dasha-glance__segment-duration {
-    font-size: 18px;
+    font-size: var(--font-size-md);
     font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     color: var(--jp-color-text-secondary);
 
@@ -134,7 +134,7 @@
 }
 
 .dasha-glance__segment-dates {
-    font-size: 16px;
+    font-size: var(--font-size-report-sm);
     line-height: 1.35;
     text-align: center;
     font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -196,13 +196,23 @@
 
 .dasha-glance__current-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: var(--spacing-sm);
 
     margin-bottom: var(--spacing-md);
 }
 
+/* On narrower screens five fixed columns no longer fit (print keeps
+   the five-up layout, which is why this is screen-only). */
+@media screen and (max-width: 1100px) {
+    .dasha-glance__current-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    }
+}
+
 .dasha-glance__current-item {
+    min-width: 0;
+    overflow-wrap: anywhere;
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -214,12 +224,12 @@
 }
 
 .dasha-glance__current-label {
-    font-size: 20px;
+    font-size: var(--font-size-report);
     color: var(--jp-color-text-secondary);
 }
 
 .dasha-glance__current-value {
-    font-size: 20px;
+    font-size: var(--font-size-report);
     font-weight: var(--font-semibold);
     color: var(--jp-color-primary);
 }
@@ -230,12 +240,12 @@
    (equal specificity, later wins). */
 .dasha-glance__segment-graha--papa,
 .dasha-glance__current-value--papa {
-    color: #b22222;
+    color: var(--jp-color-negative);
 }
 
 .dasha-glance__segment-graha--punya,
 .dasha-glance__current-value--punya {
-    color: #16a34a;
+    color: var(--jp-color-success);
 }
 
 /* Mixes a Telugu graha name/phrase with a digit percentage — keep
@@ -245,7 +255,7 @@
 .dasha-glance__progress-label {
     margin-bottom: var(--spacing-xs);
 
-    font-size: 20px;
+    font-size: var(--font-size-report);
     font-family: "JIMS", "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     color: var(--jp-color-text-primary);
 }
@@ -272,7 +282,7 @@
 .dasha-glance__progress-remaining {
     margin-top: var(--spacing-xs);
 
-    font-size: 18px;
+    font-size: var(--font-size-md);
     font-family: "JIMS", "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     color: var(--jp-color-text-secondary);
 }

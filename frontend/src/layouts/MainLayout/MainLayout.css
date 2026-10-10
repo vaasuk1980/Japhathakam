@@ -29,7 +29,7 @@
     background: var(--jp-color-background);
 
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: auto;
 
     box-sizing: border-box;
 

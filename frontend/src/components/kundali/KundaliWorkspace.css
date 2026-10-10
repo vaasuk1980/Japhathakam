@@ -95,7 +95,7 @@
 .gochara-error {
     margin: var(--spacing-sm) 0 0;
     color: var(--jp-color-danger);
-    font-size: 18px;
+    font-size: var(--font-size-md);
 }
 
 /* Below this width, squeezing both charts into side-by-side

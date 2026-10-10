@@ -13,7 +13,7 @@
      ======================================================== */
 
   --sidebar-width: 250px;
-  --header-height: 90px;
+  --header-height: 60px;
 
   --content-max-width: 1600px;
 
@@ -50,12 +50,15 @@
   --jp-color-sidebar-hover: #374151;
   --jp-color-sidebar-active: #2563eb;
   --jp-color-sidebar-border: #374151;
+  --jp-color-sidebar-text-muted: #d1d5db;
 
   /* Text */
 
   --jp-color-text-primary: #1f2937;
-  --jp-color-text-secondary: #6b7280;
-  --jp-color-text-muted: #9ca3af;
+  --jp-color-text-secondary: #4b5563;
+  /* #6b7280 on white is 4.8:1 (WCAG AA); the old #9ca3af was 2.5:1. */
+  --jp-color-text-muted: #6b7280;
+  --jp-color-text-strong: #374151;
   --jp-color-text-white: #ffffff;
 
   /* Semantic Text */
@@ -67,6 +70,7 @@
   /* Borders */
 
   --jp-color-border: #e5e7eb;
+  --jp-color-border-strong: #d1d5db;
 
   /* Brand */
 
@@ -89,6 +93,17 @@
   --jp-color-danger: #dc2626;
   --jp-color-danger-hover: #b91c1c;
   --jp-color-danger-bg: #fee2e2;
+
+  /* Brand accent — drawn from the logo (gold linework + deep maroon
+     glyph). Used sparingly: active-nav indicator, the Today strip,
+     avatars. Primary actions stay --jp-color-primary. */
+  --jp-color-accent: #b8862b;
+  --jp-color-accent-strong: #8b2a14;
+  --jp-color-accent-soft: #f6ecd9;
+
+  /* Adverse indicator inside charts/tables — darker, more
+     "ink-like" than --jp-color-danger. */
+  --jp-color-negative: #b22222;
 
   /* Section heading fill — the light gray "title bar" background
      used behind each card's own heading (Basic Information,
@@ -179,18 +194,34 @@
     sans-serif;
 
   /* Font Sizes
-     xs/sm/md/lg are the body/data tier — all collapsed to one
-     uniform 18px per direct request, so nothing non-heading is
-     smaller or larger than any other non-heading text. xl/xxl
-     remain the two heading tiers (card/section titles, page
-     titles) and are deliberately NOT part of that collapse. */
+     On-screen scale: 12 / 13 / 14 / 16 / 20 / 28. The printed /
+     PDF report was tuned against the previous flat 18px body tier
+     (24px / 32px headings), so the @media print block at the
+     bottom of this file restores those exact values — print
+     output is unchanged by this scale. */
 
-  --font-size-xs: 18px;
-  --font-size-sm: 18px;
-  --font-size-md: 18px;
-  --font-size-lg: 18px;
-  --font-size-xl: 24px;
-  --font-size-xxl: 32px;
+  --font-size-xs: 12px;
+  --font-size-sm: 13px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 20px;
+  --font-size-xxl: 28px;
+
+  /* Report tier (Birth Details report: Panchangam, Planetary
+     Positions, Dasha). Same 14px body as the rest of the app on
+     screen; print/PDF restores the 20px / 16px the PDF layout was
+     tuned against. */
+  --font-size-report: 14px;
+  --font-size-report-sm: 13px;
+  --font-size-report-label: 12px;
+
+  /* Report label / table-header colour: muted on screen so the
+     data carries the emphasis; print keeps the original blue. */
+  --jp-color-report-label: var(--jp-color-text-muted);
+
+  /* Headings use the UI font on screen; the printed report keeps
+     its Georgia serif titles. */
+  --font-family-heading: var(--font-family);
 
   /* Font Weights */
 
@@ -279,6 +310,50 @@
    together. */
 @media (max-width: 767px) {
   :root {
-    --header-height: 64px;
+    --header-height: 56px;
+  }
+}
+
+/* English UI: the size-adjusted "Segoe UI Numerals" digit face exists
+   to match digits to JIMS Telugu glyph height, so with Latin text it
+   only made numbers look ~10% smaller than the letters beside them.
+   Use plain Inter in English; Telugu keeps the original stack. */
+:root:lang(en) {
+  --font-family:
+    "Inter",
+    "Segoe UI",
+    Tahoma,
+    Geneva,
+    Verdana,
+    sans-serif;
+}
+
+/* Print / Save-as-PDF keeps the original flat 18px body tier and
+   24/32px heading tiers the report layout was tuned against. */
+@media print {
+  :root,
+  :root:lang(en) {
+    --font-family:
+    "JIMS",
+      "Segoe UI Numerals",
+      "Inter",
+      "Segoe UI",
+      Tahoma,
+      Geneva,
+      Verdana,
+      sans-serif;
+
+    --font-size-xs: 18px;
+    --font-size-sm: 18px;
+    --font-size-md: 18px;
+    --font-size-lg: 18px;
+    --font-size-xl: 24px;
+    --font-size-xxl: 32px;
+
+    --font-size-report: 20px;
+    --font-size-report-sm: 16px;
+    --font-size-report-label: 20px;
+    --jp-color-report-label: var(--jp-color-primary);
+    --font-family-heading: Georgia, "Times New Roman", var(--font-family), serif;
   }
 }

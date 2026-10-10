@@ -55,7 +55,7 @@
 .report-invocation__identity-name {
     display: block;
 
-    font-family: Georgia, "Times New Roman", var(--font-family), serif;
+    font-family: var(--font-family-heading);
     font-size: var(--font-size-xxl);
     font-weight: var(--font-bold);
     color: var(--jp-color-text-primary);
@@ -78,7 +78,7 @@
        page 1's content already ends exactly at the Janma Lagna
        Kundali (see print.css); a larger jump here risks pushing
        that onto page 2. */
-    font-size: 20px;
+    font-size: var(--font-size-report);
     font-style: italic;
     line-height: 1.6;
     color: var(--jp-color-text-secondary);

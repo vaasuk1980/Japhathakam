@@ -33,7 +33,7 @@
     top: calc(var(--masthead-height, 64px) - var(--page-padding));
     z-index: 4;
 
-    font-family: Georgia, "Times New Roman", var(--font-family), serif;
+    font-family: var(--font-family-heading);
     font-size: var(--font-size-xl);
     font-weight: var(--font-semibold);
     color: var(--jp-color-text-primary);
@@ -45,11 +45,11 @@
 /* Punya/Papa (Tritha Siddhantha) — same classification and colors
    as the Planetary Positions table and Kundali chart. */
 .dasha-row__graha--papa {
-    color: #b22222;
+    color: var(--jp-color-negative);
 }
 
 .dasha-row__graha--punya {
-    color: #16a34a;
+    color: var(--jp-color-success);
 }
 
 /* Header row + tree scroll together as one unit, so the column
@@ -95,11 +95,11 @@
 
     border-bottom: 2px solid var(--jp-color-primary);
 
-    font-size: 20px;
+    font-size: var(--font-size-report-label);
     font-weight: var(--font-semibold);
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: var(--jp-color-primary);
+    color: var(--jp-color-report-label);
 }
 
 /* Empty first cell — spacer matching the chevron column in data
@@ -148,7 +148,7 @@
     background: var(--jp-color-surface);
 
     font-family: var(--font-family);
-    font-size: 20px;
+    font-size: var(--font-size-report);
     color: var(--jp-color-text-primary);
     text-align: left;
     cursor: pointer;

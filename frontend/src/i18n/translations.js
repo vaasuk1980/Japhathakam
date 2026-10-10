@@ -22,6 +22,19 @@ const en = {
         panchangam: "Panchangam",
         muhurtham: "Muhurtham",
         settings: "Settings",
+        reports: "Reports",
+        comingSoon: "Soon",
+        collapse: "Collapse menu",
+        expand: "Expand menu",
+        groups: {
+            workspace: "Workspace",
+            almanac: "Almanac",
+            system: "System",
+        },
+    },
+    comingSoon: {
+        message: "This section is under construction and will be available in a future update.",
+        backToDashboard: "Back to Dashboard",
     },
     dashboard: {
         greeting: {
@@ -44,6 +57,17 @@ const en = {
             colDob: "Date of Birth",
             colPlace: "Place of Birth",
             colOpened: "Last Opened",
+            colLagna: "Lagna",
+            colDasha: "Current Dasha",
+        },
+        hero: {
+            searchPlaceholder: "Search saved horoscopes by name…",
+            searchLabel: "Search saved horoscopes",
+            searchButton: "Search",
+        },
+        strip: {
+            title: "Today",
+            rahuKalam: "Rahu Kalam",
         },
         today: {
             gocharaTitle: "Gochara · Today",
@@ -181,6 +205,7 @@ const en = {
         deleteConfirm: "Delete {{name}}'s saved birth record? This cannot be undone.",
         empty: "No saved horoscopes match your search.",
         emptyAll: "No saved horoscopes yet.",
+        clearSearch: "Clear search",
         pageOf: "Page {{current}} of {{total}}",
         previous: "Previous",
         next: "Next",
@@ -212,6 +237,19 @@ const te = {
         panchangam: "పంచాంగం",
         muhurtham: "ముహూర్తం",
         settings: "సెట్టింగులు",
+        reports: "నివేదికలు",
+        comingSoon: "త్వరలో",
+        collapse: "మెనూను కుదించు",
+        expand: "మెనూను విస్తరించు",
+        groups: {
+            workspace: "కార్యస్థలం",
+            almanac: "పంచాంగం",
+            system: "వ్యవస్థ",
+        },
+    },
+    comingSoon: {
+        message: "ఈ విభాగం నిర్మాణంలో ఉంది, త్వరలో అందుబాటులోకి వస్తుంది.",
+        backToDashboard: "డాష్‌బోర్డ్‌కు తిరిగి వెళ్ళండి",
     },
     dashboard: {
         greeting: {
@@ -234,6 +272,17 @@ const te = {
             colDob: "జనన తేదీ",
             colPlace: "జనన స్థలం",
             colOpened: "చివరిగా తెరిచినది",
+            colLagna: "లగ్నం",
+            colDasha: "ప్రస్తుత దశ",
+        },
+        hero: {
+            searchPlaceholder: "సేవ్ చేసిన జాతకములను పేరుతో వెతకండి…",
+            searchLabel: "సేవ్ చేసిన జాతకములను వెతకండి",
+            searchButton: "వెతకండి",
+        },
+        strip: {
+            title: "ఈరోజు",
+            rahuKalam: "రాహు కాలం",
         },
         today: {
             gocharaTitle: "గోచారం · ఈరోజు",
@@ -371,6 +420,7 @@ const te = {
         deleteConfirm: "{{name}} జాతకాన్ని తొలగించాలా? దీన్ని వెనక్కి తీసుకోలేరు.",
         empty: "మీ శోధనకు సరిపోలే జాతకములు లేవు.",
         emptyAll: "ఇంకా సేవ్ చేసిన జాతకములు లేవు.",
+        clearSearch: "శోధనను తొలగించండి",
         pageOf: "పేజీ {{current}} / {{total}}",
         previous: "మునుపటి",
         next: "తదుపరి",

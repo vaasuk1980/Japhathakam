@@ -1,10 +1,8 @@
 .header {
   position: fixed;
   top: 0;
-  left: 0;
+  left: var(--sidebar-width);
   right: 0;
-
-  width: 100%;
   height: var(--header-height);
 
   display: flex;
@@ -24,28 +22,17 @@
 
 /* ==========================================
    Header Left
+   ------------------------------------------
+   Desktop: the sidebar is a permanent column that carries the
+   brand, and the header starts to its right — so this block is
+   hidden. Phones show the menu toggle + brand here.
 ========================================== */
 
 .header-left {
-  display: flex;
+  display: none;
   align-items: center;
   flex: none;
-
-  /* Lines up with the sidebar's own right edge below it (see
-     Sidebar.css — the sidebar starts at top: var(--header-height),
-     directly under this), so the logo reads as sitting "above"
-     the sidebar column rather than floating inside the header
-     wherever the search bar happens to leave room. Header's own
-     left padding already accounts for the first --container-padding
-     of that width. */
-  width: calc(var(--sidebar-width) - var(--container-padding));
   height: 100%;
-  box-sizing: border-box;
-
-  margin-right: var(--container-padding);
-  padding-right: var(--container-padding);
-
-  border-right: 1px solid var(--jp-color-border);
 }
 
 /* ==========================================
@@ -101,52 +88,6 @@
 
 .header-menu-toggle:hover {
   background: var(--jp-color-background);
-}
-
-/* ==========================================
-   Application Logo
-   ------------------------------------------
-   The brand medallion (see src/assets/logo-icon.png — cropped
-   from the full logo, src/assets/logo-full.png, background keyed
-   transparent) plus a stacked Telugu/English wordmark.
-========================================== */
-
-.app-logo {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-}
-
-.app-logo__mark {
-  width: 42px;
-  height: 42px;
-  flex: none;
-
-  object-fit: contain;
-}
-
-.app-logo__text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.15;
-}
-
-.app-logo__title {
-  font-family: var(--font-family);
-  font-size: var(--font-size-xxl);
-  font-weight: var(--font-bold);
-
-  color: var(--jp-color-text-primary);
-}
-
-.app-logo__subtitle {
-  font-family: var(--font-family);
-  font-size: 13px;
-  font-weight: var(--font-medium);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-
-  color: var(--jp-color-text-muted);
 }
 
 /* ==========================================
@@ -270,6 +211,8 @@
 
 /* ==========================================
    Date / Time
+   ------------------------------------------
+   Shown on every page (it lives in the header, not the Dashboard).
 ========================================== */
 
 .header-datetime {
@@ -279,6 +222,7 @@
   line-height: 1.25;
 
   margin-right: var(--spacing-lg);
+  white-space: nowrap;
 }
 
 .header-datetime__date {
@@ -289,7 +233,7 @@
 
 .header-datetime__time {
   font-family: var(--font-family);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-md);
   font-weight: var(--font-medium);
   color: var(--jp-color-text-secondary);
 
@@ -320,14 +264,14 @@
    Responsive
    ------------------------------------------
    Below this width the sidebar is a drawer, not a column (see
-   Sidebar.css), so header-left no longer needs to reserve
-   --sidebar-width of space to line up with it. The search bar,
-   language switcher, and welcome text are also trimmed so the
-   whole header actually fits phone-width viewports.
+   Sidebar.css), so the header spans the full width and carries
+   the menu toggle and brand itself. The search bar and language
+   switcher are also trimmed so the header fits phone widths.
 ========================================== */
 
 @media (max-width: 767px) {
   .header {
+    left: 0;
     padding: 0 var(--spacing-md);
   }
 
@@ -336,25 +280,15 @@
   }
 
   .header-left {
-    width: auto;
-    height: auto;
-
+    display: flex;
     margin-right: var(--spacing-sm);
-    padding-right: 0;
-
-    border-right: none;
   }
 
-  .app-logo__mark {
-    width: 32px;
-    height: 32px;
-  }
-
-  .app-logo__title {
+  .header-brand .app-logo__title {
     font-size: var(--font-size-lg);
   }
 
-  .app-logo__subtitle {
+  .header-brand .app-logo__subtitle {
     display: none;
   }
 
@@ -369,17 +303,10 @@
   .language-switcher {
     margin-right: var(--spacing-xs);
     padding: 6px 4px;
-
-    /* At this width, the language dropdown and location control
-       are chrome competing with the search bar for very little
-       room — kept at their pre-uniform-body-text size here (unlike
-       everywhere else) purely so the row still fits; this isn't
-       "data" content the 18px pass was about. */
-    font-size: 13px;
   }
 
   .header-location__value {
-    font-size: 14px;
+    font-size: var(--font-size-md);
   }
 
   .header-datetime {
@@ -388,7 +315,7 @@
 }
 
 @media (max-width: 480px) {
-  .app-logo__title {
+  .header-brand .app-logo__title {
     font-size: var(--font-size-md);
   }
 
@@ -398,18 +325,10 @@
 }
 
 /* Tablet-width band above the drawer breakpoint: the sidebar is
-   still a permanent column here (unlike below 767px), but now that
-   body text is uniformly 18px, the search bar + clock + language
-   switcher + location control no longer all fit on one row without
-   the clock wrapping/overlapping. Drop the least essential item
-   (the clock — already duplicated by every OS/browser chrome) and
-   tighten the search bar rather than touch the 767px drawer
-   threshold itself, which Sidebar.css also depends on. */
+   still a permanent column here, so the search bar is tightened
+   rather than touch the 767px drawer threshold, which Sidebar.css
+   also depends on. */
 @media (min-width: 768px) and (max-width: 1100px) {
-  .header-datetime {
-    display: none;
-  }
-
   .header-center {
     margin: 0 var(--spacing-sm);
   }
@@ -420,6 +339,10 @@
 
   .language-switcher {
     margin-right: var(--spacing-sm);
+  }
+
+  .header-datetime {
+    margin-right: var(--spacing-md);
   }
 
   .header-location__value {

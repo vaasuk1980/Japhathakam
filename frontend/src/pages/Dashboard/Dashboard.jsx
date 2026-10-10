@@ -1,14 +1,22 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
-import { FilePlus2, Library, GitCompare, CalendarDays, Clock } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { FilePlus2, Library, GitCompare, CalendarDays, Clock, Search } from "lucide-react";
 
 import PersonService from "../../services/PersonService";
 import getGreetingKey from "../../utils/greeting/getGreetingKey";
 import formatDateDDMMYYYY from "../../utils/date/formatDateDDMMYYYY";
 import { useTranslation } from "../../i18n/I18nContext";
+import useSkySnapshot from "../../hooks/useSkySnapshot";
+import usePersonSummaries from "../../hooks/usePersonSummaries";
+import { useSavedLocation } from "../../location/LocationContext";
+import { computeTithi } from "../../kundali/utils/panchangamMath";
+import { grahaName } from "../../kundali/constants/DashaGrahaNames";
+import { rasiForLongitude } from "../../kundali/constants/RasiNames";
+import computeRahuKalam from "../../utils/panchangam/computeRahuKalam";
 
 import Card from "../../components/common/Card";
-import Button from "../../components/common/Button";
+import EmptyState from "../../components/common/EmptyState/EmptyState";
+import { SkeletonTable } from "../../components/common/Skeleton/Skeleton";
 import TodayPanel from "./TodayPanel";
 
 import "./Dashboard.css";
@@ -26,7 +34,6 @@ const QUICK_ACTIONS = [
     // separate /new-horoscope page (removed) was an early-sprint
     // stub that only previewed a bare Kundali chart and never saved
     // anything, left behind once this became the real flow.
-    { labelKey: "dashboard.quickActions.newHoroscope", path: "/person-details", icon: FilePlus2 },
     { labelKey: "dashboard.quickActions.horoscopeLibrary", path: "/horoscope-library", icon: Library },
     { labelKey: "dashboard.quickActions.compareKundalis", path: "/compare-kundalis", icon: GitCompare },
     { labelKey: "dashboard.quickActions.panchangam", path: "/panchangam", icon: CalendarDays },
@@ -72,7 +79,17 @@ function usePersons() {
 
 }
 
-function RecentHoroscopesCard({ persons, t }) {
+function initialsOf(person) {
+
+    return [person.firstName, person.lastName]
+        .map((part) => part?.trim()?.[0])
+        .filter(Boolean)
+        .join("")
+        .toUpperCase();
+
+}
+
+function RecentHoroscopesCard({ persons, summaries, t, language }) {
 
     return (
         <Card className="dashboard-card" padding="medium" shadow="medium">
@@ -92,23 +109,48 @@ function RecentHoroscopesCard({ persons, t }) {
                             <tr>
                                 <th>{t("dashboard.recent.colName")}</th>
                                 <th>{t("dashboard.recent.colDob")}</th>
-                                <th>{t("dashboard.recent.colPlace")}</th>
+                                <th>{t("dashboard.recent.colLagna")}</th>
+                                <th>{t("dashboard.recent.colDasha")}</th>
                                 <th>{t("dashboard.recent.colOpened")}</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {persons.map((person) => (
-                                <tr key={person.id}>
-                                    <td>
-                                        <Link to={`/person-details?id=${person.id}`}>
-                                            {person.firstName} {person.lastName}
-                                        </Link>
-                                    </td>
-                                    <td>{formatDateDDMMYYYY(person.dateOfBirth)}</td>
-                                    <td>{person.placeOfBirth}</td>
-                                    <td>{formatDateDDMMYYYY(lastOpenedAt(person))}</td>
-                                </tr>
-                            ))}
+                            {persons.map((person) => {
+
+                                const summary = summaries[person.id];
+                                const lagna = summary?.lagnaLongitude != null
+                                    ? rasiForLongitude(summary.lagnaLongitude)
+                                    : null;
+
+                                return (
+                                    <tr key={person.id}>
+                                        <td>
+                                            <Link
+                                                to={`/person-details?id=${person.id}`}
+                                                className="dashboard-person-link"
+                                            >
+                                                <span className="dashboard-avatar" aria-hidden="true">
+                                                    {initialsOf(person)}
+                                                </span>
+                                                {person.firstName} {person.lastName}
+                                            </Link>
+                                        </td>
+                                        <td>{formatDateDDMMYYYY(person.dateOfBirth)}</td>
+                                        <td>
+                                            {lagna
+                                                ? (language === "te" ? lagna.tel : lagna.en)
+                                                : "—"}
+                                        </td>
+                                        <td>
+                                            {summary?.mahadasha
+                                                ? `${grahaName(summary.mahadasha, language)} / ${grahaName(summary.antardasha, language)}`
+                                                : "—"}
+                                        </td>
+                                        <td>{formatDateDDMMYYYY(lastOpenedAt(person))}</td>
+                                    </tr>
+                                );
+
+                            })}
                         </tbody>
                     </table>
                 </div>
@@ -118,10 +160,108 @@ function RecentHoroscopesCard({ persons, t }) {
 
 }
 
+// Greeting + the one primary action + a quick search over saved
+// horoscopes (hands off to the Library, which owns filtering).
+function DashboardHero({ t, greetingKey }) {
+
+    const navigate = useNavigate();
+    const [query, setQuery] = useState("");
+
+    const handleSubmit = (event) => {
+
+        event.preventDefault();
+
+        const trimmed = query.trim();
+        navigate(trimmed
+            ? `/horoscope-library?q=${encodeURIComponent(trimmed)}`
+            : "/horoscope-library");
+
+    };
+
+    return (
+        <section className="dashboard-hero">
+            <h1 className="page-title">{t(`dashboard.greeting.${greetingKey}`)}</h1>
+
+            <div className="dashboard-hero__actions">
+                <form className="dashboard-hero__search" role="search" onSubmit={handleSubmit}>
+                    <Search size={16} aria-hidden="true" />
+                    <input
+                        type="search"
+                        value={query}
+                        onChange={(event) => setQuery(event.target.value)}
+                        placeholder={t("dashboard.hero.searchPlaceholder")}
+                        aria-label={t("dashboard.hero.searchLabel")}
+                    />
+                </form>
+
+                <Link to="/person-details" className="dashboard-hero__cta">
+                    <FilePlus2 size={18} aria-hidden="true" />
+                    {t("dashboard.quickActions.newHoroscope")}
+                </Link>
+            </div>
+        </section>
+    );
+
+}
+
+// Today at a glance: tithi, nakshatra, Rahu Kalam. Same sky snapshot
+// the cards below use, so the three always agree with them.
+function TodayStrip({ snapshotState, t, language }) {
+
+    const pick = (bilingual) => (bilingual ? (language === "te" ? bilingual.te : bilingual.en) : null);
+    const data = snapshotState.data;
+
+    const sun = data?.planetPositions?.find((position) => position.planet === "SUN");
+    const moon = data?.planetPositions?.find((position) => position.planet === "MOON");
+    const tithi = sun && moon ? computeTithi(sun.longitude, moon.longitude) : null;
+    const rahu = data ? computeRahuKalam(data.date, data.sunrise, data.sunset) : null;
+
+    const nakshatra = language === "te" ? moon?.nakshatra?.teluguName : moon?.nakshatra?.englishName;
+
+    const items = [
+        {
+            label: t("dashboard.today.tithi"),
+            value: tithi ? `${pick(tithi.paksha)} · ${pick(tithi.name)}` : null,
+        },
+        {
+            label: t("dashboard.today.nakshatra"),
+            value: nakshatra
+                ? `${nakshatra}${moon?.pada?.number ? ` - ${moon.pada.number}` : ""}`
+                : null,
+        },
+        {
+            label: t("dashboard.strip.rahuKalam"),
+            value: rahu ? `${rahu.start} – ${rahu.end}` : null,
+        },
+    ];
+
+    const isLoading = snapshotState.status === "loading";
+
+    return (
+        <section
+            className="today-strip"
+            aria-label={t("dashboard.strip.title")}
+            aria-busy={isLoading}
+        >
+            {items.map((item) => (
+                <div className="today-strip__item" key={item.label}>
+                    <span className="today-strip__label">{item.label}</span>
+                    {isLoading
+                        ? <span className="jp-skeleton today-strip__skeleton" aria-hidden="true" />
+                        : <span className="today-strip__value">{item.value ?? "—"}</span>}
+                </div>
+            ))}
+        </section>
+    );
+
+}
+
 function Dashboard() {
 
-    const { t } = useTranslation();
+    const { t, language } = useTranslation();
     const personsState = usePersons();
+    const { location } = useSavedLocation();
+    const snapshotState = useSkySnapshot(location);
 
     const recentPersons = useMemo(() => {
 
@@ -131,11 +271,15 @@ function Dashboard() {
 
     }, [personsState.persons]);
 
+    const summaries = usePersonSummaries(recentPersons);
+
     const greetingKey = getGreetingKey();
 
     return (
         <main className="page dashboard-page">
-            <h1 className="page-title">{t(`dashboard.greeting.${greetingKey}`)}</h1>
+            <DashboardHero t={t} greetingKey={greetingKey} />
+
+            <TodayStrip snapshotState={snapshotState} t={t} language={language} />
 
             <div className="dashboard-quick-actions">
                 {QUICK_ACTIONS.map(({ labelKey, path, icon: Icon }) => (
@@ -153,20 +297,29 @@ function Dashboard() {
             </div>
 
             <TodayPanel
+                snapshotState={snapshotState}
                 recentSlot={
-                    personsState.status === "success" && personsState.persons.length > 0
-                        ? <RecentHoroscopesCard persons={recentPersons} t={t} />
-                        : null
+                    personsState.status === "loading"
+                        ? (
+                            <Card className="dashboard-card" padding="medium" shadow="medium">
+                                <h2 className="dashboard-card__title">{t("dashboard.recent.title")}</h2>
+                                <SkeletonTable rows={RECENT_COUNT} columns={4} />
+                            </Card>
+                        )
+                        : personsState.status === "success" && personsState.persons.length > 0
+                            ? <RecentHoroscopesCard persons={recentPersons} summaries={summaries} t={t} language={language} />
+                            : null
                 }
             />
 
             {personsState.status === "success" && personsState.persons.length === 0 && (
                 <Card className="dashboard-card" padding="large" shadow="medium">
-                    <h2 className="dashboard-card__title">{t("dashboard.empty.title")}</h2>
-                    <p className="dashboard-card__empty">{t("dashboard.empty.subtitle")}</p>
-                    <Link to="/new-horoscope">
-                        <Button>{t("dashboard.empty.cta")}</Button>
-                    </Link>
+                    <EmptyState
+                        icon={Library}
+                        title={t("dashboard.empty.title")}
+                        message={t("dashboard.empty.subtitle")}
+                        action={{ label: t("dashboard.empty.cta"), to: "/person-details" }}
+                    />
                 </Card>
             )}
         </main>

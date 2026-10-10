@@ -1,9 +1,7 @@
+import ComingSoon from "../../components/common/ComingSoon/ComingSoon";
+
 function Muhurtham() {
-  return (
-    <div>
-      <h1>Muhurtham</h1>
-    </div>
-  );
+  return <ComingSoon titleKey="sidebar.muhurtham" />;
 }
 
 export default Muhurtham;

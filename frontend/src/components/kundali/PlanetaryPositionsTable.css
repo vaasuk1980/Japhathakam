@@ -33,7 +33,7 @@
     top: calc(var(--masthead-height, 64px) - var(--page-padding));
     z-index: 4;
 
-    font-family: Georgia, "Times New Roman", var(--font-family), serif;
+    font-family: var(--font-family-heading);
     font-size: var(--font-size-xl);
     font-weight: var(--font-semibold);
     color: var(--jp-color-text-primary);
@@ -50,7 +50,7 @@
     width: 100%;
     border-collapse: collapse;
 
-    font-size: 20px;
+    font-size: var(--font-size-report);
 }
 
 .pp-table th {
@@ -59,12 +59,12 @@
     border-bottom: 2px solid var(--jp-color-primary);
 
     font-family: var(--font-family);
-    font-size: 20px;
+    font-size: var(--font-size-report-label);
     font-weight: var(--font-semibold);
     text-align: left;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: var(--jp-color-primary);
+    color: var(--jp-color-report-label);
 }
 
 .pp-table td {
@@ -91,11 +91,11 @@
    Papa Grahas in the Kundali chart (see KundaliChart.css); the
    Lagna keeps the table's default text color above. */
 .pp-table td.pp-graha-papa {
-    color: #b22222;
+    color: var(--jp-color-negative);
 }
 
 .pp-table td.pp-graha-punya {
-    color: #16a34a;
+    color: var(--jp-color-success);
 }
 
 /* Retrograde marker — a small superscript "R" right after the

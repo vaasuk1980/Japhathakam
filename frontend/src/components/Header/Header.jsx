@@ -2,9 +2,9 @@ import { Menu } from "lucide-react";
 
 import { useTranslation } from "../../i18n/I18nContext";
 import HeaderSearch from "./HeaderSearch";
-import HeaderDateTime from "./HeaderDateTime";
 import HeaderLocation from "./HeaderLocation";
-import logoIcon from "../../assets/logo-icon.png";
+import HeaderDateTime from "./HeaderDateTime";
+import BrandLogo from "../BrandLogo/BrandLogo";
 
 import "./Header.css";
 
@@ -19,7 +19,8 @@ function Header({ onMenuToggle }) {
   return (
     <header className="header">
       {/* ==========================================
-          Application Branding
+          Menu toggle + brand (brand shows here only on phones;
+          on wide screens it sits at the top of the sidebar)
       ========================================== */}
       <div className="header-left">
         <button
@@ -31,19 +32,7 @@ function Header({ onMenuToggle }) {
           <Menu size={22} />
         </button>
 
-        <div className="app-logo">
-          <img
-            className="app-logo__mark"
-            src={logoIcon}
-            alt=""
-            aria-hidden="true"
-          />
-
-          <div className="app-logo__text">
-            <span className="app-logo__title">జాఫతకం</span>
-            <span className="app-logo__subtitle">TRUTH OF LIGHT</span>
-          </div>
-        </div>
+        <BrandLogo className="header-brand" />
       </div>
 
       {/* ==========================================
@@ -57,6 +46,7 @@ function Header({ onMenuToggle }) {
           User Section
       ========================================== */}
       <div className="header-right">
+
         <HeaderDateTime />
 
         <select

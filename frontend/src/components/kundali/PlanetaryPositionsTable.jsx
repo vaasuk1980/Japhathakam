@@ -1,3 +1,4 @@
+import { rasiForLongitude } from "../../kundali/constants/RasiNames";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 
@@ -52,20 +53,6 @@ const GRAHA_ENGLISH_NAMES = {
     CHITRA: "Chitra",
 };
 
-const RASI_NAMES = [
-    { tel: "మేషం", en: "Aries" },
-    { tel: "వృషభం", en: "Taurus" },
-    { tel: "మిథునం", en: "Gemini" },
-    { tel: "కర్కాటకం", en: "Cancer" },
-    { tel: "సింహం", en: "Leo" },
-    { tel: "కన్య", en: "Virgo" },
-    { tel: "తుల", en: "Libra" },
-    { tel: "వృశ్చికం", en: "Scorpio" },
-    { tel: "ధనుస్సు", en: "Sagittarius" },
-    { tel: "మకరం", en: "Capricorn" },
-    { tel: "కుంభం", en: "Aquarius" },
-    { tel: "మీనం", en: "Pisces" },
-];
 
 // Matches backend/src/astrology/constants/Sthanas.js's englishName/
 // teluguName for each Sthana exactly — this table used to keep its
@@ -86,10 +73,6 @@ const BHAVA_LABELS = [
     { en: "12-Vyaya", te: "12-వ్యయ" },
 ];
 
-function rasiForLongitude(longitude) {
-    const normalized = ((longitude % 360) + 360) % 360;
-    return RASI_NAMES[Math.floor(normalized / 30)];
-}
 
 function buildRows(kundaliDocument, language) {
 

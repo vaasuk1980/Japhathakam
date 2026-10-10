@@ -382,7 +382,7 @@ function PersonDetails() {
     if (loadingPerson) {
         return (
             <div>
-                <h1>Person Details</h1>
+                <h1 className="page-title person-details__title">Person Details</h1>
                 <div>Loading saved person...</div>
             </div>
         );
@@ -391,7 +391,7 @@ function PersonDetails() {
     return (
         <div>
 
-            <h1 className="no-print">Person Details</h1>
+            <h1 className="page-title person-details__title no-print">Person Details</h1>
 
             <DynamicForm
                 key={`${personId ?? "new"}-${isEditMode}`}

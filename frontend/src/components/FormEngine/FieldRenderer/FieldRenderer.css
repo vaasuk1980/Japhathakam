@@ -52,14 +52,14 @@
 }
 
 .jp-form-field__label {
-    font-size: 15px;
+    font-size: var(--font-size-md);
     font-weight: 600;
 
-    color: #374151;
+    color: var(--jp-color-text-strong);
 }
 
 .jp-form-field__required {
-    color: #dc2626;
+    color: var(--jp-color-danger);
 
     font-weight: 700;
 }
@@ -73,7 +73,7 @@
 
     padding: 0 12px;
 
-    border: 1px solid #d1d5db;
+    border: 1px solid var(--jp-color-border-strong);
     border-radius: 6px;
 
     font-size: 14px;
@@ -88,7 +88,7 @@
 .jp-form-field__control textarea:focus {
     outline: none;
 
-    border-color: #2563eb;
+    border-color: var(--jp-color-primary);
 
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }

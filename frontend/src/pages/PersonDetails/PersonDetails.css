@@ -26,3 +26,7 @@
     color: var(--jp-color-danger);
     font-size: var(--font-size-sm);
 }
+
+.person-details__title {
+    margin-bottom: var(--spacing-lg);
+}

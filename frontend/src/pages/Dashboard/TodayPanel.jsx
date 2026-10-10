@@ -1,16 +1,15 @@
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 
-import useSkySnapshot from "../../hooks/useSkySnapshot";
 import { computeTithi, computeVara, computeAyana } from "../../kundali/utils/panchangamMath";
 import { translateMasa, translateSamvatsara } from "../../kundali/constants/PanchangamNameTranslations";
 import { grahaName } from "../../kundali/constants/DashaGrahaNames";
 import { CHART_GRAHA_SYMBOLS } from "../../kundali/constants/ChartGrahaSymbols";
 import KundaliRenderEngine from "../../kundali/engines/KundaliRenderEngine";
-import { useSavedLocation } from "../../location/LocationContext";
 import { useTranslation } from "../../i18n/I18nContext";
 
 import Card from "../../components/common/Card";
+import { SkeletonLines } from "../../components/common/Skeleton/Skeleton";
 import KundaliChart from "../../components/kundali/KundaliChart";
 
 import "./TodayPanel.css";
@@ -40,7 +39,7 @@ function GocharaSummaryCard({ snapshotState, t }) {
             </div>
 
             {snapshotState.status === "loading" && (
-                <p className="dashboard-card__empty">{t("dashboard.today.loading")}</p>
+                <SkeletonLines count={6} />
             )}
 
             {snapshotState.status === "error" && (
@@ -168,7 +167,7 @@ function GocharaKundaliCard({ snapshotState, t }) {
             </div>
 
             {snapshotState.status === "loading" && (
-                <p className="dashboard-card__empty">{t("dashboard.today.loading")}</p>
+                <SkeletonLines count={6} />
             )}
 
             {snapshotState.status === "error" && (
@@ -207,7 +206,7 @@ function TodayPanchangamCard({ snapshotState, t }) {
             </div>
 
             {snapshotState.status === "loading" && (
-                <p className="dashboard-card__empty">{t("dashboard.today.loading")}</p>
+                <SkeletonLines count={6} />
             )}
 
             {snapshotState.status === "error" && (
@@ -269,11 +268,9 @@ function TodayPanchangamCard({ snapshotState, t }) {
 
 }
 
-function TodayPanel({ recentSlot }) {
+function TodayPanel({ recentSlot, snapshotState }) {
 
     const { t } = useTranslation();
-    const { location } = useSavedLocation();
-    const snapshotState = useSkySnapshot(location);
 
     return (
         <div className="today-panel">

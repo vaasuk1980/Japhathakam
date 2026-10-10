@@ -20,7 +20,7 @@
 
     color: var(--jp-color-text-primary);
 
-    font-size: 18px;
+    font-size: var(--font-size-md);
     font-family: inherit;
 
     transition:

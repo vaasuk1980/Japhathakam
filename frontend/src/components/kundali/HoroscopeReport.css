@@ -87,12 +87,13 @@
     /* 20px, not var(--font-size-sm) (18px) — Birth Details' body
        text runs one size larger than the rest of the app's shared
        body tier by direct request. */
-    font-size: 20px;
+    font-size: var(--font-size-report);
     color: var(--jp-color-text-secondary);
 }
 
 .horoscope-report__save-pdf {
     flex-shrink: 0;
+    max-width: 100%;
 
     display: flex;
     flex-direction: column;
@@ -128,4 +129,17 @@
     font-size: var(--font-size-sm);
     color: var(--jp-color-text-muted);
     text-align: center;
+}
+
+/* Phones: let the Save PDF buttons drop below the name instead of
+   pushing the masthead wider than the viewport. */
+@media screen and (max-width: 767px) {
+    .horoscope-report__masthead {
+        flex-wrap: wrap;
+        row-gap: var(--spacing-sm);
+    }
+
+    .horoscope-report__save-pdf {
+        align-items: flex-start;
+    }
 }

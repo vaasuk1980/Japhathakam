@@ -1,0 +1,44 @@
+/* ==========================================
+   Application wordmark
+   ------------------------------------------
+   Telugu name over the English tagline, one left edge, both in
+   the app's UI font stack. Rendered at the top of the sidebar on
+   desktop and in the header on phones (where the sidebar is a
+   drawer). Colours default to the light-surface header;
+   .app-logo--on-dark is for the sidebar.
+========================================== */
+
+.app-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+
+  line-height: 1.2;
+}
+
+.app-logo__title {
+  font-family: var(--font-family);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-semibold);
+
+  color: var(--jp-color-text-primary);
+}
+
+.app-logo__subtitle {
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-medium);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  color: var(--jp-color-text-muted);
+}
+
+.app-logo--on-dark .app-logo__title {
+  color: var(--jp-color-sidebar-text);
+}
+
+.app-logo--on-dark .app-logo__subtitle {
+  color: var(--jp-color-accent);
+}

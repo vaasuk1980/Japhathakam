@@ -25,14 +25,17 @@ function App() {
                     <Route path="/compare-kundalis" element={<CompareKundalis />} />
                     <Route path="/panchangam" element={<Panchangam />} />
                     <Route path="/muhurtham" element={<Muhurtham />} />
-                    <Route path="/component-showcase" element={<ComponentShowcase />} />
-                    <Route path="/playground" element={<FormPlayground />} />
-
-                    {/* Temporary Swiss Ephemeris Test */}
-                    <Route
-                        path="/test-swiss-ephemeris"
-                        element={<TestSwissEphemeris />}
-                    />
+                    {/* Developer-only routes — not shipped in production builds */}
+                    {import.meta.env.DEV && (
+                        <>
+                            <Route path="/component-showcase" element={<ComponentShowcase />} />
+                            <Route path="/playground" element={<FormPlayground />} />
+                            <Route
+                                path="/test-swiss-ephemeris"
+                                element={<TestSwissEphemeris />}
+                            />
+                        </>
+                    )}
 
                     <Route path="/settings" element={<Settings />} />
 

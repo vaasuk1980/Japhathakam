@@ -65,7 +65,7 @@
 
 .rt-panchangam-grid__value {
     font-family: var(--font-family);
-    font-size: 18px;
+    font-size: var(--font-size-md);
     font-weight: var(--font-semibold);
     color: var(--jp-color-text-primary);
 
@@ -86,7 +86,7 @@
 
     padding: var(--spacing-sm) var(--spacing-lg);
 
-    font-family: Georgia, "Times New Roman", var(--font-family), serif;
+    font-family: var(--font-family-heading);
     font-size: var(--font-size-xl);
     font-weight: var(--font-semibold);
     color: var(--jp-color-text-primary);
@@ -120,7 +120,7 @@
     padding: var(--spacing-sm);
 
     font-family: var(--font-family);
-    font-size: 18px;
+    font-size: var(--font-size-md);
 
     border: 1px solid var(--jp-color-border);
     border-radius: var(--radius-md);
@@ -130,12 +130,12 @@
 
 .rt-controls__status {
     font-family: var(--font-family);
-    font-size: 18px;
+    font-size: var(--font-size-md);
     color: var(--jp-color-text-secondary);
 }
 
 .rt-controls__status--error {
-    color: #b22222;
+    color: var(--jp-color-negative);
 }
 
 .rt-table-section {
@@ -156,7 +156,7 @@
 
     padding: var(--spacing-sm) var(--spacing-lg);
 
-    font-family: Georgia, "Times New Roman", var(--font-family), serif;
+    font-family: var(--font-family-heading);
     font-size: var(--font-size-xl);
     font-weight: var(--font-semibold);
     color: var(--jp-color-text-primary);
@@ -167,7 +167,7 @@
 
 .rt-table-empty {
     font-family: var(--font-family);
-    font-size: 18px;
+    font-size: var(--font-size-md);
     color: var(--jp-color-text-muted);
 }
 
@@ -179,7 +179,7 @@
     width: 100%;
     border-collapse: collapse;
 
-    font-size: 18px;
+    font-size: var(--font-size-md);
 }
 
 .rt-table th {
@@ -188,7 +188,7 @@
     border-bottom: 2px solid var(--jp-color-primary);
 
     font-family: var(--font-family);
-    font-size: 18px;
+    font-size: var(--font-size-md);
     font-weight: var(--font-semibold);
     text-align: left;
     text-transform: uppercase;

@@ -1,9 +1,7 @@
+import ComingSoon from "../../components/common/ComingSoon/ComingSoon";
+
 function Settings() {
-  return (
-    <div>
-      <h1>Settings</h1>
-    </div>
-  );
+  return <ComingSoon titleKey="sidebar.settings" />;
 }
 
 export default Settings;

@@ -43,7 +43,10 @@
 
 @media (max-width: 767px) {
     .today-panel__cards {
-        grid-template-columns: 1fr;
+        /* minmax(0, …), not a bare 1fr: 1fr has an implicit
+           min-content floor, which let the kundali chart / table
+           cards push the column wider than the phone viewport. */
+        grid-template-columns: minmax(0, 1fr);
     }
 }
 

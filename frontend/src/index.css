@@ -19,10 +19,39 @@ body,
 
 body {
   font-family: var(--font-family);
-  letter-spacing: 0.5px;
-  background: #f5f7fa;
-  color: #1f2937;
-  overflow: hidden;
+  background: var(--jp-color-background);
+  color: var(--jp-color-text-primary);
+}
+
+/* On screen, the page's base text is the 14px body tier with
+   default tracking. Wide letter-spacing is reserved for uppercase
+   micro-labels, which set their own (em-based) value. */
+@media screen {
+  body {
+    font-size: var(--font-size-md);
+    letter-spacing: normal;
+  }
+}
+
+/* The print/PDF report was tuned with the previous 0.5px tracking,
+   so it is kept there to leave pagination unchanged. */
+@media print {
+  body {
+    letter-spacing: 0.5px;
+  }
+}
+
+/* Keyboard focus ring — shown for keyboard navigation only
+   (:focus-visible), never on mouse click. Controls that draw their
+   own focus treatment (inputs, buttons) keep it. */
+:focus-visible {
+  outline: 2px solid var(--jp-color-primary);
+  outline-offset: 2px;
+}
+
+.sidebar :focus-visible {
+  outline-color: var(--jp-color-sidebar-text);
+  outline-offset: -2px;
 }
 
 /* Root Container */

@@ -1,9 +1,7 @@
+import ComingSoon from "../../components/common/ComingSoon/ComingSoon";
+
 function Reports() {
-  return (
-    <div>
-      <h1>Reports</h1>
-    </div>
-  );
+  return <ComingSoon titleKey="sidebar.reports" />;
 }
 
 export default Reports;

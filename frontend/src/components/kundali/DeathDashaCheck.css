@@ -11,7 +11,7 @@
     margin: 0 0 var(--spacing-sm);
 
     font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 18px;
+    font-size: var(--font-size-md);
     color: var(--jp-color-text-secondary);
 }
 
@@ -19,7 +19,7 @@
     margin: 0 0 var(--spacing-sm);
 
     font-family: var(--font-family);
-    font-size: 16px;
+    font-size: var(--font-size-report-sm);
     font-style: italic;
     color: var(--jp-color-text-muted);
 }

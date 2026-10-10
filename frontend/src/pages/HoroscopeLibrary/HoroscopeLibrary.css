@@ -133,11 +133,11 @@
    amber rather than the app's blue primary, since this is a
    personal marker/highlight, not a navigational action. */
 .horoscope-library__favourite-toggle[aria-pressed="true"] {
-    color: #f59e0b;
+    color: var(--jp-color-warning);
 }
 
 .horoscope-library__favourite-toggle:hover {
-    color: #f59e0b;
+    color: var(--jp-color-warning);
 }
 
 .horoscope-library__avatar {

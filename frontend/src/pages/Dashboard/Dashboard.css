@@ -131,3 +131,161 @@
 .dashboard-table a:hover {
     text-decoration: underline;
 }
+
+/* ==========================================================
+   Hero: greeting + primary action + quick search
+   ========================================================== */
+
+.dashboard-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.dashboard-hero__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+}
+
+.dashboard-hero__search {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.dashboard-hero__search svg {
+    position: absolute;
+    left: 12px;
+    color: var(--jp-color-text-muted);
+    pointer-events: none;
+}
+
+.dashboard-hero__search input {
+    width: 340px;
+    max-width: 100%;
+    padding: 9px 12px 9px 36px;
+
+    font-family: var(--font-family);
+    font-size: var(--font-size-md);
+    color: var(--jp-color-text-primary);
+
+    background: var(--jp-color-surface);
+    border: 1px solid var(--jp-color-border-strong);
+    border-radius: var(--radius-md);
+}
+
+.dashboard-hero__search input:focus {
+    outline: none;
+    border-color: var(--jp-color-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.dashboard-hero__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+
+    padding: 9px 16px;
+
+    font-family: var(--font-family);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-semibold);
+    text-decoration: none;
+
+    color: var(--jp-color-text-on-primary);
+    background: var(--jp-color-primary);
+    border-radius: var(--radius-md);
+}
+
+.dashboard-hero__cta:hover {
+    background: var(--jp-color-primary-hover);
+}
+
+@media (max-width: 767px) {
+    .dashboard-hero__search {
+        flex: 1 1 100%;
+    }
+
+    .dashboard-hero__search input {
+        width: 100%;
+    }
+
+    .dashboard-hero__cta {
+        flex: 1 1 100%;
+        justify-content: center;
+    }
+}
+
+/* ==========================================================
+   Today strip: tithi · nakshatra · Rahu Kalam
+   ========================================================== */
+
+.today-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--spacing-sm);
+}
+
+.today-strip__item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    padding: var(--spacing-sm) var(--spacing-md);
+
+    background: var(--jp-color-surface);
+    border: 1px solid var(--jp-color-border);
+    border-left: 3px solid var(--jp-color-accent);
+    border-radius: var(--radius-md);
+}
+
+.today-strip__label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--jp-color-text-muted);
+}
+
+.today-strip__value {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-text-primary);
+}
+
+.today-strip__skeleton {
+    width: 70%;
+    height: 20px;
+    margin-top: 2px;
+}
+
+/* ==========================================================
+   Recent list: initials avatar
+   ========================================================== */
+
+.dashboard-person-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.dashboard-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+
+    width: 28px;
+    height: 28px;
+
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-accent-strong);
+
+    background: var(--jp-color-accent-soft);
+    border-radius: var(--radius-pill);
+}

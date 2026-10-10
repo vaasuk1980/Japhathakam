@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 
 import translations from "./translations";
 
@@ -51,6 +51,14 @@ export function LanguageProvider({ children }) {
         return stored && translations[stored] ? stored : DEFAULT_LANGUAGE;
 
     });
+
+    // Lets CSS pick a per-language font stack via :root:lang(...)
+    // (see variables.css) — Segoe UI Numerals only matters in Telugu.
+    useEffect(() => {
+
+        document.documentElement.lang = language;
+
+    }, [language]);
 
     const setLanguage = useCallback((nextLanguage) => {
 

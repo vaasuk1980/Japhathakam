@@ -94,7 +94,7 @@
 }
 
 .kundali-center__label {
-    font-family: Georgia, "Times New Roman", var(--font-family), serif;
+    font-family: var(--font-family-heading);
     font-weight: 700;
     color: #444;
 
@@ -252,11 +252,11 @@
    Punya/Papa classified. Same rule applies identically in the
    Planetary Position table. */
 .graha-symbol--papa {
-    color: #b22222;
+    color: var(--jp-color-negative);
 }
 
 .graha-symbol--punya {
-    color: #16a34a;
+    color: var(--jp-color-success);
 }
 
 /* Retrograde marker — a small superscript "R" beside the graha's

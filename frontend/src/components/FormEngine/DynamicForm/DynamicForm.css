@@ -17,5 +17,5 @@
 
     font-weight: 700;
 
-    color: #1f2937;
+    color: var(--jp-color-text-primary);
 }

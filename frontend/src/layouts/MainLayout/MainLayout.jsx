@@ -10,14 +10,41 @@ function MainLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
 
+  // Desktop-only collapsed (icons-only) sidebar; remembered per browser.
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    try {
+      return window.localStorage.getItem("jp_sidebar_collapsed") === "1";
+    } catch {
+      return false;
+    }
+  });
+
+  const toggleCollapsed = () => {
+    setIsCollapsed((previous) => {
+      const next = !previous;
+
+      try {
+        window.localStorage.setItem("jp_sidebar_collapsed", next ? "1" : "0");
+      } catch {
+        // storage unavailable — the choice just won't persist
+      }
+
+      return next;
+    });
+  };
+
   // Close the mobile drawer on every navigation, not just outside clicks.
   useEffect(() => {
     setIsSidebarOpen(false);
   }, [location.pathname]);
 
   return (
-    <div className="layout">
-      <Sidebar isOpen={isSidebarOpen} />
+    <div className={isCollapsed ? "layout layout--sidebar-collapsed" : "layout"}>
+      <Sidebar
+        isOpen={isSidebarOpen}
+        isCollapsed={isCollapsed}
+        onToggleCollapse={toggleCollapsed}
+      />
 
       {isSidebarOpen && (
         <div
