@@ -9,10 +9,8 @@ import { useTranslation } from "../../i18n/I18nContext";
 import useSkySnapshot from "../../hooks/useSkySnapshot";
 import usePersonSummaries from "../../hooks/usePersonSummaries";
 import { useSavedLocation } from "../../location/LocationContext";
-import { computeTithi } from "../../kundali/utils/panchangamMath";
 import { grahaName } from "../../kundali/constants/DashaGrahaNames";
 import { rasiForLongitude } from "../../kundali/constants/RasiNames";
-import computeRahuKalam from "../../utils/panchangam/computeRahuKalam";
 
 import Card from "../../components/common/Card";
 import EmptyState from "../../components/common/EmptyState/EmptyState";
@@ -204,58 +202,6 @@ function DashboardHero({ t, greetingKey }) {
 
 }
 
-// Today at a glance: tithi, nakshatra, Rahu Kalam. Same sky snapshot
-// the cards below use, so the three always agree with them.
-function TodayStrip({ snapshotState, t, language }) {
-
-    const pick = (bilingual) => (bilingual ? (language === "te" ? bilingual.te : bilingual.en) : null);
-    const data = snapshotState.data;
-
-    const sun = data?.planetPositions?.find((position) => position.planet === "SUN");
-    const moon = data?.planetPositions?.find((position) => position.planet === "MOON");
-    const tithi = sun && moon ? computeTithi(sun.longitude, moon.longitude) : null;
-    const rahu = data ? computeRahuKalam(data.date, data.sunrise, data.sunset) : null;
-
-    const nakshatra = language === "te" ? moon?.nakshatra?.teluguName : moon?.nakshatra?.englishName;
-
-    const items = [
-        {
-            label: t("dashboard.today.tithi"),
-            value: tithi ? `${pick(tithi.paksha)} · ${pick(tithi.name)}` : null,
-        },
-        {
-            label: t("dashboard.today.nakshatra"),
-            value: nakshatra
-                ? `${nakshatra}${moon?.pada?.number ? ` - ${moon.pada.number}` : ""}`
-                : null,
-        },
-        {
-            label: t("dashboard.strip.rahuKalam"),
-            value: rahu ? `${rahu.start} – ${rahu.end}` : null,
-        },
-    ];
-
-    const isLoading = snapshotState.status === "loading";
-
-    return (
-        <section
-            className="today-strip"
-            aria-label={t("dashboard.strip.title")}
-            aria-busy={isLoading}
-        >
-            {items.map((item) => (
-                <div className="today-strip__item" key={item.label}>
-                    <span className="today-strip__label">{item.label}</span>
-                    {isLoading
-                        ? <span className="jp-skeleton today-strip__skeleton" aria-hidden="true" />
-                        : <span className="today-strip__value">{item.value ?? "—"}</span>}
-                </div>
-            ))}
-        </section>
-    );
-
-}
-
 function Dashboard() {
 
     const { t, language } = useTranslation();
@@ -278,8 +224,6 @@ function Dashboard() {
     return (
         <main className="page dashboard-page">
             <DashboardHero t={t} greetingKey={greetingKey} />
-
-            <TodayStrip snapshotState={snapshotState} t={t} language={language} />
 
             <div className="dashboard-quick-actions">
                 {QUICK_ACTIONS.map(({ labelKey, path, icon: Icon }) => (

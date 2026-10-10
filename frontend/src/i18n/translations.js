@@ -10,6 +10,7 @@ const en = {
         yourLocation: "Your Location",
         language: "Language",
         toggleMenu: "Toggle menu",
+        searchToggle: "Search",
         searchPlaceholder: "Search by name or place of birth…",
         searchNoResults: "No matching horoscopes.",
         searchViewAll: "View all results for \"{{query}}\"",
@@ -24,6 +25,7 @@ const en = {
         settings: "Settings",
         reports: "Reports",
         comingSoon: "Soon",
+        more: "More",
         collapse: "Collapse menu",
         expand: "Expand menu",
         groups: {
@@ -64,10 +66,6 @@ const en = {
             searchPlaceholder: "Search saved horoscopes by name…",
             searchLabel: "Search saved horoscopes",
             searchButton: "Search",
-        },
-        strip: {
-            title: "Today",
-            rahuKalam: "Rahu Kalam",
         },
         today: {
             gocharaTitle: "Gochara · Today",
@@ -225,6 +223,7 @@ const te = {
         yourLocation: "మీ స్థానం",
         language: "భాష",
         toggleMenu: "మెనూ తెరవండి",
+        searchToggle: "వెతకండి",
         searchPlaceholder: "పేరు లేదా జనన స్థలం ద్వారా వెతకండి…",
         searchNoResults: "సరిపోలే జాతకములు లేవు.",
         searchViewAll: "\"{{query}}\" కొరకు అన్ని ఫలితాలు చూడండి",
@@ -239,6 +238,7 @@ const te = {
         settings: "సెట్టింగులు",
         reports: "నివేదికలు",
         comingSoon: "త్వరలో",
+        more: "మరిన్ని",
         collapse: "మెనూను కుదించు",
         expand: "మెనూను విస్తరించు",
         groups: {
@@ -279,10 +279,6 @@ const te = {
             searchPlaceholder: "సేవ్ చేసిన జాతకములను పేరుతో వెతకండి…",
             searchLabel: "సేవ్ చేసిన జాతకములను వెతకండి",
             searchButton: "వెతకండి",
-        },
-        strip: {
-            title: "ఈరోజు",
-            rahuKalam: "రాహు కాలం",
         },
         today: {
             gocharaTitle: "గోచారం · ఈరోజు",

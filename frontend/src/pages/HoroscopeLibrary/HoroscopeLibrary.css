@@ -226,3 +226,16 @@
     font-size: var(--font-size-sm);
     color: var(--jp-color-text-secondary);
 }
+
+/* Phones: keep columns readable and let the table scroll inside its
+   card rather than wrapping dates one digit per line. */
+@media (max-width: 767px) {
+    .horoscope-library__table {
+        min-width: 640px;
+    }
+
+    .horoscope-library__table td,
+    .horoscope-library__table th {
+        white-space: nowrap;
+    }
+}

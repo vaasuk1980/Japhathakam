@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 
-import { computeTithi, computeVara, computeAyana } from "../../kundali/utils/panchangamMath";
+import { computeTithi, computeVara, computeAyana, formatTithiShort } from "../../kundali/utils/panchangamMath";
 import { translateMasa, translateSamvatsara } from "../../kundali/constants/PanchangamNameTranslations";
 import { grahaName } from "../../kundali/constants/DashaGrahaNames";
 import { CHART_GRAHA_SYMBOLS } from "../../kundali/constants/ChartGrahaSymbols";
@@ -235,7 +235,7 @@ function TodayPanchangamCard({ snapshotState, t }) {
                     <div className="today-panchangam-grid__item">
                         <span className="today-panchangam-grid__label">{t("dashboard.today.tithi")}</span>
                         <span className="today-panchangam-grid__value">
-                            {tithi ? `${pick(tithi.paksha)} · ${pick(tithi.name)}` : "—"}
+                            {formatTithiShort(tithi, language) ?? "—"}
                         </span>
                     </div>
 

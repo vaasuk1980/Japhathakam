@@ -18,7 +18,9 @@ function SidebarItem({ item }) {
             : "sidebar-item"
         }
       >
-        <Icon size={18} />
+        <span className={`sidebar-item__chip sidebar-item__chip--${item.tone ?? "black"}`}>
+          <Icon size={15} />
+        </span>
 
         <span className="sidebar-item__label">{t(item.labelKey)}</span>
 

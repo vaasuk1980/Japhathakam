@@ -129,32 +129,30 @@
 }
 
 @media (max-width: 767px) {
-    .header-location__label {
+    /* Phones: just the pin — the place name lives in the dropdown's
+       search and on the Dashboard's Today cards, and a truncated
+       "Hyder…" next to three other controls was unreadable. */
+    .header-location__text {
         display: none;
     }
 
     .header-location__trigger {
-        padding: 4px 6px;
+        width: 40px;
+        height: 40px;
+        justify-content: center;
+        padding: 0;
     }
 
-    .header-location__value {
-        max-width: 90px;
+    .header-location__icon {
+        width: 20px;
+        height: 20px;
+        color: var(--jp-color-text-secondary);
     }
 
     .header-location__dropdown {
-        right: auto;
-        left: 0;
+        right: 0;
+        left: auto;
 
-        width: 240px;
-    }
-}
-
-@media (max-width: 480px) {
-    .header-location__icon {
-        display: none;
-    }
-
-    .header-location__value {
-        max-width: 60px;
+        width: min(280px, calc(100vw - 32px));
     }
 }

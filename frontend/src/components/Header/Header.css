@@ -240,6 +240,27 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* Phones only (shown from the 767px block): icon that reveals the search field. */
+.header-search__toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  width: 40px;
+  height: 40px;
+
+  color: var(--jp-color-text-secondary);
+  background: none;
+  border: none;
+  border-radius: var(--radius-md);
+
+  cursor: pointer;
+}
+
+.header-search__toggle:hover {
+  background: var(--jp-color-background);
+}
+
 /* ==========================================
    Language Switcher
 ========================================== */
@@ -272,7 +293,7 @@
 @media (max-width: 767px) {
   .header {
     left: 0;
-    padding: 0 var(--spacing-md);
+    padding: 0 var(--spacing-sm);
   }
 
   .header-menu-toggle {
@@ -281,7 +302,6 @@
 
   .header-left {
     display: flex;
-    margin-right: var(--spacing-sm);
   }
 
   .header-brand .app-logo__title {
@@ -292,21 +312,65 @@
     display: none;
   }
 
+  /* Search becomes an icon at the right; the field itself drops in
+     as a full-width bar under the header (see HeaderSearch). */
   .header-center {
-    margin: 0 var(--spacing-sm);
+    flex: none;
+    margin: 0 0 0 auto;
   }
 
   .header-search {
+    width: auto;
     max-width: none;
+  }
+
+  .header-search__toggle {
+    display: inline-flex;
+  }
+
+  .header-search__icon,
+  .header-search__input {
+    display: none;
+  }
+
+  .header-search--open .header-search__icon,
+  .header-search--open .header-search__input {
+    display: block;
+  }
+
+  .header-search--open .header-search__input {
+    position: fixed;
+    top: calc(var(--header-height) + var(--spacing-sm));
+    left: var(--spacing-md);
+    right: var(--spacing-md);
+    width: auto;
+
+    box-shadow: var(--shadow-md);
+    z-index: var(--z-header);
+  }
+
+  .header-search--open .header-search__icon {
+    position: fixed;
+    top: calc(var(--header-height) + var(--spacing-sm) + 12px);
+    left: calc(var(--spacing-md) + 12px);
+    transform: none;
+    z-index: calc(var(--z-header) + 1);
+  }
+
+  .header-search--open .header-search__dropdown {
+    position: fixed;
+    top: calc(var(--header-height) + var(--spacing-sm) + 50px);
+    left: var(--spacing-md);
+    right: var(--spacing-md);
+  }
+
+  .header-right {
+    margin-left: 0;
   }
 
   .language-switcher {
     margin-right: var(--spacing-xs);
     padding: 6px 4px;
-  }
-
-  .header-location__value {
-    font-size: var(--font-size-md);
   }
 
   .header-datetime {
@@ -317,10 +381,6 @@
 @media (max-width: 480px) {
   .header-brand .app-logo__title {
     font-size: var(--font-size-md);
-  }
-
-  .header-center {
-    margin: 0 var(--spacing-xs);
   }
 }
 

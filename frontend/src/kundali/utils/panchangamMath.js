@@ -90,3 +90,22 @@ export function computeAyana(sunLongitude) {
     const isUttarayana = signIndex >= 9 || signIndex <= 2;
     return isUttarayana ? UTTARAYANA : DAKSHINAYANA;
 }
+
+// Compact on-screen label for a computeTithi() result, e.g.
+// "Shukla · Padyami" / "శుక్ల · పాడ్యమి" — the trailing "Paksha"/"పక్షం"
+// is dropped (the label already says Tithi). Display-only: the full
+// paksha names in computeTithi() are what the reports/PDF print.
+export function formatTithiShort(tithi, language) {
+
+    if (!tithi) {
+        return null;
+    }
+
+    const lang = language === "te" ? "te" : "en";
+
+    const paksha = tithi.paksha[lang]
+        .replace(/s*(Paksha|పక్షం)s*$/u, "");
+
+    return `${paksha} · ${tithi.name[lang]}`;
+
+}

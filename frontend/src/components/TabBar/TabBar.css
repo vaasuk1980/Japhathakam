@@ -1,0 +1,102 @@
+/* ==========================================================
+   Phone tab bar + floating add button (Sankalpa kit)
+   ========================================================== */
+
+.tabbar,
+.fab {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --tabbar-h: 64px;
+  }
+
+  .tabbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: calc(var(--z-sidebar) + 10);
+
+    height: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px));
+    padding: 7px 0 env(safe-area-inset-bottom, 0px);
+
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: start;
+
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-top: 1px solid var(--jp-color-border-strong);
+  }
+
+  .tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+
+    min-height: 48px;
+    padding: 0;
+
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: var(--font-semibold);
+    text-decoration: none;
+
+    color: var(--jp-color-text-muted);
+    background: none;
+    border: none;
+
+    cursor: pointer;
+  }
+
+  .tab.active {
+    color: var(--jp-color-primary);
+  }
+
+  .fab {
+    position: fixed;
+    right: 16px;
+    bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px) + 16px);
+    z-index: calc(var(--z-sidebar) + 11);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 56px;
+    height: 56px;
+
+    color: #fff;
+    background: var(--jp-color-primary);
+    border-radius: 50%;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+  }
+
+  .fab:active {
+    transform: scale(0.94);
+  }
+
+  /* Room for the bar + button so content never hides behind them. */
+  .page-content {
+    padding-bottom: calc(var(--tabbar-h) + 88px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* "More" in the tab bar opens the drawer, so the header hamburger
+     is redundant on phones. */
+  .header-menu-toggle {
+    display: none;
+  }
+
+  /* Drawer: above content, below the tab bar; the bar stays tappable. */
+  .sidebar {
+    height: calc(100vh - var(--header-height) - var(--tabbar-h));
+  }
+
+  .sidebar-backdrop {
+    bottom: var(--tabbar-h);
+  }
+}

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 
 import PersonService from "../../services/PersonService";
 import formatDateDDMMYYYY from "../../utils/date/formatDateDDMMYYYY";
@@ -26,6 +26,9 @@ function HeaderSearch() {
     const [persons, setPersons] = useState([]);
     const [query, setQuery] = useState("");
     const [isOpen, setIsOpen] = useState(false);
+    // Phones only: the field is hidden behind a header icon and drops
+    // in below the header when this is true (see Header.css).
+    const [isMobileOpen, setIsMobileOpen] = useState(false);
 
     useEffect(() => {
 
@@ -71,6 +74,7 @@ function HeaderSearch() {
     const goToLibrary = () => {
 
         setIsOpen(false);
+        setIsMobileOpen(false);
         navigate(`/horoscope-library?q=${encodeURIComponent(query.trim())}`);
 
     };
@@ -78,6 +82,7 @@ function HeaderSearch() {
     const goToPerson = (person) => {
 
         setIsOpen(false);
+        setIsMobileOpen(false);
         setQuery("");
         navigate(`/person-details?id=${person.id}`);
 
@@ -95,7 +100,20 @@ function HeaderSearch() {
     };
 
     return (
-        <div className="header-search" ref={containerRef}>
+        <div
+            className={isMobileOpen ? "header-search header-search--open" : "header-search"}
+            ref={containerRef}
+        >
+            <button
+                type="button"
+                className="header-search__toggle"
+                aria-label={t("header.searchToggle")}
+                aria-expanded={isMobileOpen}
+                onClick={() => setIsMobileOpen((open) => !open)}
+            >
+                {isMobileOpen ? <X size={20} /> : <Search size={20} />}
+            </button>
+
             <Search className="header-search__icon" size={16} aria-hidden="true" />
 
             <input

@@ -14,6 +14,7 @@ const menuItems = Object.freeze([
     labelKey: "sidebar.dashboard",
     icon: LayoutDashboard,
     path: "/",
+    tone: "primary",
     group: "workspace",
   },
   {
@@ -21,6 +22,7 @@ const menuItems = Object.freeze([
     labelKey: "sidebar.birthDetails",
     icon: UserRound,
     path: "/person-details",
+    tone: "blue",
     group: "workspace",
   },
   {
@@ -28,6 +30,7 @@ const menuItems = Object.freeze([
     labelKey: "sidebar.horoscopeLibrary",
     icon: Library,
     path: "/horoscope-library",
+    tone: "blue",
     group: "workspace",
   },
   {
@@ -35,6 +38,7 @@ const menuItems = Object.freeze([
     labelKey: "sidebar.compareKundalis",
     icon: GitCompare,
     path: "/compare-kundalis",
+    tone: "orange",
     group: "workspace",
   },
   {
@@ -42,6 +46,7 @@ const menuItems = Object.freeze([
     labelKey: "sidebar.panchangam",
     icon: CalendarDays,
     path: "/panchangam",
+    tone: "green",
     group: "almanac",
   },
   {
@@ -49,6 +54,7 @@ const menuItems = Object.freeze([
     labelKey: "sidebar.muhurtham",
     icon: Clock,
     path: "/muhurtham",
+    tone: "blue",
     group: "almanac",
     comingSoon: true,
   },
@@ -57,6 +63,7 @@ const menuItems = Object.freeze([
     labelKey: "sidebar.settings",
     icon: Settings,
     path: "/settings",
+    tone: "black",
     group: "system",
     comingSoon: true,
   },

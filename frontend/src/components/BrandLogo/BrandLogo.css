@@ -36,9 +36,9 @@
 }
 
 .app-logo--on-dark .app-logo__title {
-  color: var(--jp-color-sidebar-text);
+  color: var(--jp-color-text-primary);
 }
 
 .app-logo--on-dark .app-logo__subtitle {
-  color: var(--jp-color-accent);
+  color: var(--jp-color-text-muted);
 }

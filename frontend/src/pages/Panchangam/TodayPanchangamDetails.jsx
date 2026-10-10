@@ -1,5 +1,5 @@
 import useSkySnapshot from "../../hooks/useSkySnapshot";
-import { computeTithi, computeVara, computeAyana } from "../../kundali/utils/panchangamMath";
+import { computeTithi, computeVara, computeAyana, formatTithiShort } from "../../kundali/utils/panchangamMath";
 import { translateMasa, translateSamvatsara } from "../../kundali/constants/PanchangamNameTranslations";
 import { useSavedLocation } from "../../location/LocationContext";
 import { useTranslation } from "../../i18n/I18nContext";
@@ -58,7 +58,7 @@ function TodayPanchangamDetails() {
                     <div className="rt-panchangam-grid__item">
                         <span className="rt-panchangam-grid__label">{t("dashboard.today.tithi")}</span>
                         <span className="rt-panchangam-grid__value">
-                            {tithi ? `${pick(tithi.paksha)} · ${pick(tithi.name)}` : "—"}
+                            {formatTithiShort(tithi, language) ?? "—"}
                         </span>
                     </div>
 

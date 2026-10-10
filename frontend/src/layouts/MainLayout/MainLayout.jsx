@@ -3,6 +3,7 @@ import { Outlet, useLocation } from "react-router-dom";
 
 import Header from "../../components/Header/Header";
 import Sidebar from "../../components/Sidebar/Sidebar";
+import TabBar from "../../components/TabBar/TabBar";
 
 import "./MainLayout.css";
 
@@ -60,6 +61,11 @@ function MainLayout() {
           <Outlet />
         </main>
       </div>
+
+      <TabBar
+        isMenuOpen={isSidebarOpen}
+        onMore={() => setIsSidebarOpen((open) => !open)}
+      />
     </div>
   );
 }

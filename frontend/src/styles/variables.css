@@ -40,25 +40,25 @@
 
   /* Backgrounds */
 
-  --jp-color-background: #f5f7fa;
+  --jp-color-background: #f2f2f7;
   --jp-color-surface: #ffffff;
 
   /* Sidebar */
 
-  --jp-color-sidebar-bg: #1f2937;
-  --jp-color-sidebar-text: #ffffff;
-  --jp-color-sidebar-hover: #374151;
-  --jp-color-sidebar-active: #2563eb;
-  --jp-color-sidebar-border: #374151;
-  --jp-color-sidebar-text-muted: #d1d5db;
+  --jp-color-sidebar-bg: #ebebf0;
+  --jp-color-sidebar-text: #1c1c1e;
+  --jp-color-sidebar-hover: #e3e3e8;
+  --jp-color-sidebar-active: #e8effa;
+  --jp-color-sidebar-border: #dcdce1;
+  --jp-color-sidebar-text-muted: #6c6c70;
 
   /* Text */
 
-  --jp-color-text-primary: #1f2937;
-  --jp-color-text-secondary: #4b5563;
+  --jp-color-text-primary: #1c1c1e;
+  --jp-color-text-secondary: #48484a;
   /* #6b7280 on white is 4.8:1 (WCAG AA); the old #9ca3af was 2.5:1. */
-  --jp-color-text-muted: #6b7280;
-  --jp-color-text-strong: #374151;
+  --jp-color-text-muted: #6c6c70;
+  --jp-color-text-strong: #3a3a3c;
   --jp-color-text-white: #ffffff;
 
   /* Semantic Text */
@@ -69,8 +69,8 @@
 
   /* Borders */
 
-  --jp-color-border: #e5e7eb;
-  --jp-color-border-strong: #d1d5db;
+  --jp-color-border: #e8e8ed;
+  --jp-color-border-strong: #d1d1d6;
 
   /* Brand */
 
@@ -84,22 +84,32 @@
 
   /* Status */
 
-  --jp-color-success: #16a34a;
-  --jp-color-success-bg: #dcfce7;
+  --jp-color-success: #178a45;
+  --jp-color-success-bg: #e8f4ec;
 
-  --jp-color-warning: #f59e0b;
-  --jp-color-warning-bg: #fef3c7;
+  --jp-color-warning: #e0630a;
+  --jp-color-warning-bg: #fdf0e3;
 
-  --jp-color-danger: #dc2626;
-  --jp-color-danger-hover: #b91c1c;
-  --jp-color-danger-bg: #fee2e2;
+  --jp-color-danger: #c62828;
+  --jp-color-danger-hover: #a31f1f;
+  --jp-color-danger-bg: #fdecec;
 
   /* Brand accent — drawn from the logo (gold linework + deep maroon
      glyph). Used sparingly: active-nav indicator, the Today strip,
      avatars. Primary actions stay --jp-color-primary. */
-  --jp-color-accent: #b8862b;
-  --jp-color-accent-strong: #8b2a14;
-  --jp-color-accent-soft: #f6ecd9;
+  --jp-color-accent: #2563eb;
+  --jp-color-accent-strong: #1d4ed8;
+  --jp-color-accent-soft: #e8effa;
+
+  /* Sankalpa kit supporting colours. Four-colour rule: green = main
+     action / done, blue = everyday / info, red = overdue / destructive,
+     black = system (plus orange for labels). */
+  --jp-color-blue: #1f5fbf;
+  --jp-color-blue-tint: #e8effa;
+  --jp-color-orange: #e0630a;
+  --jp-color-orange-tint: #fdf0e3;
+  --jp-color-black: #1c1c1e;
+  --jp-color-hover: #fafafc;
 
   /* Adverse indicator inside charts/tables — darker, more
      "ink-like" than --jp-color-danger. */
@@ -111,7 +121,10 @@
      Dasacharam). Light fill keeps the existing dark heading text
      (var(--jp-color-text-primary)) readable without needing a
      separate light-text override. */
-  --jp-color-heading-fill: #ececec;
+  /* Opaque on purpose: section titles are position: sticky and this fill
+     is what hides the content scrolling underneath them. Same white as
+     the card, so it reads as no bar at all. (Print restores the grey.) */
+  --jp-color-heading-fill: #ffffff;
 
 
   /* ========================================================
@@ -215,9 +228,9 @@
   --font-size-report-sm: 13px;
   --font-size-report-label: 12px;
 
-  /* Report label / table-header colour: muted on screen so the
-     data carries the emphasis; print keeps the original blue. */
-  --jp-color-report-label: var(--jp-color-text-muted);
+  /* Report label / table-header colour: the primary blue, on screen
+     and in print alike. */
+  --jp-color-report-label: var(--jp-color-primary);
 
   /* Headings use the UI font on screen; the printed report keeps
      its Georgia serif titles. */
@@ -245,9 +258,9 @@
   /* Primitive */
 
   --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
   --radius-pill: 999px;
 
   /* Semantic */
@@ -263,11 +276,11 @@
      SHADOWS
      ======================================================== */
 
-  --shadow-sm: 0 2px 6px rgba(0,0,0,0.05);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
 
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-md: 0 8px 24px rgba(40, 60, 110, 0.10), 0 1px 3px rgba(40, 60, 110, 0.06);
 
-  --shadow-lg: 0 10px 25px rgba(0,0,0,0.12);
+  --shadow-lg: 0 14px 34px rgba(40, 60, 110, 0.16), 0 2px 6px rgba(40, 60, 110, 0.08);
 
 
   /* ========================================================
@@ -349,6 +362,28 @@
     --font-size-lg: 18px;
     --font-size-xl: 24px;
     --font-size-xxl: 32px;
+
+    /* Previous (pre-Sankalpa) palette, so the PDF/report is unchanged. */
+    --jp-color-background: #f5f7fa;
+    --jp-color-text-primary: #1f2937;
+    --jp-color-text-secondary: #4b5563;
+    --jp-color-text-muted: #6b7280;
+    --jp-color-text-strong: #374151;
+    --jp-color-border: #e5e7eb;
+    --jp-color-border-strong: #d1d5db;
+    --jp-color-primary: #2563eb;
+    --jp-color-primary-hover: #1d4ed8;
+    --jp-color-success: #16a34a;
+    --jp-color-success-bg: #dcfce7;
+    --jp-color-warning: #f59e0b;
+    --jp-color-warning-bg: #fef3c7;
+    --jp-color-danger: #dc2626;
+    --jp-color-danger-hover: #b91c1c;
+    --jp-color-danger-bg: #fee2e2;
+    --jp-color-heading-fill: #ececec;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
 
     --font-size-report: 20px;
     --font-size-report-sm: 16px;
