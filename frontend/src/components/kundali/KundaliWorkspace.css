@@ -98,6 +98,21 @@
     font-size: var(--font-size-md);
 }
 
+/* Side-by-side mode only (wider than the stacked breakpoint below, so
+   never in print). The Rasi labels sit OUTSIDE each chart border; a
+   chart that fills its whole column pushes its side labels into the
+   column gap, where the Janma chart's right-hand labels and the
+   Gochara chart's left-hand labels land on top of each other. Leaving
+   ~28px free on each side of every chart gives those labels their own
+   room. */
+@container kundali-workspace (min-width: 1251px) {
+
+    .kundali-workspace > .kundali-panel .kundali-chart {
+        width: min(700px, calc(100% - 56px));
+    }
+
+}
+
 /* Below this width, squeezing both charts into side-by-side
    columns would shrink each one well below a comfortable size —
    stack them instead so each chart keeps rendering close to its

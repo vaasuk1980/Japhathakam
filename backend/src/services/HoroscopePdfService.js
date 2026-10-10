@@ -6,7 +6,7 @@ import PersonRepository from "../repositories/PersonRepository.js";
 // next free port whenever 5173 is already taken by another instance),
 // and a hardcoded value here silently breaks Puppeteer's navigate as
 // soon as the two drift apart. Override via FRONTEND_ORIGIN in .env.
-const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN ?? "http://localhost:5173";
+const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN ?? "http://localhost:5175";
 
 // Printable content width for A4 with 12mm side margins: 210mm -
 // 2*12mm = 186mm, at 96 CSS px/in.

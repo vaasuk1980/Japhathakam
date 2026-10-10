@@ -148,15 +148,16 @@ function DashaGlance({ dasha, timezone, natureByGraha }) {
     });
 
     // The last regular 10-year tick is almost always a hair short of
-    // the true end (rounding), rather than exactly on it — snap it to
-    // 100% if it already represents the same year as the true end;
-    // only append a distinct final tick when the true end falls on a
-    // genuinely different year (avoids ever showing the same year
-    // label twice).
+    // the true end (rounding), rather than exactly on it. If it is
+    // within half a step of the true end, the two labels would print
+    // on top of each other (e.g. 2098 and 2099 for a 111-year chart),
+    // so the true end REPLACES that tick at 100%; only when there is
+    // room is a distinct final tick appended.
     const finalYear = birthYear + Math.round(actualTotalYears);
     const lastTick = ticks[ticks.length - 1];
 
-    if (lastTick.year === finalYear) {
+    if (finalYear - lastTick.year < TICK_STEP_YEARS / 2) {
+        lastTick.year = finalYear;
         lastTick.leftPercent = 100;
     } else {
         ticks.push({ year: finalYear, leftPercent: 100 });
