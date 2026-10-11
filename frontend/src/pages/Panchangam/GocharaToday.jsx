@@ -89,11 +89,7 @@ function GocharaSummaryCard({ snapshotState, t }) {
                                 }
 
                                 return [
-                                    <tr key={group.key} className="today-gochara-table__group">
-                                        <td colSpan={5}>{group.label}</td>
-                                    </tr>,
-
-                                    ...members.map((position) => {
+                                    ...members.map((position, index) => {
 
                                         // Only the five planets whose direction actually
                                         // varies: Rahu/Ketu/Mitra/Chitra are always
@@ -101,7 +97,13 @@ function GocharaSummaryCard({ snapshotState, t }) {
                                         const flagged = position.isRetrograde && VARIABLE_DIRECTION.has(position.planet);
 
                                         return (
-                                            <tr key={position.planet} className={flagged ? "is-retrograde" : undefined}>
+                                            <tr
+                                                key={position.planet}
+                                                className={[
+                                                    flagged ? "is-retrograde" : "",
+                                                    group.key === "derived" && index === 0 ? "is-group-start" : "",
+                                                ].filter(Boolean).join(" ") || undefined}
+                                            >
                                                 <td className="today-gochara-table__graha">
                                                     {grahaName(position.planet, language)}
                                                     {flagged && (
