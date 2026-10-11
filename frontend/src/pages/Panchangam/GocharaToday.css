@@ -1,4 +1,4 @@
-/* Table and kundali side by side; stacked below 1700px (the table
+/* Table and kundali side by side; stacked below 1100px (the table
    needs ~650px, the chart ~420px, so narrower than that they would
    squeeze each other). */
 .gochara-today {
@@ -12,7 +12,7 @@
     margin: 0;
 }
 
-@media (max-width: 1700px) {
+@media (max-width: 1100px) {
     .gochara-today {
         grid-template-columns: minmax(0, 1fr);
     }
@@ -196,4 +196,12 @@
 .gochara-today .today-gochara-table th {
     padding-left: 8px;
     padding-right: 8px;
+}
+
+/* Title shares the chart's centred column, so its left edge lines up
+   with the chart's left edge. */
+.today-gochara-kundali-card .rt-table-title {
+    width: min(470px, 100%);
+    margin-left: auto;
+    margin-right: auto;
 }
