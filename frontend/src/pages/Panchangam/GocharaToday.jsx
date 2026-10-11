@@ -184,10 +184,10 @@ function GocharaToday({ snapshotState }) {
     const { t } = useTranslation();
 
     return (
-        <>
+        <div className="gochara-today">
             <GocharaSummaryCard snapshotState={snapshotState} t={t} />
             <GocharaKundaliCard snapshotState={snapshotState} t={t} />
-        </>
+        </div>
     );
 
 }
