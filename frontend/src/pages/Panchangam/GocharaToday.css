@@ -27,8 +27,9 @@
 .today-gochara-kundali-card .kundali-chart {
     width: min(470px, 100%);
     /* Room above for the sign labels so they do not touch the title,
-       and auto margins centre the chart in the equal-height card. */
-    margin: var(--spacing-xl) auto auto;
+       and below (40px) for the bottom sign labels, which hang
+       outside the chart box and would otherwise spill past the card. */
+    margin: var(--spacing-xl) auto 40px;
 }
 
 /* The labels outside the cells were too small once the chart was
