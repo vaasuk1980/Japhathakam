@@ -8,6 +8,7 @@ import HoroscopeLibrary from "./pages/HoroscopeLibrary/HoroscopeLibrary";
 import CompareKundalis from "./pages/CompareKundalis/CompareKundalis";
 import Panchangam from "./pages/Panchangam/Panchangam";
 import Muhurtham from "./pages/Muhurtham/Muhurtham";
+import Prashna from "./pages/Prashna/Prashna";
 import Settings from "./pages/Settings/Settings";
 import ComponentShowcase from "./pages/ComponentShowcase/ComponentShowcase";
 import FormPlayground from "./pages/FormPlayground/FormPlayground";
@@ -25,6 +26,7 @@ function App() {
                     <Route path="/compare-kundalis" element={<CompareKundalis />} />
                     <Route path="/panchangam" element={<Panchangam />} />
                     <Route path="/muhurtham" element={<Muhurtham />} />
+                    <Route path="/prashna" element={<Prashna />} />
                     {/* Developer-only routes — not shipped in production builds */}
                     {import.meta.env.DEV && (
                         <>

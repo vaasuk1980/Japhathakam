@@ -15,11 +15,18 @@ import SkySnapshotRoute
 import RashiTransitSummaryRoute
     from "../routes/RashiTransitSummaryRoute.js";
 
+import DashaChangesRoute
+    from "../routes/DashaChangesRoute.js";
+
+import SettingsRoute
+    from "../routes/SettingsRoute.js";
+
 export default function bootstrap(app) {
 
     const {
 
-        generateKundaliController
+        generateKundaliController,
+        generateKundaliUseCase
 
     } = ApplicationContainer.build();
 
@@ -56,6 +63,26 @@ export default function bootstrap(app) {
         "/api/sky-snapshot",
 
         SkySnapshotRoute()
+
+    );
+
+    app.use(
+
+        "/api/settings",
+
+        SettingsRoute()
+
+    );
+
+    app.use(
+
+        "/api/dasha-changes",
+
+        DashaChangesRoute({
+
+            generateKundaliUseCase
+
+        })
 
     );
 

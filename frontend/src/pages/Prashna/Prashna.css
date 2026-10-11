@@ -1,0 +1,141 @@
+.prashna-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.prashna-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.prashna-header__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 44px;
+    height: 44px;
+
+    color: #fff;
+    background: var(--jp-color-orange);
+    border-radius: var(--radius-lg);
+}
+
+.prashna-header__subtitle {
+    margin: 2px 0 0;
+
+    font-size: var(--font-size-md);
+    color: var(--jp-color-text-secondary);
+}
+
+.prashna-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--spacing-md);
+}
+
+.prashna-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-text-strong);
+}
+
+.prashna-field input {
+    padding: 9px 12px;
+
+    font-family: var(--font-family);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-normal);
+    color: var(--jp-color-text-primary);
+
+    background: var(--jp-color-surface);
+    border: 1px solid var(--jp-color-border-strong);
+    border-radius: var(--radius-md);
+}
+
+.prashna-field input:focus {
+    outline: none;
+    border-color: var(--jp-color-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.prashna-field--place {
+    flex: 1 1 220px;
+    min-width: 0;
+}
+
+.prashna-place {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 9px 0;
+
+    font-size: var(--font-size-md);
+    font-weight: var(--font-medium);
+    color: var(--jp-color-text-primary);
+}
+
+.prashna-field small {
+    font-weight: var(--font-normal);
+    color: var(--jp-color-text-muted);
+}
+
+.prashna-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.prashna-facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: var(--spacing-sm);
+}
+
+.prashna-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--spacing-lg);
+    align-items: start;
+}
+
+.prashna-chart .kundali-chart {
+    margin: 40px auto;
+}
+
+/* The table's section title pins under the report masthead elsewhere;
+   there is no masthead here, so keep it in normal flow. */
+.prashna-table .pp-table-title {
+    position: static;
+    margin: 0 0 var(--spacing-sm);
+}
+
+.prashna-note {
+    margin: 0;
+
+    font-size: var(--font-size-sm);
+    color: var(--jp-color-text-muted);
+}
+
+@media (max-width: 1500px) {
+    .prashna-body {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .prashna-actions {
+        width: 100%;
+    }
+
+    .prashna-actions > * {
+        flex: 1;
+    }
+}

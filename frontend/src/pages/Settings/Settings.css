@@ -1,0 +1,352 @@
+.settings-page {
+    max-width: 760px;
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.settings-subtitle {
+    margin: 4px 0 0;
+    font-size: var(--font-size-md);
+    color: var(--jp-color-text-secondary);
+}
+
+.settings-section-head {
+    margin: 0 0 var(--spacing-sm);
+    padding: 0 4px;
+
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-semibold);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--jp-color-text-muted);
+}
+
+.settings-card {
+    background: var(--jp-color-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+.settings-card--padded {
+    padding: var(--spacing-lg);
+}
+
+/* ---------- rows ---------- */
+
+.settings-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+
+    min-height: 56px;
+    padding: 10px var(--spacing-lg);
+}
+
+.settings-row + .settings-row {
+    border-top: 1px solid var(--jp-color-border);
+}
+
+.settings-row__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.settings-row__title {
+    font-size: var(--font-size-lg);
+    color: var(--jp-color-text-primary);
+}
+
+.settings-row__hint {
+    font-size: var(--font-size-sm);
+    color: var(--jp-color-text-muted);
+}
+
+.settings-row__control {
+    flex: none;
+    display: flex;
+    align-items: center;
+}
+
+.settings-value {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    font-size: var(--font-size-md);
+    color: var(--jp-color-text-secondary);
+    text-align: right;
+}
+
+.settings-link {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-medium);
+    color: var(--jp-color-primary);
+}
+
+.settings-footnote {
+    margin: var(--spacing-sm) 4px 0;
+    font-size: var(--font-size-sm);
+    color: var(--jp-color-text-muted);
+}
+
+/* ---------- controls ---------- */
+
+.settings-segmented {
+    display: inline-grid;
+    grid-auto-flow: column;
+    gap: 2px;
+
+    padding: 2px;
+
+    background: var(--jp-color-border);
+    border-radius: 9px;
+}
+
+.settings-segmented__item {
+    padding: 6px 14px;
+
+    font-family: inherit;
+    font-size: var(--font-size-md);
+    font-weight: var(--font-semibold);
+    white-space: nowrap;
+
+    color: var(--jp-color-text-secondary);
+    background: none;
+    border: 0;
+    border-radius: 7px;
+
+    cursor: pointer;
+}
+
+.settings-segmented__item.is-active {
+    color: var(--jp-color-text-primary);
+    background: var(--jp-color-surface);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.settings-switch {
+    position: relative;
+
+    width: 51px;
+    height: 31px;
+    padding: 0;
+
+    background: var(--jp-color-border-strong);
+    border: 0;
+    border-radius: 16px;
+
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.settings-switch::after {
+    content: "";
+
+    position: absolute;
+    top: 2px;
+    left: 2px;
+
+    width: 27px;
+    height: 27px;
+
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+    transition: transform 0.2s;
+}
+
+.settings-switch[aria-checked="true"] {
+    background: var(--jp-color-success);
+}
+
+.settings-switch[aria-checked="true"]::after {
+    transform: translateX(20px);
+}
+
+.settings-file {
+    display: none;
+}
+
+/* ---------- report & PDF ---------- */
+
+.settings-help {
+    margin: 0 0 var(--spacing-md);
+    font-size: var(--font-size-md);
+    color: var(--jp-color-text-secondary);
+}
+
+.settings-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-md);
+}
+
+.settings-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-text-strong);
+}
+
+/* the two invocation lines and the contact/footer lines are long */
+.settings-field:nth-child(1),
+.settings-field:nth-child(2),
+.settings-field:nth-child(5),
+.settings-field:nth-child(6) {
+    grid-column: 1 / -1;
+}
+
+.settings-field input {
+    padding: 9px 12px;
+
+    font-family: var(--font-family);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-normal);
+    color: var(--jp-color-text-primary);
+
+    background: var(--jp-color-surface);
+    border: 1px solid var(--jp-color-border-strong);
+    border-radius: var(--radius-md);
+}
+
+.settings-field input:focus {
+    outline: none;
+    border-color: var(--jp-color-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.settings-preview {
+    margin-top: var(--spacing-lg);
+}
+
+.settings-preview__label {
+    display: block;
+    margin-bottom: 6px;
+
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--jp-color-text-muted);
+}
+
+/* A small stand-in for the printed page: always paper-white, so it
+   shows what the PDF will look like whatever the app theme is. */
+.settings-preview__page {
+    padding: var(--spacing-md) var(--spacing-lg);
+
+    text-align: center;
+    color: #1a1a1a;
+    background: #fff;
+
+    border: 1px solid var(--jp-color-border-strong);
+    border-radius: var(--radius-md);
+}
+
+.settings-preview__invocation {
+    font-size: 13px;
+    font-weight: 600;
+    color: #2952cc;
+}
+
+.settings-preview__blessing {
+    margin-top: 1px;
+
+    font-size: 13px;
+    font-weight: 700;
+    color: #2952cc;
+}
+
+.settings-preview__name {
+    margin-top: 6px;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.settings-preview__facts {
+    font-size: 11px;
+    color: #555;
+
+    padding-bottom: 6px;
+    border-bottom: 1.5px solid #2952cc;
+}
+
+.settings-preview__footer {
+    margin-top: var(--spacing-md);
+    padding-top: 6px;
+
+    font-size: 11px;
+    color: #555;
+
+    border-top: 1px solid #d0d0d0;
+}
+
+.settings-preview__footer em {
+    color: #999;
+}
+
+.settings-preview__pagenum {
+    margin-top: 4px;
+
+    font-size: 9px;
+    color: #888;
+}
+
+.settings-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+
+    margin-top: var(--spacing-lg);
+}
+
+.settings-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    margin: var(--spacing-sm) 4px 0;
+    font-size: var(--font-size-md);
+    color: var(--jp-color-text-secondary);
+}
+
+.settings-actions .settings-status {
+    margin: 0;
+}
+
+.settings-status--ok {
+    color: var(--jp-color-success);
+}
+
+.settings-status--error {
+    color: var(--jp-color-danger);
+}
+
+@media (max-width: 767px) {
+    .settings-row {
+        flex-wrap: wrap;
+        padding: 12px var(--spacing-md);
+    }
+
+    .settings-fields {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .settings-card--padded {
+        padding: var(--spacing-md);
+    }
+}

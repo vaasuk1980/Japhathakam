@@ -115,6 +115,18 @@
      "ink-like" than --jp-color-danger. */
   --jp-color-negative: #b22222;
 
+  /* Chart "paper" — the Kundali chart is drawn like a printed chart.
+     Redefined for the dark theme (and restored for print). */
+  --chart-paper: #ffffff;
+  --chart-ink: #1a1a1a;
+  --chart-ink-soft: #444444;
+  --chart-line-strong: #444444;
+  --chart-line: #999999;
+  --chart-lagna: #fde2e2;
+
+  /* Translucent bars (phone tab bar) */
+  --jp-color-bar: rgba(255, 255, 255, 0.94);
+
   /* Section heading fill — the light gray "title bar" background
      used behind each card's own heading (Basic Information,
      Panchangam, Planetary Positions, Janma/Gochara Kundali,
@@ -341,10 +353,81 @@
     sans-serif;
 }
 
+/* ==========================================================
+   Dark theme (see theme/ThemeContext.jsx — <html data-theme="dark">)
+   True-black page, dark-grey cards, brighter accents so text keeps
+   its contrast. Only token values change; components are unaware.
+   ========================================================== */
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --jp-color-background: #000000;
+  --jp-color-surface: #1c1c1e;
+  --jp-color-hover: #232326;
+
+  --jp-color-text-primary: #f2f2f7;
+  --jp-color-text-secondary: #c7c7cc;
+  --jp-color-text-muted: #98989f;
+  --jp-color-text-strong: #e5e5ea;
+  --jp-color-text-white: #ffffff;
+
+  --jp-color-border: #38383a;
+  --jp-color-border-strong: #48484a;
+
+  --jp-color-primary: #4a8ce8;
+  --jp-color-primary-hover: #6aa2f0;
+  --jp-color-accent: #4a8ce8;
+  --jp-color-accent-strong: #8ab4f5;
+  --jp-color-accent-soft: rgba(74, 140, 232, 0.18);
+
+  --jp-color-success: #30a25b;
+  --jp-color-success-bg: rgba(48, 162, 91, 0.18);
+  --jp-color-warning: #ff9d42;
+  --jp-color-warning-bg: rgba(255, 157, 66, 0.18);
+  --jp-color-danger: #ff6159;
+  --jp-color-danger-hover: #ff867f;
+  --jp-color-danger-bg: rgba(255, 97, 89, 0.16);
+  --jp-color-negative: #ff6b61;
+
+  --jp-color-blue: #4a8ce8;
+  --jp-color-blue-tint: rgba(74, 140, 232, 0.18);
+  --jp-color-orange: #ff9d42;
+  --jp-color-orange-tint: rgba(255, 157, 66, 0.18);
+  --jp-color-black: #48484a;
+
+  --jp-color-sidebar-bg: #0e0e10;
+  --jp-color-sidebar-text: #f2f2f7;
+  --jp-color-sidebar-hover: #2c2c2e;
+  --jp-color-sidebar-active: rgba(74, 140, 232, 0.18);
+  --jp-color-sidebar-border: #2c2c2e;
+  --jp-color-sidebar-text-muted: #98989f;
+
+  /* Opaque on purpose — sticky section titles hide what scrolls under. */
+  --jp-color-heading-fill: #1c1c1e;
+
+  --jp-color-bar: rgba(22, 22, 24, 0.94);
+
+  --chart-paper: #1c1c1e;
+  --chart-ink: #f2f2f7;
+  --chart-ink-soft: #c7c7cc;
+  --chart-line-strong: #8e8e93;
+  --chart-line: #48484a;
+  --chart-lagna: rgba(255, 97, 89, 0.22);
+
+  --shadow-sm: none;
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 14px 34px rgba(0, 0, 0, 0.6);
+
+  --scrollbar-thumb: #48484a;
+  --scrollbar-thumb-hover: #636366;
+}
+
 /* Print / Save-as-PDF keeps the original flat 18px body tier and
    24/32px heading tiers the report layout was tuned against. */
 @media print {
   :root,
+  :root[data-theme="dark"],
   :root:lang(en) {
     --font-family:
     "JIMS",
@@ -364,6 +447,35 @@
     --font-size-xxl: 32px;
 
     /* Previous (pre-Sankalpa) palette, so the PDF/report is unchanged. */
+    color-scheme: light;
+
+    --jp-color-surface: #ffffff;
+    --jp-color-hover: #fafafc;
+    --jp-color-text-white: #ffffff;
+    --jp-color-accent: #2563eb;
+    --jp-color-accent-strong: #1d4ed8;
+    --jp-color-accent-soft: #e8effa;
+    --jp-color-negative: #b22222;
+    --jp-color-blue: #1f5fbf;
+    --jp-color-blue-tint: #e8effa;
+    --jp-color-orange: #e0630a;
+    --jp-color-orange-tint: #fdf0e3;
+    --jp-color-black: #1c1c1e;
+    --jp-color-sidebar-bg: #ebebf0;
+    --jp-color-sidebar-text: #1c1c1e;
+    --jp-color-sidebar-hover: #e3e3e8;
+    --jp-color-sidebar-active: #e8effa;
+    --jp-color-sidebar-border: #dcdce1;
+    --jp-color-sidebar-text-muted: #6c6c70;
+    --jp-color-bar: rgba(255, 255, 255, 0.94);
+
+    --chart-paper: #ffffff;
+    --chart-ink: #1a1a1a;
+    --chart-ink-soft: #444444;
+    --chart-line-strong: #444444;
+    --chart-line: #999999;
+    --chart-lagna: #fde2e2;
+
     --jp-color-background: #f5f7fa;
     --jp-color-text-primary: #1f2937;
     --jp-color-text-secondary: #4b5563;

@@ -34,7 +34,8 @@ class ApplicationContainer {
             });
 
         return {
-            generateKundaliController
+            generateKundaliController,
+            generateKundaliUseCase
         };
 
     }

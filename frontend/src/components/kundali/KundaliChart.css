@@ -48,8 +48,8 @@
        need extra margin to make room for them. */
     margin: 40px auto;
 
-    border: 2px solid #444;
-    background-color: #ffffff;
+    border: 2px solid var(--chart-line-strong);
+    background-color: var(--chart-paper);
 
     /* Opt out of the app-wide digit size-adjust (fonts.css'
        "Segoe UI Numerals" face) — the Sthana numbers, degree
@@ -74,10 +74,10 @@
        past aspect-ratio's 1:1 and visibly taller than wide. */
     padding: clamp(4px, 1.43cqw, 10px);
 
-    border: 1px solid #999;
+    border: 1px solid var(--chart-line);
     box-sizing: border-box;
 
-    background-color: #ffffff;
+    background-color: var(--chart-paper);
     gap: clamp(2px, 0.86cqw, 6px);
 }
 
@@ -96,7 +96,7 @@
 .kundali-center__label {
     font-family: var(--font-family-heading);
     font-weight: 700;
-    color: #444;
+    color: var(--chart-ink-soft);
 
     font-size: 25px;
 }
@@ -133,13 +133,13 @@
        (2.62cqw = 18px at the chart's own 700px max). */
     font-size: clamp(7px, 2.62cqw, 18px);
     font-weight: 600;
-    color: #555;
+    color: var(--jp-color-text-secondary);
     white-space: nowrap;
 }
 
 .rasi-label__lord {
     font-weight: 500;
-    color: #888;
+    color: var(--jp-color-text-muted);
 }
 
 .rasi-label--top {
@@ -173,7 +173,7 @@
 }
 
 .kundali-cell--lagna {
-    background-color: #fde2e2;
+    background-color: var(--chart-lagna);
 }
 
 /* All 9 Rasi Pada rows for a cell, one shared coordinate space
@@ -225,7 +225,7 @@
        (3.81cqw = 27px at the chart's own 700px max). */
     font-size: clamp(10px, 3.81cqw, 27px);
     font-weight: 700;
-    color: #1a1a1a;
+    color: var(--chart-ink);
 }
 
 /* Aspect (Drishti) — influence cast from elsewhere. Smaller and
@@ -239,7 +239,7 @@
     font-size: clamp(8px, 3.1cqw, 22px);
     font-style: italic;
     font-weight: 700;
-    color: #1a1a1a;
+    color: var(--chart-ink);
 }
 
 /* Punya/Papa (Tritha Siddhantha) classification, relative to the
@@ -285,16 +285,16 @@
 .astronomical-places-panel {
     margin: 16px 0 20px;
     padding: 12px 14px;
-    border: 1px solid #d8d8d8;
+    border: 1px solid var(--jp-color-border);
     border-radius: 8px;
-    background: #f7f7f7;
+    background: var(--jp-color-background);
 }
 
 .astronomical-places-panel h3 {
     margin: 0 0 8px;
     font-size: 14px;
     font-weight: 700;
-    color: #333;
+    color: var(--jp-color-text-primary);
 }
 
 .astronomical-places-list {
@@ -316,5 +316,5 @@
 }
 
 .astronomical-place-item__meta {
-    color: #5b5b5b;
+    color: var(--jp-color-text-secondary);
 }

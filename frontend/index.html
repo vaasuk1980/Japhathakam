@@ -4,7 +4,19 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frontend</title>
+    <title>Japhathakam</title>
+    <script>
+      // Apply the saved theme before first paint (no flash of the wrong one).
+      (function () {
+        try {
+          var choice = localStorage.getItem("jp_theme");
+          var dark = choice === "dark" ||
+            ((choice === "system" || !choice) && window.matchMedia &&
+              window.matchMedia("(prefers-color-scheme: dark)").matches);
+          document.documentElement.dataset.theme = dark ? "dark" : "light";
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

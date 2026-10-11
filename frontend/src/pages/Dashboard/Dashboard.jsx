@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { FilePlus2, Library, GitCompare, CalendarDays, Clock, Search } from "lucide-react";
+import { Link } from "react-router-dom";
+import { FilePlus2, Library, GitCompare, CalendarDays, Clock, Compass } from "lucide-react";
 
 import PersonService from "../../services/PersonService";
 import getGreetingKey from "../../utils/greeting/getGreetingKey";
@@ -16,6 +16,7 @@ import Card from "../../components/common/Card";
 import EmptyState from "../../components/common/EmptyState/EmptyState";
 import { SkeletonTable } from "../../components/common/Skeleton/Skeleton";
 import TodayPanel from "./TodayPanel";
+import UpcomingDashaChanges from "./UpcomingDashaChanges";
 
 import "./Dashboard.css";
 
@@ -158,39 +159,21 @@ function RecentHoroscopesCard({ persons, summaries, t, language }) {
 
 }
 
-// Greeting + the one primary action + a quick search over saved
-// horoscopes (hands off to the Library, which owns filtering).
+// Greeting + what needs attention (upcoming Dasha changes) + the two
+// ways to start a chart: a saved horoscope, or a Prashna chart for now.
 function DashboardHero({ t, greetingKey }) {
-
-    const navigate = useNavigate();
-    const [query, setQuery] = useState("");
-
-    const handleSubmit = (event) => {
-
-        event.preventDefault();
-
-        const trimmed = query.trim();
-        navigate(trimmed
-            ? `/horoscope-library?q=${encodeURIComponent(trimmed)}`
-            : "/horoscope-library");
-
-    };
 
     return (
         <section className="dashboard-hero">
             <h1 className="page-title">{t(`dashboard.greeting.${greetingKey}`)}</h1>
 
             <div className="dashboard-hero__actions">
-                <form className="dashboard-hero__search" role="search" onSubmit={handleSubmit}>
-                    <Search size={16} aria-hidden="true" />
-                    <input
-                        type="search"
-                        value={query}
-                        onChange={(event) => setQuery(event.target.value)}
-                        placeholder={t("dashboard.hero.searchPlaceholder")}
-                        aria-label={t("dashboard.hero.searchLabel")}
-                    />
-                </form>
+                <UpcomingDashaChanges />
+
+                <Link to="/prashna" className="dashboard-hero__secondary">
+                    <Compass size={18} aria-hidden="true" />
+                    {t("prashna.button")}
+                </Link>
 
                 <Link to="/person-details" className="dashboard-hero__cta">
                     <FilePlus2 size={18} aria-hidden="true" />

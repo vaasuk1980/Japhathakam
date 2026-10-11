@@ -9,17 +9,13 @@ import { useTranslation } from "../../i18n/I18nContext";
 import Card from "../../components/common/Card";
 import Button from "../../components/common/Button";
 import EmptyState from "../../components/common/EmptyState/EmptyState";
+import { downloadCsv } from "../../utils/data/exportImport";
 import { SkeletonTable } from "../../components/common/Skeleton/Skeleton";
 
 import "./HoroscopeLibrary.css";
 
 const PAGE_SIZE = 10;
 
-const CSV_COLUMNS = [
-    "firstName", "lastName", "gender",
-    "dateOfBirth", "timeOfBirth", "placeOfBirth",
-    "createdAt",
-];
 
 // "favourite" is its own explicit sort choice (favourites first, most
 // recently added within each group) rather than something silently
@@ -48,29 +44,6 @@ function sortPersons(persons, sortKey) {
     }
 
     return sorted;
-
-}
-
-function exportToCsv(persons) {
-
-    const rows = [
-        CSV_COLUMNS,
-        ...persons.map((person) => CSV_COLUMNS.map((column) => person[column] ?? "")),
-    ];
-
-    const csv = rows
-        .map((row) => row.map((value) => `"${String(value).replace(/"/g, '""')}"`).join(","))
-        .join("\n");
-
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "horoscopes.csv";
-    link.click();
-
-    URL.revokeObjectURL(url);
 
 }
 
@@ -262,7 +235,7 @@ function HoroscopeLibrary() {
 
                             <Button
                                 variant="secondary"
-                                onClick={() => exportToCsv(filteredSorted)}
+                                onClick={() => downloadCsv(filteredSorted)}
                             >
                                 {t("horoscopeLibrary.exportCsv")}
                             </Button>

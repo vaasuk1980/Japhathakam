@@ -5,6 +5,7 @@ import {
   GitCompare,
   CalendarDays,
   Clock,
+  Compass,
   Settings,
 } from "lucide-react";
 
@@ -59,13 +60,20 @@ const menuItems = Object.freeze([
     comingSoon: true,
   },
   {
+    id: 11,
+    labelKey: "sidebar.prashna",
+    icon: Compass,
+    path: "/prashna",
+    tone: "orange",
+    group: "almanac",
+  },
+  {
     id: 8,
     labelKey: "sidebar.settings",
     icon: Settings,
     path: "/settings",
     tone: "black",
     group: "system",
-    comingSoon: true,
   },
 ]);
 

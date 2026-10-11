@@ -1,6 +1,7 @@
 import puppeteer from "puppeteer";
 
 import PersonRepository from "../repositories/PersonRepository.js";
+import SettingsRepository from "../repositories/SettingsRepository.js";
 
 // Configurable — Vite's dev port isn't stable (it falls back to the
 // next free port whenever 5173 is already taken by another instance),
@@ -37,6 +38,8 @@ class HoroscopePdfService {
         if (!person) {
             return null;
         }
+
+        const { branding } = await SettingsRepository.get();
 
         const browser = await puppeteer.launch({ headless: true });
 
@@ -81,9 +84,11 @@ class HoroscopePdfService {
 
             });
 
-            const headerImageBase64 = await this.captureHeaderImage(page, identity, person);
+            const headerImageBase64 = await this.captureHeaderImage(page, identity, person, branding);
             const headerTemplate = this.buildHeaderTemplate(headerImageBase64);
-            const footerTemplate = this.buildFooterTemplate();
+
+            const footerImageBase64 = await this.captureFooterImage(page, branding);
+            const footerTemplate = this.buildFooterTemplate(footerImageBase64);
 
             // Neither page.pdf()'s `margin` option NOR the raw CDP
             // marginTop/Bottom below actually control where the BODY
@@ -136,7 +141,7 @@ class HoroscopePdfService {
     // normal stylesheet) sidesteps that limitation entirely: it's
     // pixel-identical to the body because it IS the same rendering
     // pipeline, not a separate re-implementation of it.
-    async captureHeaderImage(page, identity, person) {
+    async captureHeaderImage(page, identity, person, branding) {
 
         const fallbackName = [person.firstName, person.lastName].filter(Boolean).join(" ");
 
@@ -148,7 +153,10 @@ class HoroscopePdfService {
         // template scales it back down to the page's actual width.
         await page.setViewport({ width: HEADER_CAPTURE_WIDTH, height: 200, deviceScaleFactor: 3 });
 
-        await page.evaluate(({ name, facts, width }) => {
+        const invocation = escapeHtml(branding.invocationLine);
+        const blessing = escapeHtml(branding.blessingLine);
+
+        await page.evaluate(({ name, facts, width, invocation, blessing }) => {
 
             const container = document.createElement("div");
             container.id = "__pdf_header_capture__";
@@ -160,8 +168,8 @@ class HoroscopePdfService {
             `;
 
             container.innerHTML = `
-                <div style="font-size:13px; font-weight:600; color:#2952cc;">ఓం నమః శివాయ</div>
-                <div style="font-size:13px; font-weight:700; color:#2952cc; margin-top:1px;">శ్రీ శ్రీ శ్రీ ఆచార్య ప్రబోధానంద యోగీశ్వరులవారి దివ్య ఆశీస్సులతో</div>
+                ${invocation ? `<div style="font-size:13px; font-weight:600; color:#2952cc;">${invocation}</div>` : ""}
+                ${blessing ? `<div style="font-size:13px; font-weight:700; color:#2952cc; margin-top:1px;">${blessing}</div>` : ""}
                 <div style="margin-top:2px; padding-bottom:4px; border-bottom:1.5px solid #2952cc;">
                     <div style="font-family: Georgia, 'Times New Roman', serif; font-size:19px; font-weight:700; letter-spacing:0.3px; color:#1a1a1a;">${name}</div>
                     <div style="font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size:11px; color:#555;">${facts}</div>
@@ -170,7 +178,7 @@ class HoroscopePdfService {
 
             document.body.appendChild(container);
 
-        }, { name, facts, width: HEADER_CAPTURE_WIDTH });
+        }, { name, facts, width: HEADER_CAPTURE_WIDTH, invocation, blessing });
 
         const element = await page.$("#__pdf_header_capture__");
         const imageBuffer = await element.screenshot({ type: "png" });
@@ -195,7 +203,60 @@ class HoroscopePdfService {
 
     }
 
-    buildFooterTemplate() {
+    // Same approach as the header: the astrologer/organisation/contact
+    // lines are rendered as an image from the real page, so Telugu text
+    // uses the page's own fonts (the footer template frame has none).
+    // Returns null when no branding text is configured.
+    async captureFooterImage(page, branding) {
+
+        const identityLine = [branding.astrologerName, branding.organisation]
+            .filter(Boolean)
+            .join(" · ");
+
+        const lines = [identityLine, branding.contact, branding.footerNote].filter(Boolean);
+
+        if (lines.length === 0) {
+            return null;
+        }
+
+        await page.setViewport({ width: HEADER_CAPTURE_WIDTH, height: 120, deviceScaleFactor: 3 });
+
+        await page.evaluate(({ lines, width }) => {
+
+            const container = document.createElement("div");
+            container.id = "__pdf_footer_capture__";
+            container.style.cssText = `
+                position: fixed; top: 0; left: 0; z-index: 999999;
+                width: ${width}px; box-sizing: border-box;
+                padding: 4px 24px; background: #fff; text-align: center;
+                font-family: var(--font-family); color: #555;
+                border-top: 1px solid #d0d0d0;
+            `;
+
+            const esc = (v) => String(v).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+            container.innerHTML = lines.map((line, index) =>
+                `<div style="font-size:${index === 0 ? 11 : 10}px; font-weight:${index === 0 ? 600 : 400}; line-height:1.35;">${esc(line)}</div>`
+            ).join("");
+
+            document.body.appendChild(container);
+
+        }, { lines, width: HEADER_CAPTURE_WIDTH });
+
+        const element = await page.$("#__pdf_footer_capture__");
+        const imageBuffer = await element.screenshot({ type: "png" });
+
+        await page.evaluate(() => {
+            document.getElementById("__pdf_footer_capture__")?.remove();
+        });
+
+        await page.setViewport({ width: HEADER_CAPTURE_WIDTH, height: 200, deviceScaleFactor: 1 });
+
+        return imageBuffer.toString("base64");
+
+    }
+
+    buildFooterTemplate(brandingImageBase64 = null) {
 
         return `
             <style>
@@ -215,6 +276,9 @@ class HoroscopePdfService {
                     color: #888;
                 }
             </style>
+            ${brandingImageBase64
+                ? `<div class="jp-pdf-footer"><img src="data:image/png;base64,${brandingImageBase64}" style="width:100%; height:auto; display:block; margin-bottom:2px;" /></div>`
+                : ""}
             <div class="jp-pdf-footer">
                 Page <span class="pageNumber"></span> of <span class="totalPages"></span>
             </div>
