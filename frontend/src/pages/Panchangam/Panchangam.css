@@ -149,20 +149,13 @@
 }
 
 .rt-table-title {
-    /* Bleeds to the card's own edges (undoing its own padding/
-       corner radius) so the fill reads as a full-width title bar —
-       same treatment as .pp-table-title. */
-    margin: calc(-1 * var(--spacing-lg)) calc(-1 * var(--spacing-lg)) var(--spacing-md);
-
-    padding: var(--spacing-sm) var(--spacing-lg);
+    margin: 0 0 var(--spacing-md);
+    padding: 0;
 
     font-family: var(--font-family-heading);
     font-size: var(--font-size-xl);
     font-weight: var(--font-semibold);
     color: var(--jp-color-text-primary);
-
-    background: var(--jp-color-heading-fill);
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
 .rt-table-empty {
@@ -223,4 +216,133 @@
 
 .rt-table__row--current td:first-child {
     border-left: 3px solid var(--jp-color-primary);
+}
+
+/* ==========================================================
+   Today's Panchangam band (pan-today)
+   ========================================================== */
+
+.pan-today__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--spacing-xs) var(--spacing-md);
+}
+
+.pan-today__sub {
+    margin: 0 0 var(--spacing-md);
+    font-size: var(--font-size-md);
+    color: var(--jp-color-text-secondary);
+}
+
+.pan-today__hero {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--spacing-md);
+}
+
+.pan-today__tile {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    padding: var(--spacing-md) var(--spacing-lg);
+
+    background: var(--jp-color-accent-soft);
+    border-radius: var(--radius-lg);
+}
+
+.pan-today__label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--jp-color-text-muted);
+}
+
+.pan-today__big {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-text-primary);
+}
+
+.pan-today__range {
+    font-size: var(--font-size-sm);
+    color: var(--jp-color-text-secondary);
+    font-variant-numeric: tabular-nums;
+}
+
+.pan-today__facts {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--spacing-md);
+
+    margin: var(--spacing-lg) 0 0;
+    padding-top: var(--spacing-md);
+
+    border-top: 1px solid var(--jp-color-border);
+}
+
+.pan-today__facts dt {
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--jp-color-text-muted);
+}
+
+.pan-today__facts dd {
+    margin: 2px 0 0;
+    font-size: var(--font-size-md);
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-text-primary);
+    font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 900px) {
+    .pan-today__hero { grid-template-columns: minmax(0, 1fr); }
+    .pan-today__facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ==========================================================
+   Graha tabs (one transit table at a time)
+   ========================================================== */
+
+.rt-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+}
+
+.rt-tab {
+    padding: 7px 14px;
+
+    font-family: var(--font-family);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-semibold);
+    color: var(--jp-color-text-secondary);
+
+    background: var(--jp-color-surface);
+    border: 1px solid var(--jp-color-border);
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+.rt-tab:hover {
+    background: var(--jp-color-hover);
+}
+
+.rt-tab.is-active {
+    color: #fff;
+    background: var(--jp-color-primary);
+    border-color: var(--jp-color-primary);
+}
+
+.rt-tab--all {
+    margin-left: auto;
+    color: var(--jp-color-primary);
+}
+
+.rt-tab--all.is-active {
+    color: #fff;
 }

@@ -203,6 +203,9 @@ const en = {
         noLagnaChange: "No Lagna change this year.",
         lagnaColumn: "Lagna",
         yearWindowLabel: "{{samvatsara}} Samvatsara",
+        showAll: "Show all",
+        groupNavagraha: "Navagraha",
+        groupDerived: "Tritha grahas",
         transitTable: {
             colEntry: "Entry",
             colExit: "Exit",
@@ -539,6 +542,9 @@ const te = {
         noLagnaChange: "ఈ సంవత్సరంలో లగ్నం మార్పు లేదు.",
         lagnaColumn: "లగ్నం",
         yearWindowLabel: "{{samvatsara}} సంవత్సరం",
+        showAll: "అన్నీ చూపించు",
+        groupNavagraha: "నవగ్రహాలు",
+        groupDerived: "త్రైత గ్రహాలు",
         transitTable: {
             colEntry: "ప్రవేశం",
             colExit: "నిష్క్రమణ",

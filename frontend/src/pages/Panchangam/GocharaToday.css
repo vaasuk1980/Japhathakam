@@ -3,7 +3,7 @@
    squeeze each other). */
 .gochara-today {
     display: grid;
-    grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.85fr) minmax(0, 1fr);
     gap: var(--spacing-lg);
     align-items: start;
 }
@@ -20,7 +20,7 @@
 
 /* Chart width for the Gochara kundali on the Panchangam page. */
 .today-gochara-kundali-card .kundali-chart {
-    width: min(420px, 100%);
+    width: min(380px, 100%);
     margin: var(--spacing-md) auto;
 }
 
@@ -102,4 +102,38 @@
 .gochara-today .today-gochara-table td,
 .gochara-today .today-gochara-table th {
     padding: var(--spacing-xs) var(--spacing-sm);
+}
+
+/* Group dividers (Navagraha / Tritha grahas) */
+.today-gochara-table__group td {
+    padding-top: var(--spacing-md);
+
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--jp-color-text-muted);
+
+    border-bottom: 1px solid var(--jp-color-border);
+}
+
+/* Retrograde: a tinted row and a readable chip instead of a tiny R */
+.today-gochara-table tr.is-retrograde td {
+    background: var(--jp-color-danger-bg);
+}
+
+.today-gochara-table__retro-chip {
+    margin-left: var(--spacing-xs);
+    padding: 1px 8px;
+
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-semibold);
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--jp-color-negative);
+    text-decoration: none;
+
+    background: var(--jp-color-surface);
+    border: 1px solid var(--jp-color-negative);
+    border-radius: 999px;
 }

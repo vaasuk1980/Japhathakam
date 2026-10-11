@@ -205,6 +205,18 @@ function Panchangam() {
         String(targetGraha ? ugadiYearForToday() : currentYear())
     );
 
+    // One graha at a time (tabs); "all" restores the full stacked view.
+    // Deep links (?graha=…) select that graha and keep following it.
+    const [pickedGraha, setPickedGraha] = useState(null);
+    const [showAll, setShowAll] = useState(false);
+
+    useEffect(() => {
+        if (targetGraha) {
+            setPickedGraha(targetGraha);
+            setShowAll(false);
+        }
+    }, [targetGraha]);
+
     const year = Number(yearInput);
     const timezone = location
         ? resolveUtcOffsetHours(location.timezoneId, `${currentYear()}-06-01`, "12:00")
@@ -224,9 +236,9 @@ function Panchangam() {
             <TodayPanchangamDetails snapshotState={snapshotState} />
             <GocharaToday snapshotState={snapshotState} />
 
-            <h2 className="rt-group-title">{t("panchangam.groupTitle")}</h2>
-
             <Card className="rt-controls-card" padding="medium" shadow="medium">
+                <h2 className="rt-table-title">{t("panchangam.groupTitle")}</h2>
+
                 <div className="rt-controls">
                     <label className="rt-year-label" htmlFor="rt-year-input">
                         {t("panchangam.yearLabel")}
@@ -256,14 +268,62 @@ function Panchangam() {
                 )}
             </Card>
 
-            {summaryState.status === "success" && data && data.grahas.map((entry) => (
-                <GrahaTransitTable
-                    key={entry.graha}
-                    graha={entry.graha}
-                    transitions={entry.transitions}
-                    highlightNowMs={entry.graha === targetGraha ? Date.now() : null}
-                />
-            ))}
+            {summaryState.status === "success" && data && (() => {
+
+                const defaultGraha = data.grahas.some((entry) => entry.graha === "JUPITER")
+                    ? "JUPITER"
+                    : data.grahas[0]?.graha;
+                const selected = pickedGraha ?? defaultGraha;
+                const visible = showAll
+                    ? data.grahas
+                    : data.grahas.filter((entry) => entry.graha === selected);
+
+                return (
+                    <>
+                        <div className="rt-tabs" role="tablist" aria-label={t("panchangam.groupTitle")}>
+                            {data.grahas.map((entry) => {
+                                const label = GRAHA_LABELS[entry.graha] ?? { tel: entry.graha, en: entry.graha };
+                                const active = !showAll && entry.graha === selected;
+
+                                return (
+                                    <button
+                                        key={entry.graha}
+                                        type="button"
+                                        role="tab"
+                                        aria-selected={active}
+                                        className={"rt-tab" + (active ? " is-active" : "")}
+                                        onClick={() => {
+                                            setPickedGraha(entry.graha);
+                                            setShowAll(false);
+                                        }}
+                                    >
+                                        {language === "te" ? label.tel : label.en}
+                                    </button>
+                                );
+                            })}
+
+                            <button
+                                type="button"
+                                className={"rt-tab rt-tab--all" + (showAll ? " is-active" : "")}
+                                aria-pressed={showAll}
+                                onClick={() => setShowAll((value) => !value)}
+                            >
+                                {t("panchangam.showAll")}
+                            </button>
+                        </div>
+
+                        {visible.map((entry) => (
+                            <GrahaTransitTable
+                                key={entry.graha}
+                                graha={entry.graha}
+                                transitions={entry.transitions}
+                                highlightNowMs={entry.graha === targetGraha ? Date.now() : null}
+                            />
+                        ))}
+                    </>
+                );
+
+            })()}
         </div>
     );
 

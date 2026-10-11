@@ -14,6 +14,10 @@ import "./GocharaToday.css";
 // Today's planetary positions (the second half of a traditional
 // panchangam): the Gochara table and the Gochara kundali, both from
 // the same live sky snapshot as "Today's Panchangam" above them.
+const NAVAGRAHA = ["SUN", "MOON", "MARS", "MERCURY", "JUPITER", "VENUS", "SATURN", "RAHU", "KETU"];
+const DERIVED = ["BHUMI", "MITRA", "CHITRA"];
+const VARIABLE_DIRECTION = new Set(["MERCURY", "VENUS", "MARS", "JUPITER", "SATURN"]);
+
 // Classical Navagraha first, then the 3 Tritha Siddhanta derived
 // grahas — same order as the Planetary Positions table.
 const GOCHARA_ORDER = [
@@ -73,33 +77,61 @@ function GocharaSummaryCard({ snapshotState, t }) {
                                 </tr>
                             )}
 
-                            {ordered.map((position) => (
-                                <tr key={position.planet}>
-                                    <td className="today-gochara-table__graha">
-                                        {grahaName(position.planet, language)}
-                                        {position.isRetrograde && (
-                                            <Link
-                                                to={`/panchangam?graha=${position.planet}`}
-                                                className="today-gochara-table__retrograde"
-                                                title={t("common.retrogradeTooltip")}
-                                            >
-                                                R
-                                            </Link>
-                                        )}
-                                    </td>
-                                    <td className="mono">{position.formattedLongitude}</td>
-                                    <td>
-                                        {(language === "te" ? position.nakshatra?.teluguName : position.nakshatra?.englishName) ?? "—"}
-                                        {position.pada?.number ? ` - ${position.pada.number}` : ""}
-                                    </td>
-                                    <td>{(language === "te" ? position.lagna?.teluguName : position.lagna?.englishName) ?? "—"}</td>
-                                    <td className="mono today-gochara-table__transit">
-                                        {position.rashiEntered ?? "—"}
-                                        <span className="today-gochara-table__arrow">→</span>
-                                        {position.rashiLeaves ?? "—"}
-                                    </td>
-                                </tr>
-                            ))}
+                            {[
+                                { key: "navagraha", label: t("panchangam.groupNavagraha"), codes: NAVAGRAHA },
+                                { key: "derived", label: t("panchangam.groupDerived"), codes: DERIVED },
+                            ].map((group) => {
+
+                                const members = ordered.filter((position) => group.codes.includes(position.planet));
+
+                                if (members.length === 0) {
+                                    return null;
+                                }
+
+                                return [
+                                    <tr key={group.key} className="today-gochara-table__group">
+                                        <td colSpan={5}>{group.label}</td>
+                                    </tr>,
+
+                                    ...members.map((position) => {
+
+                                        // Only the five planets whose direction actually
+                                        // varies: Rahu/Ketu/Mitra/Chitra are always
+                                        // retrograde, so flagging them would say nothing.
+                                        const flagged = position.isRetrograde && VARIABLE_DIRECTION.has(position.planet);
+
+                                        return (
+                                            <tr key={position.planet} className={flagged ? "is-retrograde" : undefined}>
+                                                <td className="today-gochara-table__graha">
+                                                    {grahaName(position.planet, language)}
+                                                    {flagged && (
+                                                        <Link
+                                                            to={`/panchangam?graha=${position.planet}`}
+                                                            className="today-gochara-table__retro-chip"
+                                                            title={t("common.retrogradeTooltip")}
+                                                        >
+                                                            {t("panchangam.transitTable.retrograde")}
+                                                        </Link>
+                                                    )}
+                                                </td>
+                                                <td className="mono">{position.formattedLongitude}</td>
+                                                <td>
+                                                    {(language === "te" ? position.nakshatra?.teluguName : position.nakshatra?.englishName) ?? "—"}
+                                                    {position.pada?.number ? ` - ${position.pada.number}` : ""}
+                                                </td>
+                                                <td>{(language === "te" ? position.lagna?.teluguName : position.lagna?.englishName) ?? "—"}</td>
+                                                <td className="mono today-gochara-table__transit">
+                                                    {position.rashiEntered ?? "—"}
+                                                    <span className="today-gochara-table__arrow">→</span>
+                                                    {position.rashiLeaves ?? "—"}
+                                                </td>
+                                            </tr>
+                                        );
+
+                                    }),
+                                ];
+
+                            })}
                         </tbody>
                     </table>
                 </div>
