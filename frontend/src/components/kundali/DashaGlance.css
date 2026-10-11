@@ -127,7 +127,7 @@
    numbers render at the same size as their own unit letters. */
 .dasha-glance__segment-duration {
     font-size: var(--font-size-md);
-    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Mandali", "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     color: var(--jp-color-text-secondary);
 
     text-align: center;
@@ -137,7 +137,7 @@
     font-size: var(--font-size-report-sm);
     line-height: 1.35;
     text-align: center;
-    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Mandali", "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     color: var(--jp-color-text-muted);
 
     font-variant-numeric: tabular-nums;
@@ -177,7 +177,7 @@
     top: 4px;
 
     font-size: 14px;
-    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Mandali", "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     color: var(--jp-color-text-muted);
     white-space: nowrap;
 }

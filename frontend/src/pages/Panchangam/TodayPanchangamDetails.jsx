@@ -1,18 +1,14 @@
-import useSkySnapshot from "../../hooks/useSkySnapshot";
 import { computeTithi, computeVara, computeAyana, formatTithiShort } from "../../kundali/utils/panchangamMath";
 import { translateMasa, translateSamvatsara } from "../../kundali/constants/PanchangamNameTranslations";
-import { useSavedLocation } from "../../location/LocationContext";
 import { useTranslation } from "../../i18n/I18nContext";
 
 // Full version of the Dashboard's compact "Panchangam · Today" card
 // (see TodayPanel.jsx) — same live snapshot, same fields, but with
 // room to show the Nakshatra's full start/end window instead of
 // just a "Full Details" link pointing here.
-function TodayPanchangamDetails() {
+function TodayPanchangamDetails({ snapshotState }) {
 
     const { t, language } = useTranslation();
-    const { location } = useSavedLocation();
-    const snapshotState = useSkySnapshot(location);
     const data = snapshotState.data;
     const pick = (bilingual) => (bilingual ? (language === "te" ? bilingual.te : bilingual.en) : null);
 

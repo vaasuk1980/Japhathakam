@@ -9,6 +9,8 @@ import { useTranslation } from "../../i18n/I18nContext";
 
 import Card from "../../components/common/Card";
 import TodayPanchangamDetails from "./TodayPanchangamDetails";
+import GocharaToday from "./GocharaToday";
+import useSkySnapshot from "../../hooks/useSkySnapshot";
 
 import "./Panchangam.css";
 
@@ -191,6 +193,7 @@ function Panchangam() {
     const { t, language } = useTranslation();
     const { location } = useSavedLocation();
     const [searchParams] = useSearchParams();
+    const snapshotState = useSkySnapshot(location);
 
     // Present only when arriving via a chart/table's (R) retrograde
     // link (see GrahaBadge.jsx, PlanetaryPositionsTable.jsx,
@@ -218,7 +221,8 @@ function Panchangam() {
 
     return (
         <div className="rt-page">
-            <TodayPanchangamDetails />
+            <TodayPanchangamDetails snapshotState={snapshotState} />
+            <GocharaToday snapshotState={snapshotState} />
 
             <h2 className="rt-group-title">{t("panchangam.groupTitle")}</h2>
 

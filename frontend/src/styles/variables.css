@@ -345,6 +345,7 @@
    Use plain Inter in English; Telugu keeps the original stack. */
 :root:lang(en) {
   --font-family:
+    "Mandali",
     "Inter",
     "Segoe UI",
     Tahoma,
