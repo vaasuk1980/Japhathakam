@@ -72,8 +72,8 @@ function TodayPanchangamDetails({ snapshotState }) {
 
                     <dl className="pan-today__facts">
                         <div><dt>{t("dashboard.today.samvatsaram")}</dt><dd>{samvatsaram ?? "—"}</dd></div>
-                        <div><dt>{t("dashboard.today.masam")}</dt><dd>{masam ?? "—"}</dd></div>
                         <div><dt>{t("dashboard.today.ayanam")}</dt><dd>{ayanam ?? "—"}</dd></div>
+                        <div><dt>{t("dashboard.today.masam")}</dt><dd>{masam ?? "—"}</dd></div>
                         <div><dt>{t("dashboard.today.sunrise")}</dt><dd>{data.sunrise}</dd></div>
                         <div><dt>{t("dashboard.today.sunset")}</dt><dd>{data.sunset}</dd></div>
                     </dl>
