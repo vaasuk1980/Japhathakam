@@ -1,9 +1,9 @@
-/* Table and kundali side by side; stacked below 1100px (the table
+/* Table and kundali side by side; stacked below 1700px (the table
    needs ~650px, the chart ~420px, so narrower than that they would
    squeeze each other). */
 .gochara-today {
     display: grid;
-    grid-template-columns: minmax(0, 1.85fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
     gap: var(--spacing-lg);
     align-items: stretch;
 }
@@ -12,7 +12,7 @@
     margin: 0;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1700px) {
     .gochara-today {
         grid-template-columns: minmax(0, 1fr);
     }
@@ -25,7 +25,7 @@
 }
 
 .today-gochara-kundali-card .kundali-chart {
-    width: min(400px, 100%);
+    width: min(470px, 100%);
     /* Room above for the sign labels so they do not touch the title,
        and auto margins centre the chart in the equal-height card. */
     margin: var(--spacing-xl) auto auto;
@@ -34,11 +34,11 @@
 /* The labels outside the cells were too small once the chart was
    narrowed beside the table (esp. Telugu glyphs). */
 .today-gochara-kundali-card .rasi-label {
-    font-size: clamp(8px, 2.6cqw, 15px);
+    font-size: clamp(10px, 2.7cqw, 15px);
 }
 
 :lang(te) .today-gochara-kundali-card .rasi-label {
-    font-size: clamp(10px, 3.5cqw, 17px);
+    font-size: clamp(11px, 3.4cqw, 17px);
 }
 
 /* ==========================================================
@@ -162,4 +162,38 @@
 /* Thin divider where the Tritha-derived grahas start (no title). */
 .today-gochara-table tr.is-group-start td {
     border-top: 2px solid var(--jp-color-border-strong);
+}
+
+/* Readable minimums inside the (narrower) side-by-side chart. */
+.today-gochara-kundali-card .sthana-number {
+    font-size: clamp(10px, 2.7cqw, 14px);
+}
+
+.today-gochara-kundali-card .graha-symbol--occupant {
+    font-size: clamp(13px, 3.81cqw, 22px);
+}
+
+.today-gochara-kundali-card .graha-symbol--aspect {
+    font-size: clamp(11px, 3.1cqw, 18px);
+}
+
+/* Table text back to the page body size (was 13/12px). */
+.gochara-today .today-gochara-table {
+    font-size: var(--font-size-md);
+}
+
+.gochara-today .today-gochara-table th {
+    font-size: var(--font-size-sm);
+}
+
+/* Entry/exit dates are the widest cells; one step smaller and the
+   table fits beside the chart without scrolling in English too. */
+.gochara-today .today-gochara-table__transit {
+    font-size: var(--font-size-sm);
+}
+
+.gochara-today .today-gochara-table td,
+.gochara-today .today-gochara-table th {
+    padding-left: 8px;
+    padding-right: 8px;
 }
