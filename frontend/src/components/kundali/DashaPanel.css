@@ -214,16 +214,16 @@
    font size so it scales with the text; Latin text is already within
    half a pixel. */
 :lang(te) .nature-mark {
-    top: -0.26em;
+    top: 0;
 }
 
 :lang(te) .dasha-timeline__name .nature-mark {
-    top: -0.15em;
+    top: 0;
 }
 
 /* Larger (16px) names need a smaller fraction of the same lift. */
 :lang(te) .dasha-explorer__name .nature-mark {
-    top: -0.18em;
+    top: 0;
 }
 
 .nature-mark--punya {

@@ -209,7 +209,7 @@
      remains as the final fallback for any glyph outside Inter's
      Latin subset. */
   --font-family:
-    "JIMS",
+    "Mandali", "JIMS",
     "Segoe UI Numerals",
     "Inter",
     "Segoe UI",
@@ -430,7 +430,7 @@
   :root[data-theme="dark"],
   :root:lang(en) {
     --font-family:
-    "JIMS",
+    "Mandali", "JIMS",
       "Segoe UI Numerals",
       "Inter",
       "Segoe UI",

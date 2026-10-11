@@ -54,7 +54,7 @@
    rendered ~10% smaller than everything around it. */
 .dasha-glance__timeline-total {
     font-size: var(--font-size-report);
-    font-family: "JIMS", "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Mandali", "JIMS", "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     color: var(--jp-color-text-secondary);
 }
 
@@ -256,7 +256,7 @@
     margin-bottom: var(--spacing-xs);
 
     font-size: var(--font-size-report);
-    font-family: "JIMS", "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Mandali", "JIMS", "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     color: var(--jp-color-text-primary);
 }
 
@@ -283,7 +283,7 @@
     margin-top: var(--spacing-xs);
 
     font-size: var(--font-size-md);
-    font-family: "JIMS", "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Mandali", "JIMS", "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     color: var(--jp-color-text-secondary);
 }
 

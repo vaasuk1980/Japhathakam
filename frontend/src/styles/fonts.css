@@ -1,4 +1,21 @@
 /* ==========================================================
+   Mandali — Telugu text font (Google Fonts, SIL OFL 1.1)
+   ----------------------------------------------------------
+   Telugu-only subset, self-hosted. Single weight (400): bold
+   is synthesised by the browser. JIMS stays declared below as
+   a fallback for glyphs Mandali lacks.
+   ========================================================== */
+
+@font-face {
+    font-family: "Mandali";
+    src: url("../assets/fonts/Mandali-Telugu.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0C00-0C7F, U+200C-200D;
+}
+
+/* ==========================================================
    JIMS — Telugu display font (Purushoth Kumar Guthula)
    ----------------------------------------------------------
    `unicode-range` restricts JIMS to the Telugu Unicode block
